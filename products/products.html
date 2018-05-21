@@ -1,0 +1,56 @@
+<div class="container" ng-controller="compoundCtrl">
+	<div class="row">
+		<div class="col-sm-3">
+			<ul class="nav nav-pills nav-stacked nav-collapsible">
+				<li class="active">Filter Products: </li>
+				<li><input type="text" placeholder=" Search..." ng-model="nameFilter" style="width:100%"></li>
+				<li>
+					<a ng-class="dateFilter===''?'active':'collapsed'" ng-click="filterUrl('2018-04-13', 'date')">By New</a>
+				</li>
+				<li><a data-toggle="collapse" class="collapsed" data-target="#by-series">By Series </a></li>
+				<ul id="by-series" class="collapse nav-in-nav"> 
+					<li ng-repeat="series in seriesName" class="family-item" ng-class="seriesFilter===series?'nav-'+series:''" ng-click="filterUrl(series, 'series')"><a ng-class="seriesFilter===series?'white-text':''">{{series}} Series</a></li>
+				</ul>
+				<li><a data-toggle="collapse" class="collapsed" data-target="#by-size">By Size </a></li>
+				<ul id="by-size" class="collapse nav-in-nav"> 
+					<li ng-repeat="size in sizeName" class="family-item" ng-class="sizeFilter===size?'active-size':''" ng-click="filterUrl(size, 'size')"><a ng-class="sizeFilter===size?'black-text':''">{{size}}</a></li>
+				</ul>
+				<li><a data-toggle="collapse" class="collapsed" data-target="#by-tag">By Tag </a></li>
+				<ul id="by-tag" class="collapse nav-in-nav"> 
+					<li ng-repeat="tag in tagName" class="family-item" ng-class="tagFilter===tag?'active-size':''" ng-click="filterUrl(tag, 'tag')"><a ng-class="tagFilter===tag?'black-text':''">{{tag}}</a></li>
+				</ul>
+			</ul>
+		</div>
+		<div class="col-sm-9">
+			<h3>{{filtered.length}} available compounds. <a class="align-right desktop-display" href="/support/misc/Compounds_Sorting.pdf" download target="_self">Download our entire product list here.</a></h3>
+			<div ng-repeat="x in compounds | filter:{Series: seriesFilter, Name: sizeFilter, Family: tagFilter, Updated: dateFilter} | filter:nameFilter as filtered" class="row animate">
+				<div class="col-sm-12">
+					<div class="series series-{{x.Series}}" ng-switch on="x.Sizes">
+						<select class="black-text float-right pricing-box" ng-switch-when="1" ng-model="$parent.pricing" ng-init="$parent.pricing=pnpOptions[0]" ng-options="option as option.label for option in pnpOptions"></select>
+						<select class="black-text float-right pricing-box" ng-switch-when="2" ng-model="$parent.pricing" ng-init="$parent.pricing=biotinOptions[0]" ng-options="option as option.label for option in biotinOptions"></select>
+						<select class="black-text float-right pricing-box" ng-switch-when="3" ng-model="$parent.pricing" ng-init="$parent.pricing=fluorOptions[0]" ng-options="option as option.label for option in fluorOptions"></select>
+						<select class="black-text float-right pricing-box" ng-switch-default ng-model="$parent.pricing" ng-init="$parent.pricing=options[0]" ng-options="option as option.label for option in options"></select>
+						No. {{x.id}} | {{x.Name}}
+						<a class="white-text" ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self"><span class="glyphicon glyphicon-info-sign"></span></a>	
+						<br>
+						<span> Price: $<span ng-bind="displayPrice(x.Price, x.Price2, x.Price3, pricing.value)"></span></span>		
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading" ng-click="x.isCollapsed = !x.isCollapsed">
+							<span class="glyphicon align-right" ng-class="x.isCollapsed?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span>
+							<a class="structure panel-title">{{x.Structure}}</a>
+						</div>
+						<div class="panel-body" uib-collapse="x.isCollapsed">
+							<img class="structure-pic" ng-src="/images/{{x.id}}.jpg"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<p class="align-right">Don't see a compound you want? Try our <a ui-sref="demo">custom synthesis <span class="glyphicon glyphicon-chevron-right small" aria-hidden="true"></span></a></p>
+	</div>
+</div>

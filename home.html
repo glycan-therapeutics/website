@@ -1,0 +1,39 @@
+<div class="row">
+	<div uib-carousel active="active" interval="5000" no-wrap="false">
+		<div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id" class="front-carousel">
+		<a ng-href="{{slide.link}}" ui-sref="{{slide.state}}">
+	    	<img class="carousel" ng-src="{{slide.img}}">
+	    	<div class="carousel-caption align-left">
+	      		<h3 class="{{slide.color}} slide-title">{{slide.title}}</h3>
+	      		<p class="{{slide.color}}">{{slide.text}}</p>
+	    	</div>
+    	</a>
+  		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<h3 class="news-header">
+			News
+			</h3>
+			<ul class="news-partner">
+				<div ng-repeat="item in news">
+					<li>
+						<strong>{{item.Date}}</strong> - {{item.News}} <a ui-sref="{{item.Link}}">{{item.Anchor}}</a>
+					</li>
+				</div>
+			</ul>
+			<a class="align-right size-14 desktop-display" ui-sref="news">View all news.</a>
+		</div>
+		<div class="col-sm-6">
+			<h3 class="news-header">
+			Partnerships & Investment Opportunities
+			</h3>
+			<p class="news-partner">
+				We welcome inquiries about partnerships and/or investment into research and development of 
+				synthetic carbohydrate therapeutics. Feel free to contact us at <a href="mailto:info@glycantherapeutics.com" target="_top">info@glycantherapeutics.com</a>
+			</p>
+		</div>
+	</div>
+</div>
