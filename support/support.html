@@ -1,14 +1,56 @@
 <div id="Sheets" class="container" ng-app="Compounds" ng-controller="compoundCtrl">
-	<h2>Product Sheets</h2>
-		<ul  ng-repeat="x in compounds" class="article">
-			<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
-			<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
-				<li> <a ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Data Sheet</a></li>
-				<li><a ng-hide="isPNP(x.Family)" ng-href="../support/{{x.Family}}-sheets/Safety_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Safety Sheet</a></li>
-			</ul>					
-		</ul>
-	<h2>Research Papers</h2>
-		<p class="article">
-			Research papers coming soon.
-		</p>
+	<div class="article">
+		<h1>Contact Information: </h1>
+		<p class="contact">Email: <a href="mailto:info@glycantherapeutics.com">info@glycantherapeutics.com</a></p>
+		<p class="contact">Phone: 919-xxx-xxxx</p>
+		<p class="contact">Address: 617 Hutton Street, Suite 101, Raleigh, NC 27606 USA</p>
+	</div>
+	
+	
+		<h2>Product Sheets</h2>
+		<div class="products">
+		<div class="row">
+				<div class="col-sm-3">
+						<h3  data-toggle="collapse" data-parent="#accordion"  class="collapsed" data-target=".pNP" >pNP</h3>
+						<ul  ng-repeat="x in compounds | filter : 'pNP'" class="article collapse pNP">
+								<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
+								<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
+									<li> <a ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Data Sheet</a></li>
+									<li><a ng-hide="isPNP(x.Family)" ng-href="../support/{{x.Family}}-sheets/Safety_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Safety Sheet</a></li>
+								</ul>					
+							</ul>
+					</div>
+		
+			<div class="col-sm-3">
+						<h3  data-toggle="collapse" data-parent="#accordion"  class="collapsed" data-target=".azido" >Azido</h3>
+						<ul  ng-repeat="x in compounds | filter : 'Azido'" class="article collapse azido">
+								<a  data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
+								<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
+									<li> <a ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Data Sheet</a></li>
+									<li><a ng-hide="isPNP(x.Family)" ng-href="../support/{{x.Family}}-sheets/Safety_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Safety Sheet</a></li>
+								</ul>					
+							</ul>
+							</div>
+				<div class="col-sm-3">
+						<h3  data-toggle="collapse" data-parent="#accordion"  class="collapsed" data-target=".biotin" >Biotin</h3>
+						<ul  ng-repeat="x in compounds | filter : 'Biotin'" class="article collapse biotin">
+								<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
+								<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
+									<li> <a ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Data Sheet</a></li>
+									<li><a ng-hide="isPNP(x.Family)" ng-href="../support/{{x.Family}}-sheets/Safety_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Safety Sheet</a></li>
+								</ul>					
+							</ul>
+						</div>
+						<div class="col-sm-3">
+								<h3  data-toggle="collapse" data-parent="#accordion"  class="collapsed" data-target=".fluorescein" >Fluorescein</h3>
+								<ul  ng-repeat="x in compounds | filter : 'Fluorescein'" class="article collapse fluorescein">
+										<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
+										<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
+											<li> <a ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Data Sheet</a></li>
+											<li><a ng-hide="isPNP(x.Family)" ng-href="../support/{{x.Family}}-sheets/Safety_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Safety Sheet</a></li>
+										</ul>					
+									</ul>
+								</div>
+					  
+			  </div>
 </div>
