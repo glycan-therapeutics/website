@@ -1,0 +1,10 @@
+<ui-view class="container">
+<h3 class="align-center all-news">All News</h3>
+<ul class="container news-home">
+	<div ng-repeat="item in news | orderBy:'-Updated'">
+		<li>
+			<strong>{{item.Updated}}</strong> - {{item.News}} <a ui-sref="{{item.Link}}">{{item.Anchor}}</a>
+		</li>
+	</div>
+</ul>
+</ui-view>

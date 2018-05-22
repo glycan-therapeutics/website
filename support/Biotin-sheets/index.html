@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Innovative Carbohydrate Medicines by Glycan Therapeutics</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+		<link rel="stylesheet" href="/css/main.css?v=1.1.12"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<!-- Latest version of AngularJS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.4.0/ui-bootstrap-tpls.min.js"></script>
+		<script src="/js/products.js"></script>
+		<base href="/">
+		<style>.active, .active:link, .active:active, .active:hover, .active:visited {font-weight: bold; text-decoration: none;}</style>
+		<!-- Hotjar Tracking Code for www.glycantherapeutics.com -->
+		<script>
+		(function(h,o,t,j,a,r){
+		    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+		    h._hjSettings={hjid:423916,hjsv:5};
+		    a=o.getElementsByTagName('head')[0];
+		    r=o.createElement('script');r.async=1;
+		    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+		    a.appendChild(r);
+		})(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+		</script>
+	</head>
+
+	<body ng-app="Compounds">
+		<header>
+			<nav>
+				<h1>
+					<a class="navbar-brand" href="/"><img src="../images/glycan_logo.svg" alt="Glycan Logo"></a>
+				</h1>
+					<ul class="navbar-nav">
+				        <li class="dropdown">
+				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ui-sref="products" ui-sref-active="active">Products <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				           <li><a ui-sref="products.compounds" style="padding:10px 40px 10px 5px">Compounds</a></li>
+				          </ul>
+				        </li>
+				        <li class="dropdown">
+				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ui-sref="services" ui-sref-active="active">Services <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href="../services/#custom-synthesis" style="border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#ccc;padding:10px 40px 10px 5px;">Custom Synthesis</a></li>
+				            <li><a href="../services/#carbohydrate-screening" style="padding:10px 40px 10px 5px">Carbohydrate Screening</a></li>
+				          </ul>
+				        </li>
+				        <li class="dropdown">
+				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ui-sref="research" ui-sref-active="active">Research</a>
+				        </li>
+				        <li class="dropdown">
+				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ui-sref="support" ui-sref-active="active">Support</a>
+				        </li>
+					</ul>
+				<ul class="information">
+					<li><a ui-sref="about-us" ui-sref-active="active">About Us</a></li>
+					<li><a ui-sref="contact-us" ui-sref-active="active">Contact Us</a></li>
+				</ul>
+				<div style = "text-align:center;">
+					<svg width="96%" height="20">
+						<rect x="0" y="0" rx="2" ry="2" width="100%" height="2" style="fill:#ff0000;" /> 
+					</svg>
+				</div>
+			</nav>
+		</header>
+		<ui-view>
+		</ui-view>
+		<footer class="footer">
+			<div class="container">
+				<div style = "text-align:center;">
+					<svg width="100%" height="2">
+						<rect x="0" y="0" rx="2" ry="2" width="100%" height="5" style="fill:#ff0000;" /> 
+					</svg>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">
+						<h3  class="align-center"><strong>Products</strong></h3>
+						<ul class="nav nav-stacked" style="text-align:left;border-right-style:solid;border-width:1px;border-color:#ccc;padding:5px;">
+							<li><a ui-sref="products.compounds" class="footer-details align-center">Compounds</a></li>
+						</ul>
+					</div>
+					<div class="col-sm-3">
+						<h3  class="align-center"><strong>Services</strong></h3>
+						<ul class="nav nav-stacked" style="text-align:left;border-right-style:solid;border-width:1px;border-color:#ccc;padding:5px;">
+							<li><a href="../services/#custom-synthesis" class="footer-details align-center">Custom Synthesis</a></li>
+				            <li><a href="../services/#carbohydrate-screening" class="footer-details align-center">Carbohydrate Screening</a></li>
+						</ul>
+					</div>
+					<div class="col-sm-3">
+						<h3 class="align-center"><strong>Research</strong></h3>
+						<ul class="nav nav-stacked" style="text-align:left;padding:5px;">
+							<li><a href="../research/" class="footer-details align-center">Synthetic Heparin</a></li>
+						</ul>
+					</div>
+					<div class="col-sm-3">
+						<h3 class="align-center"><strong>Support</strong></h3>
+						<ul class="nav nav-stacked" style="text-align:left;border-left-style:solid;border-width:1px;border-color:#ccc;padding:5px;">
+							<li><a href="../support/#product-sheets" class="footer-details align-center">Data Sheets</a></li>
+				            <li><a href="../support/#research-papers" class="footer-details align-center">Research Papers</a></li>
+				            <li><a ui-sref="about-us" class="footer-details align-center">About Us</a></li>
+				            <li><a ui-sref="contact-us" class="footer-details align-center">Contact Us</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row align-center">
+					<p>&copy 2016 Glycan Therapeutics. All Rights Reserved.</p>
+			</div>
+		</footer>
+	</body>
+</html>
+

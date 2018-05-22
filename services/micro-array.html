@@ -1,0 +1,62 @@
+<h4 class="align-center services">
+	<a href="#" ui-sref="services.synthesis" ui-sref-active="active">Custom Synthesis</a> | <a href="#" ui-sref="services.analysis" ui-sref-active="active">Microarray Analysis</a>
+</h4>
+
+<script type="text/ng-template" id="pictureModal.html">
+    <img class="micro-array" ng-src="/images/micro-analysis.fig1.jpg" />
+</script>
+
+<div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+	    <img class="micro-array modalPicture" ng-src="{{image}}"/>
+		<p class="footnote modal-footer" ng-html-compile="figureDescription">
+		</p>
+    </div>
+  </div>
+</div>
+
+<h3>Glycan Microarray Analysis</h3>
+<p class="article">
+	Glycan microarray analysis is a high throughput method to screen the interaction between heparin oligosaccharides and target proteins.  It is a powerful tool to investigate the binding between carbohydrates and carbohydrate-binding proteins (1, 2).  Unlike other screening methods, microarray analysis uses a very small amount of target proteins (10 μg) to screen an entire library of Heparan Sulfate (HS) oligosaccharides. Glycan Therapeutics presently offers the microarray analysis covering up to 52 structurally defined HS oligosaccharides with a size range from tetrasaccharides (4-mer) to dodecasaccharides (12-mer) representing many different sulfation types that can be found in nature.
+</p>
+<h3>What is microarray analysis?</h3>
+<p class="article">
+	HS oligosaccharides are immobilized on a microarray chip, a glass slide, using a robotic printer.  The structures of each spot on the array chips are known (Fig 1). A fluorescently labeled protein of interest is then incubated with the slide.  The protein binding (or lack thereof) to the immobilized oligosaccharides on the slides depends on the structures of oligosaccharides.  The protein binding is then visualized by detecting the fluorescence on the slide.
+</p>
+<a href="#" ng-click="openModal('/images/micro-analysis.fig1.jpg')"><img class="micro-array" ng-src="/images/micro-analysis.fig1.jpg" /></a>
+<p class="footnote">
+	<strong>Fig. 1</strong> Schematic presentation of HS microarray analysis. 
+</p>
+<h3>What do the HS microanalysis results look like?</h3>
+<p class="article">
+	Results from the microarray analysis are either presented in the fluorescent image of the microchip or graphed as bar graphs to show the relative fluorescence intensity of the oligosaccharides.  Below are the representative results of analysis of the bindings of two proteins, 3-O-sulfotransferase 1 and antithrombin to 14 different HS oligosaccharides (compound 69 to 81).  Based on the digitized fluorescence intensity analysis demonstrated in the bar graph, one can conclude that 3-O-sulfotransferase 1 binds to Comp 71, 72, 76, 78 and 79 with higher affinity compared to the other compounds.  Likewise, one can conclude that antithrombin binds to compound 72 and 79 with higher affinity.
+</p>
+<a href="#" ng-click="openModal('/images/micro-analysis.fig2.jpg')"><img class="micro-array" ng-src="/images/micro-analysis.fig2.jpg" /></a>
+<p class="footnote">
+	<strong>Fig 2. Images of HS-array analysis.</strong>  Panel A shows the image of the array slide hybridized with fluorescently labeled 3-OST-1.  A total of 14 oligosaccharides were affixed on the slide, and each compound was spotted to 100 spots.  The histogram of fluorescence intensity analysis is shown on the right. The local background of the fluorescence value was to 106 ± 10. Panel B shows the image of the array slide hybridized with fluorescently labeled AT. The local background of the fluorescence value was 60 ± 3. The histogram of fluorescence intensity analysis is shown on the right.  Both 3-OST-1 and AT were labeled with Alexa Fluo® 488.  The symbolic structures of 14 heptasaccharides are shown on top of the figure. The images were acquired using the excitation wavelength of 488 nm on a GenePix 4300 A scanner.
+</p>
+<h3>What to do after the HS microarray analysis?</h3>
+<p class="article">
+	The results from the microarray analysis will narrow down the structures of the oligosaccharides that bind to specific protein targets. Customers can order the oligosaccharides of interest from Glycan Therapeutics’ catalog to conduct further testing. These tests can include determining the binding affinity using isothermal calorimetry or surface plasmon resonance. Alternatively, customers can use the oligosaccharides in the cell-based or animal-based assays to confirm  biological functions.
+</p>
+<h3>What should customers prepare?</h3>
+<p class="article">
+	Customers should prepare a fluorescently labeled protein with one of the following labels: Alexa 488, Alexa 594, Cy3 or Cy5.  It is essential that the label does not interfere with the protein function. Specifically, the labeled protein should be comparable to the unlabeled protein in terms of its binding affinity to oligosaccharides.  In addition, the labeled protein should be free of unreacted fluorescent labels as they generate high background fluorescence on the array chip, which reduces the sensitivity for signal detections.
+	<br>
+	Analysis for the bindings of platelet factor 4 (PF4), fibroblast growth factor 2 (FGF2) and antithrombin to 52 HS oligosaccharides (Figure 3).
+</p>
+<a href="#" ng-click="openModal('/images/micro-analysis.fig3.jpg')"><img class="micro-array" ng-src="/images/micro-analysis.fig3.jpg" /></a>
+<p class="footnote">
+	<strong>Fig. 3</strong>  HS microarray analysis of the bindings of HS and platelet factor 4 (PF4), fibroblast growth factor 2 (FGF2), and antithrombin (AT).  A total of 52 HS oligosaccharides and heparin were printed on microarray chips.  The chip was hybridized with Alexa 488-labeled PF4, Alexa 488-labeled FGF2, and Alexa 488-labeled AT.  The abbreviated oligosaccharide sequences for each sample are listed.  For each sample, 36 spots were printed.  Thus, the data presented as mean ± S.D. (n=36).
+</p>
+<h3>What are the costs for microarray analysis?</h3>
+<p class="article">
+	Analysis of a single sample (protein/peptide, etc) = $1500 for screening against any array.
+ 
+	Microarray subscription = $5000 good for 2 years and includes screening a single sample (protein/peptide, etc). During the next two years, your institutional members can screen an unlimited number proteins/peptides for $500 each against the array. 
+</p>
+<h3>How do I receive a pricing quote?</h3>
+<p class="article">
+	Please email us at <a href="mailto:info@glycantherapeutics.com" target="_top">info@glycantherapeutics.com</a> to receive a quote.
+</p>

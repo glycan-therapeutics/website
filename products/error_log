@@ -1,0 +1,7 @@
+[06-Sep-2016 00:29:43 UTC] PHP Fatal error:  Call to a member function fetch_array() on a non-object in /home/glycantech/public_html/products/compounds.php on line 15
+[06-Sep-2016 00:29:45 UTC] PHP Fatal error:  Call to a member function fetch_array() on a non-object in /home/glycantech/public_html/products/compounds.php on line 15
+[06-Sep-2016 00:29:49 UTC] PHP Fatal error:  Call to a member function fetch_array() on a non-object in /home/glycantech/public_html/products/compounds.php on line 15
+[06-Sep-2016 00:32:34 UTC] PHP Fatal error:  Call to a member function fetch_array() on a non-object in /home/glycantech/public_html/products/compounds.php on line 15
+[06-Sep-2016 00:34:15 UTC] PHP Fatal error:  Call to a member function fetch_array() on a non-object in /home/glycantech/public_html/products/compounds.php on line 15
+[06-Sep-2016 00:54:57 UTC] PHP Fatal error:  Call to a member function query() on a non-object in /home/glycantech/public_html/products/compounds.php on line 15
+[06-Sep-2016 00:55:01 UTC] PHP Fatal error:  Call to a member function query() on a non-object in /home/glycantech/public_html/products/compounds.php on line 15

@@ -1,0 +1,14 @@
+<div id="Sheets" class="container" ng-app="Compounds" ng-controller="compoundCtrl">
+	<h2>Product Sheets</h2>
+		<ul  ng-repeat="x in compounds" class="article">
+			<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
+			<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
+				<li> <a ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Data Sheet</a></li>
+				<li><a ng-hide="isPNP(x.Family)" ng-href="../support/{{x.Family}}-sheets/Safety_{{x.Family}}-{{x.id}}.pdf" target="_self">{{x.Family}}-{{x.id}} Product Safety Sheet</a></li>
+			</ul>					
+		</ul>
+	<h2>Research Papers</h2>
+		<p class="article">
+			Research papers coming soon.
+		</p>
+</div>

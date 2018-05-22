@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="description" content="We are the leader in the synthesis of heparin sulfate oligosaccharides and oligosaccharide derivatives. We offer the highest quality products at an affordable price including: Custom synthesis of homogeneous heparin and heparin sulfate oligosaccharides with a wide range of sizes and sulfation patterns for your research needs.">
+		<meta name="keywords" content="Heparin,Sulfate,Oligosaccharide,Custom,Synthesis,Microarray,Analysis,Glycan,Carbohydrate,array">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+		<!--<link href="http://localhost:3006/themes/base/snipcart.css" rel="stylesheet" />-->
+		<link href="/css/snipcart.min.css" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600" rel="stylesheet">
+		<link rel="stylesheet" href="/css/main.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<!-- Latest version of AngularJS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.4.0/ui-bootstrap-tpls.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.11.18/xlsx.core.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/alasql"></script>
+		<script src="/js/ngHtmlCompile.js"></script>
+		<script src="/js/products.js"></script>
+		<base href="/">
+		<style>.active, .active:link, .active:active, .active:hover, .active:visited {font-weight: bold; text-decoration: none;}</style>
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+	</head>
+
+	<body ng-app="Compounds" ng-controller="init">
+		<title update-title></title>
+		<nav class="sidebar collapse" uib-collapse="isCollapsed" horizontal>
+			<h3 class="sidebar-header">Navigation <button type='button' class='close sidebar-close' ng-click='isCollapsed = !isCollapsed'>x</button></h3>
+			<ul class="sidebar-content">
+		        <li ng-href="/" ui-sref="index" ui-sref-active="active" ng-click="isCollapsed=!isCollapsed">
+		        	<a>Home</a>
+		        </li>
+		        <br>
+		        <li ng-href="/news/" ui-sref="news" ui-sref-active="active" ng-click="isCollapsed=!isCollapsed">
+		        	<a>News</a>
+		        </li>
+		        <br>
+		        <li ng-click="productCollapsed=!productCollapsed">
+		          <a>Products</a><span ng-class="productCollapsed?'glyphicon glyphicon-triangle-bottom sidebar-glyph':'glyphicon glyphicon-triangle-top sidebar-glyph'"></span>
+		        </li>
+		        <li class="collapsed" uib-collapse="productCollapsed">
+			        <ul class="dropdown">
+			        	<li ng-href="/products/" ui-sref="products" ng-click="isCollapsed=!isCollapsed">
+		           			<a>All Products</a>
+		           		</li>
+		           		<br>
+		           		<li ng-href="/products/compounds" ui-sref-active="active" ui-sref="products.compounds({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter})" ng-click="isCollapsed=!isCollapsed">
+		           			<a>Compounds</a>
+		           		</li>
+		           		<br>
+		           		<li ng-href="/products/18-mer-library" ui-sref-active="active" ui-sref="products.limited" ng-click="isCollapsed=!isCollapsed">
+		           			<a>18-mer Library</a>
+		           		</li>
+			        </ul>
+		    	</li>
+		        <li ng-click="serviceCollapsed=!serviceCollapsed">
+		          <a>Services</a><span ng-class="serviceCollapsed?'glyphicon glyphicon-triangle-bottom sidebar-glyph':'glyphicon glyphicon-triangle-top sidebar-glyph'"></span>
+		        </li>
+		        <li class="collapsed" uib-collapse="serviceCollapsed">
+			        <ul class="dropdown">
+			            <li ng-href="/services/custom-synthesis" ui-sref-active="active" ui-sref="services.synthesis" ng-click="isCollapsed=!isCollapsed">
+			            	<a>Custom Synthesis</a>
+			            </li>
+			            <li ng-href="/services/microarray-analysis" ui-sref-active="active" ui-sref="services.analysis" ng-click="isCollapsed=!isCollapsed">
+			            	<a>Microarray Analysis</a>
+			        	</li>
+			        </ul>
+			    </li>
+		        <li ng-href="/research/" ui-sref="research" ui-sref-active="active" ng-click="isCollapsed=!isCollapsed">
+		          <a>Research</a>
+		        </li>
+		        <br>
+		        <li ng-href="/support/" ui-sref="support" ui-sref-active="active" ng-click="isCollapsed=!isCollapsed">
+		          <a>Support</a>
+		        </li>
+		        <br>
+		        <li ng-href="/compound-builder" ui-sref="demo" ui-sref-active="active" ng-click="isCollapsed=!isCollapsed">
+					<a>Online Synthesis</a>
+				</li>
+			</ul>
+		</nav>
+		<div id="content">
+			<header>
+				<nav class="container">
+					<button type="button" class="sidebar-btn" ng-click="isCollapsed=!isCollapsed">
+					    <i class="glyphicon glyphicon-menu-hamburger"></i>
+					</button>
+					<a class="navbar-brand" ng-href="/"><img src="/images/glycan_logo.svg" alt="Glycan Logo"></a>
+					<ul class="navbar-nav">
+				        <li class="dropdown">
+				        <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/products/" ui-sref="products" ui-sref-active="active">Products <span class="caret"></span></a>
+				        <ul class="dropdown-menu">
+				           <li><a ng-href="/products/compounds" ui-sref="products.compounds({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter})" style="border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#ccc;padding:10px 40px 10px 5px">Compounds</a></li>
+				           <li><a ui-sref="products.limited" style="padding:10px 40px 10px 5px">18-mer Library</a></li>
+				        </ul>
+				        </li>
+				        <li class="dropdown">
+				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/services/" ui-sref="services" ui-sref-active="active">Services <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a ng-href="/services/custom-synthesis" ui-sref="services.synthesis" style="border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#ccc;padding:10px 40px 10px 5px;">Custom Synthesis</a></li>
+				            <li><a ng-href="/services/microarray-analysis" ui-sref="services.analysis" style="padding:10px 40px 10px 5px">Microarray Analysis</a></li>
+				          </ul>
+				        </li>
+				        <li class="dropdown">
+				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/research/" ui-sref="research" ui-sref-active="active">Research</a>
+				        </li>
+				        <li class="dropdown">
+				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/support/" ui-sref="support" ui-sref-active="active">Support</a>
+				        </li>
+				        <li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/compound-builder" ui-sref="demo" ui-sref-active="active">Online Synthesis</a>
+						</li>
+					</ul>
+				</nav>
+			</header>
+			<section>
+				<ui-view>
+				</ui-view>
+			</section>
+			<footer class="row footer">
+				<div class="container footer-border">
+					<div class="row">
+						<div class="col-sm-3">
+							<h3  class="align-center"><strong>Products</strong></h3>
+							<ul class="nav nav-stacked footer-right-border">
+								<li><a ui-sref="products.compounds" class="footer-details align-center">Compounds</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-3">
+							<h3  class="align-center"><strong>Services</strong></h3>
+							<ul class="nav nav-stacked footer-right-border">
+								<li><a ng-href="/services/custom-synthesis" ui-sref="services.synthesis" class="footer-details align-center">Custom Synthesis</a></li>
+					            <li><a ng-href="/services/microarray-analysis" ui-sref="services.analysis" class="footer-details align-center">Microarray Analysis</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-3">
+							<h3 class="align-center"><strong>Research</strong></h3>
+							<ul class="nav nav-stacked" style="text-align:left;padding:5px;">
+								<li><a ng-href="/research/" ui-sref="research" class="footer-details align-center">Synthetic Heparin</a></li>
+							</ul>
+						</div>
+						<div class="col-sm-3">
+							<h3 class="align-center"><strong>Support</strong></h3>
+							<ul class="nav nav-stacked footer-left-border">
+								<li><a ng-href="/support/" ui-sref="support" class="footer-details align-center">Data Sheets</a></li>
+					            <li><a ng-href="/support/" ui-sref="support" class="footer-details align-center">Research Papers</a></li>
+					            <li><a ng-href="/support/about-us" ui-sref="about-us" class="footer-details align-center">About Us</a></li>
+					            <li><a ng-href="/support/contact-us" ui-sref="contact-us" class="footer-details align-center">Contact Us</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="row align-center">
+						<p><a ng-href="/support/privacy-policy" ui-sref="privacy">Privacy</a><a class="tab" ng-href="/support/terms-conditions" ui-sref="terms">Terms & Conditions</a></p>
+						<p>&copy;Glycan Therapeutics</p>
+					</div>
+				</div>
+			</footer>
+		</div>
+		<script type="text/javascript" src="//downloads.mailchimp.com/js/signup-forms/popup/embed.js" data-dojo-config="usePlainJson: true, isDebug: false"></script><script type="text/javascript">require(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us18.list-manage.com","uuid":"f8e03ca97771cb07ff80c7dc7","lid":"068752b958"}) })</script>
+	</body>
+</html>
+

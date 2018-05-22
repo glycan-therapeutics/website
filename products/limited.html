@@ -1,0 +1,35 @@
+<div class="container-fluid banner-limited">
+	<div>
+		<h1>18-MER LIBRARY</h1>
+		<h4>Pushing the boundaries of conventional heparan sulfates</h4>
+	</div>
+</div>
+<div class="container align-center" ng-controller="limitedCtrl">
+	<div id="limitedDisplay" ng-class="lastIndex!=undefined?'limited-display':'hidden'">
+		<h2>{{currentName}}</h2>
+		<div style="display:inline-block;">
+			<div class="col-sm-3 limited-structure">
+				<p>{{currentStructure}}</p>
+			</div>
+			<div class="col-sm-9">
+				<p class="limited-description">
+					 Heparan sulfate polymers in nature extend to hundreds of sugar residues. The complex sulfation pattern and the chain length is believed to contribute to the functional diversity of heparan sulfate. Unlike the traditional extraction and depolymerization techniques that are cumbersome, non-reproducible, our facile chemoenzymatic synthesis produces 18mers that are highly reproducible and available at highest purity, verified by NMR, Mass Spec and HPLC. We present to you the 18-mer heparan sulfate library, reflecting the length and complexity of natural heparan sulfate, a cost-effective resource for application of heparan sulfate in research. 
+				</p>  
+			</div>
+		</div>
+		<div class="article col-sm-3">
+			<p class="limited-price">${{currentPrice}} / 100&#181;g</p>
+			<p style="margin-top:15px">OR</p>
+			<p class="limited-price">Contact us for collaborations.</p>
+			<button href="mailto:info@glycantherapeutics.com" target="_top">Find out more.</button>
+		</div>
+		<div id="wrapper" class="col-sm-9">
+			<div class="limited-picture"></div>
+		</div>
+	</div>
+	<div class="row container-fluid">
+		<div ng-click="openLibrary($index)" ng-repeat="compound in limited track by compound.ID" ng-style="getBackground(compound.PID)" ng-class="compound.isOpen?'col-sm-6 banner-limited opened':'col-sm-6 banner-limited'">
+			<h2>{{compound.Name}}</h2>
+		</div>
+	</div>
+</div>
