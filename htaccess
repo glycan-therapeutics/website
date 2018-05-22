@@ -1,0 +1,14 @@
+RewriteEngine On 
+Options +FollowSymLinks
+Order Allow,Deny
+Allow from all
+
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !index
+RewriteRule (.*) index.html [L]
+RewriteRule ^.*$ - [NC,L]

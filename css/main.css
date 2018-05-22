@@ -1098,6 +1098,9 @@ div > .banner-limited {
 	h3 {
 		text-align: center;
 	}
+	.article{
+		text-align: center;
+	}
 	section div h1 {
 		text-align: center;
 	}
@@ -1331,4 +1334,23 @@ div > .banner-limited {
 	to {
 		background-position: -470px -180px
 	}
+}
+
+/*Support CSS*/
+.azido{
+	transition: all 0.2s ease;
+
+}
+.biotin{
+	transition: all 0.2s ease;
+
+}
+.pNP{
+	transition: all 0.2s ease;
+}
+.fluorescein{
+	transition: all 0.2s ease;
+}
+.support{
+transition: all 0.2s ease;
 }

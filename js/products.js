@@ -318,7 +318,6 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	$scope.minSize = 4;
 	$scope.maxSize = 10;
 
-
 	//store different tag possibilites in JSON
 	$scope.tags = [{
 		name: 'pNP',
@@ -334,7 +333,6 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		tooltip: 'Fluorescein detection.'
 	}];
 
-	//store odd pieces in JSON
 	$scope.oddPiece = [{
 		name: 'GlcA',
 		tooltip: 'Can be linked to any piece.'
@@ -349,7 +347,6 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		tooltip: 'If immediately linked to GlcNS6S, then GlcNS6S3S will be available.'
 	}];
 
-	//store even pieces in JSON
 	$scope.evenPiece = [{
 		name: 'GlcNAc',
 		tooltip: 'Can only be linked to GlcA. Disables any 6S molecules if selected.'
@@ -367,7 +364,6 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		tooltip: "Only one GlcNS6S3S can be added to the structure and has to be linked to GlcA after being selected."
 	}];
 
-	//initialization
 	$scope.structure = [];
 	$scope.highestSeries = "";
 	$scope.continue = true;
