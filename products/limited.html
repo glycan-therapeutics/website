@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<div class="row container-fluid">
-		<div ng-click="openLibrary($index)" ng-repeat="compound in limited" ng-style="getBackground(compound.PID)" ng-class="compound.isOpen?'col-sm-6 banner-limited opened':'col-sm-6 banner-limited'">
+		<div ng-click="openLibrary($index)" ng-repeat="compound in limited track by compound.ID" ng-style="getBackground(compound.PID)" ng-class="compound.isOpen?'col-sm-6 banner-limited opened':'col-sm-6 banner-limited'">
 			<h2>{{compound.Name}}</h2>
 		</div>
 	</div>

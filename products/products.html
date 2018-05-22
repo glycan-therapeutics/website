@@ -5,7 +5,7 @@
 				<li class="active">Filter Products: </li>
 				<li><input type="text" placeholder=" Search..." ng-model="nameFilter" style="width:100%"></li>
 				<li>
-					<a ng-class="dateFilter===''?'active':'collapsed'" ng-click="filterUrl('2018-04-13', 'date')">By New</a>
+					<a ng-class="dateFilter!==date?'new-product':''" ng-click="filterUrl('2018-04-13', 'date')">By New</a>
 				</li>
 				<li><a data-toggle="collapse" class="collapsed" data-target="#by-series">By Series </a></li>
 				<ul id="by-series" class="collapse nav-in-nav"> 

@@ -19,7 +19,7 @@ app.directive('updateTitle', ['$rootScope', '$timeout',
 ]);
 
 app.controller('init', function($rootScope, $scope, $uibModal, $document, $http) {
-	$http.get("/news/news-list.php")
+	$http.get("/glycanapi.php/news")
 	.then(function(response) {
 		$scope.news = response.data;
 	});
@@ -33,7 +33,7 @@ app.controller('init', function($rootScope, $scope, $uibModal, $document, $http)
 		link: '/products/18-mer-library'
 	}, {
 		id: 1,
-		title: "High Throughput Microarray Screening for Heparin Sulfate libraries",
+		title: "High Throughput Microarray Screening for Heparan Sulfate libraries",
 		text: "Image - raw data of our 52 library. Learn how to utilize our new service today.",
 		img: "/images/micro-array-banner-2.jpg",
 		color: 'white',
@@ -305,7 +305,7 @@ app.factory('Ido2SRules', function() {
 			else if(x > 4 && structure[x] === 'GlcA') {
 				bool = true;
 			}
-			else if(structure[x] === "Glc2S") {
+			else if(structure[x] === "GlcA2S") {
 				bool = true;
 			}
 		}
@@ -318,6 +318,7 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	$scope.minSize = 4;
 	$scope.maxSize = 10;
 
+	//store different tag possibilites in JSON
 	$scope.tags = [{
 		name: 'pNP',
 		tooltip: '310nm Abs for easy UV detection.'
@@ -336,8 +337,8 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		name: 'GlcA',
 		tooltip: 'Can be linked to any piece.'
 	}, {
-		name: 'Glc2S',
-		tooltip: 'Selecting it gives you the ability to make the first GlcA into a Glc2S.'
+		name: 'GlcA2S',
+		tooltip: 'Selecting it gives you the ability to make the first GlcA into a GlcA2S.'
 	}, {
 		name: 'IdoA',
 		tooltip: 'Can only be selected at the 3rd position of the compound.'
@@ -354,10 +355,10 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		tooltip: 'Can only be linked to GlcA.'
 	}, {
 		name: 'GlcNS',
-		tooltip: 'Can be linked to GlcA, Glc2S, IdoA, and IdoA2S. Disables any 6S molecules if selected.'
+		tooltip: 'Can be linked to GlcA, GlcA2S, IdoA, and IdoA2S. Disables any 6S molecules if selected.'
 	}, {
 		name: 'GlcNS6S',
-		tooltip: 'Can be linked to GlcA, Glc2S, IdoA, and IdoA2S. Required to get GlcNS6S3S.'
+		tooltip: 'Can be linked to GlcA, GlcA2S, IdoA, and IdoA2S. Required to get GlcNS6S3S.'
 	}, {
 		name: 'GlcNS6S3S',
 		tooltip: "Only one GlcNS6S3S can be added to the structure and has to be linked to GlcA after being selected."
@@ -367,9 +368,8 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	$scope.highestSeries = "";
 	$scope.continue = true;
 	$scope.tag = "";
-
 	$scope.baseSize = 0;
-	var moreGlc2S = false;
+	var moreGlcA2S = false;
 
 	$scope.getHistory = function() {
 		$scope.history = [];
@@ -442,11 +442,6 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 			$scope.alert = true;
 	};
 
-	$scope.setSize = function(size) {
-		$scope.size = size + 1;
-		$scope.baseSize = size;
-	};
-
 	$scope.arrayBack = function() {
 		if($scope.structure.length > 0) {
 			if($scope.baseSize % 2 != 0 && $scope.size === 0) {
@@ -471,15 +466,15 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 				case 'GlcNS6S3S':
 					$scope.highestSeries = '3S';
 					break;
-				case 'Glc2S':
-					$scope.highestSeries = 'Glc2S';
+				case 'GlcA2S':
+					$scope.highestSeries = 'GlcA2S';
 					break;
 				case 'IdoA':
 					if($scope.highestSeries != '3S')
 						$scope.highestSeries = 'IdoA';
 				    break;
 				case 'IdoA2S':
-					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'Glc2S') {
+					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S') {
 						if($scope.highestSeries === '6S' || $scope.highestSeries === '2S-6S')
 							$scope.highestSeries = '2S-6S';
 						else
@@ -488,7 +483,7 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 					break;
 				case 'GlcNS6S':
 				case 'GlcNAc6S':
-					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'Glc2S') {
+					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S') {
 						if($scope.highestSeries === '2S' || $scope.highestSeries === '2S-6S')
 							$scope.highestSeries = '2S-6S';
 						else
@@ -496,7 +491,7 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 					}
 					break;
 				case 'GlcNS':
-					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'Glc2S' && $scope.highestSeries != '2S-6S' && $scope.highestSeries != '2S' && $scope.highestSeries != '6S') {
+					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S' && $scope.highestSeries != '2S-6S' && $scope.highestSeries != '2S' && $scope.highestSeries != '6S') {
 						if($scope.highestSeries === 'NA' || $scope.highestSeries === 'NS-NA')
 							$scope.highestSeries = 'NS-NA';
 						else 
@@ -504,7 +499,7 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 					}
 					break;
 				case 'GlcNAc':
-					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'Glc2S' && $scope.highestSeries != '2S-6S' && $scope.highestSeries != '2S' && $scope.highestSeries != '6S') {
+					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S' && $scope.highestSeries != '2S-6S' && $scope.highestSeries != '2S' && $scope.highestSeries != '6S') {
 						if($scope.highestSeries === 'NS' || $scope.highestSeries === 'NS-NA')
 							$scope.highestSeries = 'NS-NA';
 						else
@@ -539,16 +534,16 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	}
 
 	$scope.addPiece = function(molecule, position) {
-		if($scope.structure.length === 3 && molecule === "Glc2S") {
-			var choice = confirm("Do you wish to change the first GlcA to Glc2S? (This will allow more than one Glc2S to be added.)");
+		if($scope.structure.length === 3 && molecule === "GlcA2S") {
+			var choice = confirm("Do you wish to change the first GlcA to GlcA2S? (This will allow more than one GlcA2S to be added.)");
 			if(choice) {
-				moreGlc2S = true;
-				$scope.structure[$scope.structure.length - 2] = 'Glc2S';
+				moreGlcA2S = true;
+				$scope.structure[$scope.structure.length - 2] = 'GlcA2S';
 			}
 		}
 
 		if(molecule === "GlcNAc") {
-			moreGlc2S = false;
+			moreGlcA2S = false;
 		}
 
 		$scope.structure.push(molecule);
@@ -564,12 +559,12 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 				case 'GlcA':
 					bool = false;
 					break;
-				case 'Glc2S':
+				case 'GlcA2S':
 					if($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS" || $scope.structure[position - 1] === "GlcNS6S")	{
 						if(position === 3) {
 							bool = false;
 						}		
-						if(moreGlc2S) {
+						if(moreGlcA2S) {
 							bool = false;
 						}
 					}
@@ -628,7 +623,7 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 }]);
 
 app.controller('limitedCtrl', function($location, $scope, $sce, $http, $uibModal, $log, $document, $state) {
-	$http.get("/products/limited-18.php")
+	$http.get("/glycanapi.php/library18")
 	.then(function(response) {
 		$scope.limited = response.data;
 		for(var x in $scope.limited)
@@ -680,7 +675,7 @@ app.controller('limitedCtrl', function($location, $scope, $sce, $http, $uibModal
 });
 
 app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModal, $log, $document, $state){
-	$http.get("/products/compounds.php")
+	$http.get("/glycanapi.php/compounds")
 	.then(function (response) {
 		$scope.compounds = response.data;
 		for(var x in $scope.compounds) {
@@ -724,7 +719,7 @@ app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModa
 		'2S-6S',
 		'3S',
 		'IdoA',
-		'Glc2S'
+		'GlcA2S'
 	];
 
 	$scope.sizeName = [

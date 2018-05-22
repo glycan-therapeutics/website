@@ -369,7 +369,7 @@ footer div p {
 
 .home {
     position: relative;
-    background: #000 url("../images/Heparin_CoverArt.jpg") center top;
+    background: #000 url("/images/Heparin_CoverArt.jpg") center top;
     width: 100%;
     color: black;
     height: 100%;
@@ -379,7 +379,7 @@ footer div p {
 
 .products_banner {
 	position: relative;
-    background: #000 url("../images/services-4.png");
+    background: #000 url("/images/services-4.jpg");
     width: 100%;
     color: black;
     height: 100%;
@@ -522,6 +522,19 @@ img.carousel {
 	padding: 5px;
 	font-size: 14px;
 	border-radius: 5px;
+}
+
+.new-product {
+	background: #eee;
+	color: #0f0f0f;
+	padding: 5px;
+	font-size: 14px;
+	border-radius: 5px;
+}
+
+.new-product:hover {
+	background: #fce111 opacity 50%;
+	color: #0f0f0f;
 }
 
 .products-home {
@@ -794,7 +807,6 @@ a {
 
 .nav > li > a:hover {
 	margin-left: 5px;
-	background-color: inherit;
 }
 
 .white-text {
@@ -901,6 +913,41 @@ button[disabled]{
 	padding: 15px;
 	margin-bottom: 20px;
 	display: block;
+}
+
+.banner {
+	background: white;
+	background-size: 400% 400%;
+	padding: 15px;
+	margin-bottom: 20px;
+	display: block;
+	color: white;
+}
+
+.banner.analysis {
+	background: blue;
+}
+
+.banner.synthesis {
+	background: red;
+}
+
+.banner h1 {
+	color: white;
+	font-size: 64px;
+	font-weight: 700;
+	text-align: center;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: black;
+}
+
+.banner div {
+	width: 60%;
+	margin: 0 auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	border: 5px white solid;
+	padding: 35px;
 }
 
 .jumbo-18 {
@@ -1051,7 +1098,6 @@ div > .banner-limited {
 	h3 {
 		text-align: center;
 	}
-
 	.article{
 		text-align: center;
 	}
@@ -1174,6 +1220,12 @@ div > .banner-limited {
 	.banner-limited h2 {
 		width: 80%;
 	}
+	.banner div {
+		width: 90%;
+	}
+	.banner h2 {
+		width: 80%;
+	}
 	p.align-right {
 		float: none;
 		text-align: center;
@@ -1210,6 +1262,9 @@ div > .banner-limited {
 		font-size: 22px;
 	}
 	.banner-limited h1 {
+		font-size: 40px;
+	}
+	.banner h1 {
 		font-size: 40px;
 	}
 	.sidebar-btn {
@@ -1298,5 +1353,4 @@ div > .banner-limited {
 }
 .support{
 transition: all 0.2s ease;
-
 }
