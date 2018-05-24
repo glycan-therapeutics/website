@@ -1,15 +1,8 @@
 <div id="Sheets" class="container" ng-app="Compounds" ng-controller="compoundCtrl">
 	<div class="article" role="contact">
 		<h1>Contact Information: </h1>
-<<<<<<< HEAD
 		<p class="contact">Email: <a href="mailto:info@glycantherapeutics.com">info@glycantherapeutics.com</a></p>
 		<p class="contact">Phone: 919-977-1083</p>
-=======
-		<p class="contact">Email:
-			<a href="mailto:info@glycantherapeutics.com">info@glycantherapeutics.com</a>
-		</p>
-		<p class="contact">Phone: 919-xxx-xxxx</p>
->>>>>>> e93e5eb074f1b9fd7c1cae41310d34fb8d6791cd
 		<p class="contact">Address: 617 Hutton Street, Suite 101, Raleigh, NC 27606 USA</p>
 	</div>
 
@@ -18,12 +11,12 @@
 	<div class="products">
 		<div class="row">
 			<div class="col-sm-3">
-				<div class="panel panel-default">
-					<div class="panel-heading" ng-click="pNP.isCollapsed = !pNP.isCollapsed">
-						<span class="glyphicon align-right" ng-class="pNP.isCollapsed?'glyphicon-chevron-up':'glyphicon-chevron-down'"></span>
+				<div class="card">
+					<div class="card-header" ng-click="pNP.isCollapsed = !pNP.isCollapsed">
+						<span class="glyphicon align-right" ng-class="pNP.isCollapsed?'fas fa-caret-up':'fas fa-caret-down'"></span>
 						<h3 class="structure panel-title">pNP</h3>
 					</div>
-					<div class="panel-body" uib-collapse="!pNP.isCollapsed">
+					<div class="card-body" uib-collapse="!pNP.isCollapsed">
 						<ul ng-repeat="x in compounds | filter : 'pNP'" class="article collapsed pNP">
 							<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
 							<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
@@ -40,12 +33,12 @@
 			</div>
 
 			<div class="col-sm-3">
-				<div class="panel panel-default">
-					<div class="panel-heading" ng-click="azido.isCollapsed = !azido.isCollapsed">
-						<span class="glyphicon align-right" ng-class="azido.isCollapsed?'glyphicon-chevron-up':'glyphicon-chevron-down'"></span>
+				<div class="card">
+					<div class="card-header" ng-click="azido.isCollapsed = !azido.isCollapsed">
+						<span class="glyphicon align-right" ng-class="azido.isCollapsed?'fas fa-caret-up':'fas fa-caret-down'"></span>
 						<h3 data-toggle="collapse" data-parent="#accordion" class="structure panel-title" data-target=".azido">Azido</h3>
 					</div>
-					<div class="panel-body" uib-collapse="!azido.isCollapsed">
+					<div class="card-body" uib-collapse="!azido.isCollapsed">
 
 						<ul ng-repeat="x in compounds | filter : 'Azido'" class="article collapsed azido">
 							<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
@@ -62,12 +55,12 @@
 				</div>
 			</div>
 			<div class="col-sm-3">
-				<div class="panel panel-default">
-					<div class="panel-heading" ng-click="biotin.isCollapsed = !biotin.isCollapsed">
-						<span class="glyphicon align-right" ng-class="biotin.isCollapsed?'glyphicon-chevron-up':'glyphicon-chevron-down'"></span>
+				<div class="card">
+					<div class="card-header" ng-click="biotin.isCollapsed = !biotin.isCollapsed">
+						<span class="glyphicon align-right" ng-class="biotin.isCollapsed?'fas fa-caret-up':'fas fa-caret-down'"></span>
 						<h3 data-toggle="collapse" data-parent="#accordion" class="structure panel-title" data-target=".biotin">Biotin</h3>
 					</div>
-					<div class="panel-body" uib-collapse="!biotin.isCollapsed">
+					<div class="card-body" uib-collapse="!biotin.isCollapsed">
 						<ul ng-repeat="x in compounds | filter : 'Biotin'" class="article collapsed biotin">
 							<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
 							<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
@@ -83,12 +76,12 @@
 				</div>
 			</div>
 			<div class="col-sm-3">
-				<div class="panel panel-default">
-					<div class="panel-heading" ng-click="fluorescein.isCollapsed = !fluorescein.isCollapsed">
-						<span class="glyphicon align-right" ng-class="fluorescein.isCollapsed?'glyphicon-chevron-up':'glyphicon-chevron-down'"></span>
+				<div class="card">
+					<div class="card-header" ng-click="fluorescein.isCollapsed = !fluorescein.isCollapsed">
+						<span class="glyphicon align-right" ng-class="fluorescein.isCollapsed?'fas fa-caret-up':'fas fa-caret-down'"></span>
 						<h3 data-toggle="collapse" data-parent="#accordion" class="structure panel-title" data-target="fluorescein">Fluorescein</h3>
 					</div>
-					<div class="panel-body" uib-collapse="!fluorescein.isCollapsed">
+					<div class="card-body" uib-collapse="!fluorescein.isCollapsed">
 						<ul ng-repeat="x in compounds | filter : 'Fluorescein'" class="article collapsed fluorescein">
 							<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
 							<ul id="{{x.Family}}-{{x.id}}-data-sheets" class="collapse nav-in-nav article">
