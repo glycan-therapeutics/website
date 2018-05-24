@@ -1,4 +1,5 @@
-var app = angular.module('Compounds', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'ngHtmlCompile']);
+var app = angular.module('Compounds', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'ngHtmlCompile','ngAria','ngMaterial']);
+
 
 app.directive('updateTitle', ['$rootScope', '$timeout',
 	function($rootScope, $timeout) {
@@ -624,6 +625,21 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		}
 		return bool;
 	}
+
+		var self = this;
+		self.determinateValue = 100;
+		
+		$scope.increment= function(){
+		 self.determinateValue -=11.1;
+		}
+		
+		$scope.decrement= function(){
+			if(self.determinateValue<100){
+			self.determinateValue +=11.1;
+		}
+		   }
+   
+ 
 }]);
 
 app.controller('limitedCtrl', function($location, $scope, $sce, $http, $uibModal, $log, $document, $state) {

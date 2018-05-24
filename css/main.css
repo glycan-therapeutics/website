@@ -17,7 +17,7 @@ h3 {
 }
 
 #content {
-	overflow-x: hidden;
+	overflow: hidden;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -1354,3 +1354,61 @@ div > .banner-limited {
 .support{
 transition: all 0.2s ease;
 }
+
+.aria{
+	padding: 0;
+	margin: 0;
+	border:0;
+}
+
+.circle {
+	display:inline-block;
+	padding: 2px;
+	margin: 0;
+	border: 0;
+    line-height:18px;
+    width: 22px;
+	height: 22px;
+	border-radius:50%;
+	background: #434DB3;
+	color: #FFF;
+	position: absolute;
+	left: 25px;
+}
+/*PROGRESS BAR*/
+md-progress-linear .md-container {
+	  display: block;
+	  position: relative;
+	  overflow: hidden;
+	  width: 100%;
+	  height: 10px;
+	  background:#434DB3;
+	  -webkit-transform: translate(0, 0) scale(1, 1);
+			  transform: translate(0, 0) scale(1, 1); 
+						
+}
+md-progress-linear .md-container .md-bar {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		height: 10px;
+		background:#C7CAEB;
+}
+md-progress-linear .md-container .md-bar1, md-progress-linear .md-container .md-bar2 {
+		-webkit-transition: -webkit-transform 0.2s linear;
+		transition: -webkit-transform 0.2s linear;
+		transition: transform 0.2s linear;
+		transition: transform 0.2s linear, -webkit-transform 0.2s linear; 
+}
+md-progress-linear .md-container.md-mode-query .md-bar2 {
+		-webkit-transition: all 0.2s linear;
+		transition: all 0.2s linear;
+		-webkit-animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1);
+				animation: query 0.8s infinite cubic-bezier(0.39, 0.575, 0.565, 1); 
+}
+md-progress-linear .md-container.md-mode-determinate .md-bar1 {
+		display: none; 
+}
+	 
