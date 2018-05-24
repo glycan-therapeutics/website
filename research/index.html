@@ -5,20 +5,22 @@
 		<meta name="keywords" content="Heparin,Sulfate,Oligosaccharide,Custom,Synthesis,Microarray,Analysis,Glycan,Carbohydrate,array">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<!--[htmlclean-protect]-->
 		<!-- inject:css -->
 		<!-- endinject -->
 		<!--[/htmlclean-protect]-->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 		<!-- Latest version of AngularJS -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.4.0/ui-bootstrap-tpls.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.11.18/xlsx.core.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/alasql"></script>
 		<!--[htmlclean-protect]-->
@@ -50,7 +52,7 @@
 		        </li>
 		        <br>
 		        <li ng-click="productCollapsed=!productCollapsed">
-		          <a>Products</a><span ng-class="productCollapsed?'glyphicon glyphicon-triangle-bottom sidebar-glyph':'glyphicon glyphicon-triangle-top sidebar-glyph'"></span>
+		          <a>Products</a><span ng-class="productCollapsed?'fas fa-caret-down':'fas fa-caret-up'"></span>
 		        </li>
 		        <li class="collapsed" uib-collapse="productCollapsed">
 			        <ul class="dropdown">
@@ -68,7 +70,7 @@
 			        </ul>
 		    	</li>
 		        <li ng-click="serviceCollapsed=!serviceCollapsed">
-		          <a>Services</a><span ng-class="serviceCollapsed?'glyphicon glyphicon-triangle-bottom sidebar-glyph':'glyphicon glyphicon-triangle-top sidebar-glyph'"></span>
+		          <a>Services</a><span ng-class="serviceCollapsed?'fas fa-caret-down':'fas fa-caret-up'"></span>
 		        </li>
 		        <li class="collapsed" uib-collapse="serviceCollapsed">
 			        <ul class="dropdown">
@@ -95,76 +97,84 @@
 		</nav>
 		<div id="content">
 			<header>
-				<nav class="container">
+				<nav class="navbar navbar-expand-md container">
 					<button type="button" class="sidebar-btn" ng-click="isCollapsed=!isCollapsed">
-					    <i class="glyphicon glyphicon-menu-hamburger"></i>
+					    <i class="fas fa-bars"></i>
 					</button>
 					<a class="navbar-brand" ng-href="/"><img src="/images/glycan_logo.svg" alt="Glycan Logo"></a>
-					<ul class="navbar-nav">
-				        <li class="dropdown">
-				        <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/products/" ui-sref="products" ui-sref-active="active">Products <span class="caret"></span></a>
-				        <ul class="dropdown-menu">
-				           <li><a ng-href="/products/compounds" ui-sref="products.compounds({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter})" style="border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#ccc;padding:10px 40px 10px 5px">Compounds</a></li>
-				           <li><a ui-sref="products.limited" style="padding:10px 40px 10px 5px">18-mer Library</a></li>
-				        </ul>
-				        </li>
-				        <li class="dropdown">
-				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/services/" ui-sref="services" ui-sref-active="active">Services <span class="caret"></span></a>
-				          <ul class="dropdown-menu">
-				            <li><a ng-href="/services/custom-synthesis" ui-sref="services.synthesis" style="border-bottom-style:solid;border-bottom-width:1px;border-bottom-color:#ccc;padding:10px 40px 10px 5px;">Custom Synthesis</a></li>
-				            <li><a ng-href="/services/microarray-analysis" ui-sref="services.analysis" style="padding:10px 40px 10px 5px">Microarray Analysis</a></li>
-				          </ul>
-				        </li>
-				        <li class="dropdown">
-				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/research/" ui-sref="research" ui-sref-active="active">Research</a>
-				        </li>
-				        <li class="dropdown">
-				          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/support/" ui-sref="support" ui-sref-active="active">Support</a>
-				        </li>
-				        <li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/compound-builder" ui-sref="demo" ui-sref-active="active">Online Synthesis</a>
-						</li>
-					</ul>
+					<div class="mx-auto d-sm-flex d-block flex-sm-nowrap">
+						<ul class="navbar-nav">
+					        <li class="nav-item dropdown">
+						        <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/products/" ui-sref="products" ui-sref-active="active">Products</a>
+						        <div class="dropdown-menu">
+						           <a class="dropdown-item" ng-href="/products/compounds" ui-sref="products.compounds({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter})">Compounds</a>
+						           <div class="dropdown-divider"></div>
+						           <a class="dropdown-item" ui-sref="products.limited">18-mer Library</a>
+						        </div>
+						    </li>
+					        <li class="nav-item dropdown">
+					          <a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/services/" ui-sref="services" ui-sref-active="active">Services</a>
+					          <div class="dropdown-menu">
+					            <a class="dropdown-item" ng-href="/services/custom-synthesis" ui-sref="services.synthesis">Custom Synthesis</a>
+					            <div class="dropdown-divider"></div>
+					            <a class="dropdown-item" ng-href="/services/microarray-analysis" ui-sref="services.analysis">Microarray Analysis</a>
+					          </div>
+					        </li>
+					        <li class="nav-item">
+					          <a ng-href="/research/" ui-sref="research" ui-sref-active="active">Research</a>
+					        </li>
+					        <li class="nav-item">
+					          <a ng-href="/support/" ui-sref="support" ui-sref-active="active">Support</a>
+					        </li>
+					        <li class="nav-item">
+								<a ng-href="/compound-builder" ui-sref="demo" ui-sref-active="active">Online Synthesis</a>
+							</li>
+						</ul>
+					</div>
 				</nav>
 			</header>
 			<section>
 				<ui-view>
 				</ui-view>
 			</section>
-			<footer class="row footer">
+			<footer class="row">
 				<div class="container footer-border">
-					<div class="row">
-						<div class="col-sm-3">
-							<h3  class="align-center"><strong>Products</strong></h3>
-							<ul class="nav nav-stacked footer-right-border">
+					<div class="row footer">
+						<div class="col-sm-3 align-center">
+							<h3><strong>Products</strong></h3>
+							<ul class="nav flex-column footer-right-border">
 								<li><a ui-sref="products.compounds" class="footer-details align-center">Compounds</a></li>
 							</ul>
 						</div>
-						<div class="col-sm-3">
-							<h3  class="align-center"><strong>Services</strong></h3>
-							<ul class="nav nav-stacked footer-right-border">
+						<div class="col-sm-3 align-center">
+							<h3><strong>Services</strong></h3>
+							<ul class="nav flex-column footer-right-border">
 								<li><a ng-href="/services/custom-synthesis" ui-sref="services.synthesis" class="footer-details align-center">Custom Synthesis</a></li>
 					            <li><a ng-href="/services/microarray-analysis" ui-sref="services.analysis" class="footer-details align-center">Microarray Analysis</a></li>
 							</ul>
 						</div>
-						<div class="col-sm-3">
-							<h3 class="align-center"><strong>Research</strong></h3>
-							<ul class="nav nav-stacked" style="text-align:left;padding:5px;">
+						<div class="col-sm-3 align-center">
+							<h3><strong>Research</strong></h3>
+							<ul class="nav flex-column">
 								<li><a ng-href="/research/" ui-sref="research" class="footer-details align-center">Synthetic Heparin</a></li>
 							</ul>
 						</div>
-						<div class="col-sm-3">
-							<h3 class="align-center"><strong>Support</strong></h3>
-							<ul class="nav nav-stacked footer-left-border">
+						<div class="col-sm-3 align-center">
+							<h3><strong>Support</strong></h3>
+							<ul class="nav flex-column footer-left-border">
 								<li><a ng-href="/support/" ui-sref="support" class="footer-details align-center">Data Sheets</a></li>
 					            <li><a ng-href="/support/about-us" ui-sref="about-us" class="footer-details align-center">About Us</a></li>
 					            <li><a ng-href="/support/contact-us" ui-sref="contact-us" class="footer-details align-center">Contact Us</a></li>
 							</ul>
 						</div>
 					</div>
-					<div class="row align-center">
-						<p><a ng-href="/support/privacy-policy" ui-sref="privacy">Privacy</a><a class="tab" ng-href="/support/terms-conditions" ui-sref="terms">Terms & Conditions</a></p>
-						<p>&copy;Glycan Therapeutics</p>
+					<div class="row footer-details">
+						<div class="col-sm-12 text-center">
+							<a ng-href="/support/privacy-policy" ui-sref="privacy">Privacy</a><a class="tab" ng-href="/support/terms-conditions" ui-sref="terms">Terms & Conditions</a>
+						</div>
+						<div class="col-sm-12 text-center">
+							<p>&copy;Glycan Therapeutics</p>
+						</div>
 					</div>
 				</div>
 			</footer>

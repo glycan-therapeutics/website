@@ -1,13 +1,15 @@
 <div class="container" ng-controller="compoundCtrl">
 	<div class="row">
 		<div class="col-sm-3">
-			<ul class="nav nav-pills nav-stacked nav-collapsible">
+			<ul class="nav nav-pills flex-column nav-collapsible">
 				<li class="active">Filter Products: </li>
 				<li><input type="text" placeholder=" Search..." ng-model="nameFilter" style="width:100%"></li>
-				<li>
-					<a ng-class="dateFilter!==date?'new-product':''" ng-click="filterUrl('2018-04-13', 'date')">By New</a>
+				<li ng-class="dateFilter===''?'new-product':''">
+					<a ng-click="filterUrl('2018-04-13', 'date')">By New</a>
 				</li>
-				<li><a data-toggle="collapse" class="collapsed" data-target="#by-series">By Series </a></li>
+				<li ng-class="dateFilter===''?'new-product':''">
+					<a data-toggle="collapse" class="collapsed" data-target="#by-series">By Series </a>
+				</li>
 				<ul id="by-series" class="collapse nav-in-nav"> 
 					<li ng-repeat="series in seriesName" class="family-item" ng-class="seriesFilter===series?'nav-'+series:''" ng-click="filterUrl(series, 'series')"><a ng-class="seriesFilter===series?'white-text':''">{{series}} Series</a></li>
 				</ul>
@@ -37,12 +39,12 @@
 					</div>
 				</div>
 				<div class="col-sm-12">
-					<div class="panel panel-default">
-						<div class="panel-heading" ng-click="x.isCollapsed = !x.isCollapsed">
-							<span class="glyphicon align-right" ng-class="x.isCollapsed?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span>
-							<a class="structure panel-title">{{x.Structure}}</a>
+					<div class="card">
+						<div class="card-header" ng-click="x.isCollapsed = !x.isCollapsed">
+							<i class="glyphicon align-right" ng-class="x.isCollapsed?'fas fa-caret-down':'fas fa-caret-up'"></i>
+							<a class="structure card-title">{{x.Structure}}</a>
 						</div>
-						<div class="panel-body" uib-collapse="x.isCollapsed">
+						<div class="card-body" uib-collapse="x.isCollapsed">
 							<img class="structure-pic" ng-src="/images/{{x.id}}.jpg"/>
 						</div>
 					</div>
@@ -50,7 +52,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<p class="align-right">Don't see a compound you want? Try our <a ui-sref="demo">custom synthesis <span class="glyphicon glyphicon-chevron-right small" aria-hidden="true"></span></a></p>
+	<div class="row align-right">
+		<p>Don't see a compound you want? Try our <a ui-sref="demo">custom synthesis <i class="fas fa-arrow-alt-circle-right"></i></a></p>
 	</div>
 </div>

@@ -16,8 +16,18 @@ h3 {
 	font-weight: 600;
 }
 
+.nav, .pagination, .carousel, .card-title a { cursor: pointer; }
+
+.sidebar-content > li > .fa, .sidebar-content > li > .fas {
+	font-size: 14px;
+	float: right!important;
+	position: relative;
+    top: 20px;
+    right: 10px;
+}
+
 #content {
-	overflow-x: hidden;
+	overflow: hidden;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -78,18 +88,34 @@ h3 {
     box-shadow:inset 0 0 0 99999px rgba(0,0,0,0.2);
  }
 
-header nav {
+header {
 	background-color: white;
+	border-bottom: 1px solid red;
 	margin-bottom: 25px;
-	border-bottom-width: 1px;
-	border-bottom-color: red;
-	border-bottom-style: solid;
 }
 
 .qty {
 	width: 5%;
 	position: absolute;
 	left: 92%;
+}
+
+.left.carousel-control {
+	position: absolute;
+    top: 45%;
+    left: 2%;
+    color: #aaa;
+    opacity: .8;
+    font-size: .8em;
+}
+
+.right.carousel-control {
+	position: absolute;
+    top: 45%;
+    right: 2%;
+    color: #aaa;
+    opacity: .8;
+    font-size: .8em;
 }
 
 .border-bottom {
@@ -113,7 +139,7 @@ header nav {
 
 .navbar-brand {
 	height: 100%;
-	margin-right: 15px;
+	margin-right: 4em;
 	margin-left: 10px;
 }
 
@@ -144,17 +170,12 @@ nav ul {
 nav ul li {	
 	display: inline-block;
 	list-style-type: none;
+	height: 30px;
 	padding: 0px 10px 0px 10px;
 }
 
-/*nav text colors and styles*/
-nav ul li a {
-	color: #305597;
-	text-decoration: none;
-}
-nav ul li a:hover {
-	color: #00375f;
-	text-decoration: none;
+.dropdown-toggle::after {
+	font-size: 14px;
 }
 
 /*jumbotron text style*/
@@ -164,11 +185,19 @@ nav ul li a:hover {
 	padding: 15px 10px 15px 0px;
 }
 
+.carousel-title {
+	font-size: 3.5vw;
+	text-align: left;
+	width: 70%;
+}
+
 .carousel-caption {
+	text-align: left;
 	text-shadow: none;
 	font-weight: 200;
-	font-size: 16px;
+	font-size: 1.5vw;
 	bottom: 60px;
+	width: 60%;
 }
 
 .carousel-inner {
@@ -283,13 +312,14 @@ div div h3 {
 .footnote {
 	font-size: 10px;
 	text-align: center;
+	justify-content: center;
 }
 
 .history-close {
 	position: relative;
 	color: red;
 	float: right;
-	right: 100px;
+	left: 220px;
 	bottom: 5px;
 }
 
@@ -303,7 +333,7 @@ div div h3 {
 }
 
 #wrapper {
-    border: 1px solid red;
+    border: 1px solid #E73C7E;
     overflow:hidden;
     position:relative;
     height: 300px;
@@ -333,6 +363,7 @@ footer div p {
 
 .align-center {
 	text-align: center;
+	justify-content: center;
 }
 
 .align-right {
@@ -340,7 +371,11 @@ footer div p {
 	text-align: right;
 }
 
-.footer {
+.row.footer {
+	margin-top: 20px;
+}
+
+footer {
 	margin: 0 auto;
 	width: 100%;
 }
@@ -349,7 +384,7 @@ footer div p {
 	border-top-width: 1px;
 	border-top-color: red;
 	border-top-style: solid;
-	margin-top: 15px;
+	margin-top: 12px;
 }
 
 .information {
@@ -381,6 +416,8 @@ footer div p {
 	position: relative;
     background: #000 url("/images/services-4.jpg");
     width: 100%;
+    padding: 25px;
+    margin-bottom: 15px;
     color: black;
     height: 100%;
     background-size: cover;
@@ -390,8 +427,7 @@ footer div p {
 .modal-close {
 	display: inline;
 	position: relative;
-	bottom: 40px;
-	margin-bottom: -30px;
+	bottom: 10px;
 }
 
 .collapsed {
@@ -405,6 +441,11 @@ footer div p {
 
 .tab {
 	padding-left: 1.8em;
+}
+
+.card-header {
+	border-top-right-radius: 0px!important;
+	border-top-left-radius: 0px!important;
 }
 
 .structure {
@@ -449,14 +490,10 @@ footer div p {
 
 .dropdown:hover .dropdown-menu {
 	position: absolute;
-	font-size: 16px;
-	text-decoration: none;
 	display: block;
-	padding: 5px;
-	border-radius: 5px;	
 }
 
-.dropdown:hover > .dropdown-menu > li a:hover {
+.dropdown:hover > .dropdown-menu > div > a:hover {
 	background: inherit;
 	font-size: 18px;
 	margin-left: 5px;
@@ -492,7 +529,7 @@ img.carousel {
 }
 
 .front-carousel {
-	max-height: 30em;
+	max-height: 400px;
 }
 
 .micro-array {
@@ -551,12 +588,19 @@ img.carousel {
  }
 
 .view-products {
+	cursor: pointer;
 	background-color: #0070c0;
 	color: white;
 	margin: 0px;
-	padding-bottom: 10px;
+	padding: 20px;
 	text-align: center;
 	width: 100%;
+	transition: .1s ease;
+	-webkit-transition: .1s ease;
+}
+
+.view-products:hover {
+	font-size: 2.5em;
 }
 
 .error {
@@ -713,11 +757,11 @@ img.carousel {
 	border-radius: 5px;
 }
 
-.series-Glc2S {
+.series-GlcA2S {
 	background: #f2c12e;
 }
 
-.nav-Glc2S {
+.nav-GlcA2S {
 	background: #f2c12e;
 	color: white;
 	padding: 5px;
@@ -795,14 +839,18 @@ a {
 	color: #305597;
 }
 
-.nav > li > .footer-details {
-	color: #305597;
+.nav > li {
 	padding: 5px;
 }
 
+.footer-details {
+	color: #305597;
+	font-size: .85em;
+}
+
 .nav > li > .footer-details:hover {
-	margin: 0px;
 	color: #00375f;
+	font-size: .95em;
 }
 
 .nav > li > a:hover {
@@ -900,6 +948,7 @@ button[disabled]{
 .banner-limited h4 {
 	text-align: center;
 	color: white;
+	font-size: 16px;
 	font-weight: 200;
 	padding-top: 1%;
 }
@@ -990,7 +1039,7 @@ div > .banner-limited {
 }
 
 .limited-price {
-	font-size: 38px;
+	font-size: 32px;
 }
 
 .limited-display {
@@ -1006,9 +1055,30 @@ div > .banner-limited {
 .limited-structure {
 	font-size: 26px;
     font-weight: 200;
-    border: 1px red solid;
     padding: 20px;
-    background: white;
+    background: #E73C7E;
+    color: white;
+}
+
+.tag-tab.not-selected {
+	background: #eee;
+	color: black;
+}
+
+.tag-tab.selected {
+	background: #E73C7E;
+	color: white!important;
+}
+
+.tag-tab {
+	border: #E73C7E 1px solid;
+	cursor: pointer;
+	border-bottom: none;
+	position: relative;
+	bottom: .15em;
+	padding: 5px 18px 5px 18px;
+	margin-left: 3px;
+	margin-right: 3px;
 }
 
 .limited-display h2 {
@@ -1029,7 +1099,6 @@ div > .banner-limited {
 }
 
 .footer-right-border {
-	text-align: left;
 	border-right-style: solid;
 	border-width: 1px;
 	border-color: #ccc;
@@ -1037,7 +1106,6 @@ div > .banner-limited {
 }
 
 .footer-left-border {
-	text-align:left;
 	border-left-style:solid;
 	border-width:1px;
 	border-color:#ccc;
@@ -1081,6 +1149,7 @@ div > .banner-limited {
 	.navbar-brand {
 		display: block;
 		float: none;
+		margin: 0 auto;
 		width: 100%;
 	}
 	.navbar-brand > img {
@@ -1144,6 +1213,7 @@ div > .banner-limited {
 	}
 	.sidebar-content {
 		display: inline-block;
+		color: white;
 		width: 200px;
 		padding-left: 0px;
 	}
@@ -1162,6 +1232,7 @@ div > .banner-limited {
 		border-bottom: 1px solid rgba(0,10,120,0.2);
 		background-color: inherit;
 		width: 100%;
+		height: auto;
 	}
 	.sidebar li:hover {
 		cursor: pointer;
@@ -1190,10 +1261,10 @@ div > .banner-limited {
 	.sidebar-btn {
 		display: block;
 	    position: absolute;
-	    top: 4%;
+	    top: 30%;
 	    height: inherit;
 	    border-style: none;
-	    font-size: 26px;
+	    font-size: 1.3em;
 	    margin: 0px;
 	    padding-bottom: 0px;
 	}
@@ -1231,9 +1302,6 @@ div > .banner-limited {
 		text-align: center;
 
 	}
-	.footer-details {
-		font-size: 12px;
-	}
 	.article {
 		font-size: 12px;
 		padding: 5px 10px 5px 10px;
@@ -1251,9 +1319,12 @@ div > .banner-limited {
 	.news-partner {
 		font-size: 12px
 	}
+	.carousel-title {
+		font-size: 16px;
+	}
 	.carousel-caption {
-		font-size: 12px;
 		bottom: 20px;
+		font-size: 12px;
 	}
 }
 
@@ -1267,15 +1338,12 @@ div > .banner-limited {
 	.banner h1 {
 		font-size: 40px;
 	}
-	.sidebar-btn {
-		top: 4%;
+	.carousel-title {
+		width: 100%;
 	}
 }
 
 @media all and (max-width: 321px) {
-	.sidebar-btn {
-		font-size: 20px;
-	}
 	section div h1 {
 		font-size: 24px;
 	}
@@ -1286,9 +1354,7 @@ div > .banner-limited {
 		font-size: 20px;
 		bottom: 65px;
 	}
-	.carousel-caption {
-		font-size: 12px;
-	}
+
 }
 
 @-webkit-keyframes Gradient {

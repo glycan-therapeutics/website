@@ -48,6 +48,7 @@ app.controller('init', function($rootScope, $scope, $uibModal, $document, $http)
 		state: "about-us",
 		link: '/support/about-us'
 	}];
+	$scope.active = 0;
 	$scope.isCollapsed = true;
 	$scope.productCollapsed = true;
 	$scope.serviceCollapsed = true;
@@ -58,20 +59,46 @@ app.controller('init', function($rootScope, $scope, $uibModal, $document, $http)
 		}
 	});
 
+	$scope.nextSlide = function() {
+		if($scope.active === $scope.slides.length-1)
+			$scope.active = 0;
+		else
+			$scope.active = $scope.active + 1;
+		console.log($scope.active);
+	}
+	$scope.prevSlide = function() {
+		if($scope.active === 0)
+			$scope.active = $scope.slides.length-1;
+		else
+			$scope.active = $scope.active - 1;
+		console.log($scope.active)
+	}
+
    $scope.openModal = function(image) {
    	$scope.image = image;
-   	var description = [
-   		'<strong>Fig. 1</strong> Schematic presentation of HS microarray analysis.',
-   		'<strong>Fig. 2. Images of HS-array analysis.</strong>  Panel A shows the image of the array slide hybridized with fluorescently labeled 3-OST-1.  A total of 14 oligosaccharides were affixed on the slide, and each compound was spotted to 100 spots.  The histogram of fluorescence intensity analysis is shown on the right. The local background of the fluorescence value was to 106 ± 10. Panel B shows the image of the array slide hybridized with fluorescently labeled AT. The local background of the fluorescence value was 60 ± 3. The histogram of fluorescence intensity analysis is shown on the right.  Both 3-OST-1 and AT were labeled with Alexa Fluo® 488.  The symbolic structures of 14 heptasaccharides are shown on top of the figure. The images were acquired using the excitation wavelength of 488 nm on a GenePix 4300 A scanner.',
-   		'<strong>Fig. 3</strong> HS microarray analysis of the bindings of HS and platelet factor 4 (PF4), fibroblast growth factor 2 (FGF2), and antithrombin (AT). A total of 52 HS oligosaccharides and heparin were printed on microarray chips. The chip was hybridized with Alexa 488-labeled PF4, Alexa 488-labeled FGF2, and Alexa 488-labeled AT. The abbreviated oligosaccharide sequences for each sample are listed. For each sample, 36 spots were printed. Thus, the data presented as mean ± S.D. (n=36).'
-   	];
+   	var description = [{
+   		title: 'Fig. 1',
+   		body: 'Schematic presentation of HS microarray analysis.'
+   	}, {
+   		title: 'Fig. 2. Images of HS-array analysis.',
+   		body: 'Panel A shows the image of the array slide hybridized with fluorescently labeled 3-OST-1.  A total of 14 oligosaccharides were affixed on the slide, and each compound was spotted to 100 spots.  The histogram of fluorescence intensity analysis is shown on the right. The local background of the fluorescence value was to 106 ± 10. Panel B shows the image of the array slide hybridized with fluorescently labeled AT. The local background of the fluorescence value was 60 ± 3. The histogram of fluorescence intensity analysis is shown on the right.  Both 3-OST-1 and AT were labeled with Alexa Fluo® 488.  The symbolic structures of 14 heptasaccharides are shown on top of the figure. The images were acquired using the excitation wavelength of 488 nm on a GenePix 4300 A scanner.'
+   	}, {
+   		title: 'Fig. 3',
+   		body: 'HS microarray analysis of the bindings of HS and platelet factor 4 (PF4), fibroblast growth factor 2 (FGF2), and antithrombin (AT). A total of 52 HS oligosaccharides and heparin were printed on microarray chips. The chip was hybridized with Alexa 488-labeled PF4, Alexa 488-labeled FGF2, and Alexa 488-labeled AT. The abbreviated oligosaccharide sequences for each sample are listed. For each sample, 36 spots were printed. Thus, the data presented as mean ± S.D. (n=36).'
+   	}];
 
-   	if(image === '/images/micro-analysis.fig1.jpg') 
-   		$scope.figureDescription = description[0];
-   	else if(image === '/images/micro-analysis.fig2.jpg')
-   		$scope.figureDescription = description[1];
-   	else if(image === '/images/micro-analysis.fig3.jpg')
-   		$scope.figureDescription = description[2];
+   	if(image === '/images/micro-analysis.fig1.jpg') {
+   		$scope.figureDescription = description[0].body;
+   		$scope.figureTitle = description[0].title;
+   	}
+   	else if(image === '/images/micro-analysis.fig2.jpg') {
+   		$scope.figureDescription = description[1].body;
+   		$scope.figureTitle = description[1].title;
+   	}
+   	else if(image === '/images/micro-analysis.fig3.jpg') {
+   		$scope.figureDescription = description[2].body;
+   		$scope.figureDescription = description[2].title;
+   	}
 
    	$('#myModal').modal();
    }
@@ -284,7 +311,7 @@ app.factory('GlcNS6SRules', function() {
 	return function(structure, position) { //to check if any GlcNS has been selected; if so then disable
 		var bool = false;
 		for(var x in structure) {
-			if(structure[x] === "GlcNS" || structure[x] === "GlcNAc") {
+			if(structure[x] === "GlcNS" && x > 3 || structure[x] === "GlcNAc") {
 				bool = true;
 				break;
 			}
@@ -539,6 +566,7 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 			if(choice) {
 				moreGlcA2S = true;
 				$scope.structure[$scope.structure.length - 2] = 'GlcA2S';
+				$scope.structure[$scope.structure.length - 1] = 'GlcNS';
 			}
 		}
 
@@ -560,7 +588,7 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 					bool = false;
 					break;
 				case 'GlcA2S':
-					if($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS" || $scope.structure[position - 1] === "GlcNS6S")	{
+					if($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS")	{
 						if(position === 3) {
 							bool = false;
 						}		
@@ -629,12 +657,31 @@ app.controller('limitedCtrl', function($location, $scope, $sce, $http, $uibModal
 		for(var x in $scope.limited)
 			$scope.limited[x]['isOpen'] = false;
 	});
+	$scope.tabs = [
+		'Azido',
+		'Biotin'
+	];
+	$scope.selectedTag = 'Biotin';	
+
+	checkPrice = function() {
+		if($scope.selectedTag==='Azido')
+			$scope.currentPrice = Number($scope.limited[$scope.index].Price100);
+		else if($scope.selectedTag==='Biotin')
+			$scope.currentPrice = Number($scope.limited[$scope.index].Price100) + 200;
+	}
+
+	$scope.selectTag = function(tag) {
+		$scope.selectedTag = tag;
+		checkPrice();
+	}
+
 	$scope.openLibrary = function(index) {
+		$scope.index = index;
 		$scope.limited[index]['isOpen'] = !$scope.limited[index]['isOpen'];
 		$scope.currentName = $scope.limited[index].Name;
 		$scope.currentStructure = $scope.limited[index].Structure;
 		$scope.currentPID = $scope.limited[index].PID;
-		$scope.currentPrice = $scope.limited[index].Price100;
+		checkPrice();
 
 		if($scope.lastIndex != undefined)
 			$scope.limited[$scope.lastIndex]['isOpen'] = !$scope.limited[$scope.lastIndex]['isOpen'];

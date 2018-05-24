@@ -5,26 +5,30 @@
 	</div>
 </div>
 <div class="container align-center" ng-controller="limitedCtrl">
-	<div id="limitedDisplay" ng-class="lastIndex!=undefined?'limited-display':'hidden'">
-		<h2>{{currentName}}</h2>
-		<div style="display:inline-block;">
-			<div class="col-sm-3 limited-structure">
-				<p>{{currentStructure}}</p>
+	<div id="limitedDisplay" ng-class="lastIndex!=undefined?'limited-display':'d-none'">
+		<div class="row">
+			<div class="col-lg-3">
+				<div class="align-center">
+					<a ng-repeat="tab in tabs track by $index" ng-class="selectedTag===tab?'selected':'not-selected'" class="tag-tab" ng-click="selectTag(tab)">{{tab}}</a>
+				</div>
+				<p class="limited-structure">{{currentStructure}}-{{selectedTag}}</p>
 			</div>
-			<div class="col-sm-9">
+			<div class="col">
 				<p class="limited-description">
 					 Heparan sulfate polymers in nature extend to hundreds of sugar residues. The complex sulfation pattern and the chain length is believed to contribute to the functional diversity of heparan sulfate. Unlike the traditional extraction and depolymerization techniques that are cumbersome, non-reproducible, our facile chemoenzymatic synthesis produces 18mers that are highly reproducible and available at highest purity, verified by NMR, Mass Spec and HPLC. We present to you the 18-mer heparan sulfate library, reflecting the length and complexity of natural heparan sulfate, a cost-effective resource for application of heparan sulfate in research. 
 				</p>  
 			</div>
 		</div>
-		<div class="article col-sm-3">
-			<p class="limited-price">${{currentPrice}} / 100&#181;g</p>
-			<p style="margin-top:15px">OR</p>
-			<p class="limited-price">Contact us for collaborations.</p>
-			<button href="mailto:info@glycantherapeutics.com" target="_top">Find out more.</button>
-		</div>
-		<div id="wrapper" class="col-sm-9">
-			<div class="limited-picture"></div>
+		<div class="row justify-content-around">
+			<div class="article col-lg-3">
+				<p class="limited-price">${{currentPrice}} / 100&#181;g</p>
+				<p style="margin-top:15px">OR</p>
+				<p class="limited-price">Contact us for collaborations.</p>
+				<button href="mailto:info@glycantherapeutics.com" target="_top">Find out more.</button>
+			</div>
+			<div id="wrapper" class="col-lg-9">
+				<div class="limited-picture"></div>
+			</div>
 		</div>
 	</div>
 	<div class="row container-fluid">

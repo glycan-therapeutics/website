@@ -3,7 +3,7 @@
 <ul class="container news-home">
 	<div ng-repeat="item in news | orderBy:'-Updated'">
 		<li>
-			<strong>{{item.Updated}}</strong> - {{item.News}} <a ui-sref="{{item.Link}}">{{item.Anchor}}</a>
+			<strong>{{item.Updated}}</strong> - {{item.News}} <a ng-if="item.Link!==''" ui-sref="{{item.Link}}">{{item.Anchor}}</a>
 		</li>
 	</div>
 </ul>

@@ -6,16 +6,16 @@
 	<div id="myHistory" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
-	    	<div class="modal-header">
-	    		<h3 class="row align-center">Saved Compounds</h3>
+	    	<div class="modal-header align-center">
+	    		<h3>Saved Compounds</h3>
 	    		<button type="button" class="close modal-close" data-dismiss="modal">×</button>
 			</div>
 			<div class="row align-center" ng-if="history.length===0">
 				No compounds saved.
 			</div>
-		    <div class="row align-center" ng-repeat="compound in history">
-		    	<button type='button' class='close history-close' ng-click='removeHistory($index, compound.key)'>×</button>
-		    	<a href='#' ng-click='loadHistory(compound.compound)'>{{compound.compound}}</a>	    	
+		    <div class="row align-center" ng-repeat="compound in history">	    	
+		    	<a href='#' ng-click='loadHistory(compound.compound)'>{{compound.compound}}</a>
+		    	<button type='button' class='close history-close' ng-click='removeHistory($index, compound.key)'>×</button>	    	
 		    </div>
 		    <p class="footnote modal-footer">
 		    	<a class="structure" ng-click="exportData()">EXPORT TO EXCEL</a>
@@ -49,8 +49,8 @@
 			<div class="col-sm-2 align-center">
 				<h2>Tags</h2>
 				<button ng-repeat="tag in tags" ng-click="setTag(tag.name)" uib-tooltip="{{tag.tooltip}}">{{tag.name}}</button>
-		</div>
-		<div class="border-top col-sm-10 col-sm-offset-1 animate" ng-if="structure.length>minSize" ng-controller="compoundCtrl">
+			</div>
+		<div class="border-top justify-content-center animate" ng-if="structure.length>minSize" ng-controller="compoundCtrl">
 			<h3>{{filtered.length}} Similar Compounds</h3>
 			<div class="center" ng-repeat="x in compounds | filter:{Series: highestSeries, Family: tag} as filtered">
 				<div class="series series-{{x.Series}} text-left" ng-switch on="x.Sizes">		
@@ -64,15 +64,14 @@
 					<br>
 					<span> Price: $<span ng-bind="displayPrice(x.Price, x.Price2, x.Price3, pricing.value)"></span></span>		
 				</div>
-				<div class="panel panel-default text-left">
-					<div class="panel-heading" ng-click="x.isCollapsed = !x.isCollapsed">
-						<h4 class="panel-title">
-						<a class="structure" ng-bind-html="x.Structure | highlight:structureDisplay()">
-						</a>
-						<span class="glyphicon align-right" ng-class="x.isCollapsed?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span>
-						</h4>
+				<div class="card text-left">
+					<div class="card-header" ng-click="x.isCollapsed = !x.isCollapsed">
+						<div>
+							<i class="glyphicon align-right" ng-class="x.isCollapsed?'fas fa-caret-down':'fas fa-caret-up'"></i>
+							<a class="structure" ng-bind-html="x.Structure | highlight:structureDisplay()"></a>
+						</div>
 					</div>
-					<div class="panel-body" uib-collapse="x.isCollapsed">
+					<div class="card-body" uib-collapse="x.isCollapsed">
 						<img class="structure-pic" ng-src="/images/{{x.id}}.jpg"/>
 					</div>
 				</div>

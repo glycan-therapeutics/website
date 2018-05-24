@@ -1,34 +1,12 @@
-<script type="text/ng-template" id="pictureModal.html">
-    <img class="micro-array" ng-src="/images/micro-analysis.fig1.jpg" />
-</script>
-
-<div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-    	<div class="modal-header">
-		    <button type="button" class="close" data-dismiss="modal">&times;</button>
-		</div>
-	    <img class="micro-array modalPicture" ng-src="{{image}}"/>
-		<p class="footnote modal-footer" ng-html-compile="figureDescription">
-		</p>
-    </div>
-  </div>
-</div>
-<div class="container-fluid">
-	<div class="row">
-		<ui-view>
-			<div class="align-center">
-				<div class="banner synthesis" ui-sref="services.synthesis">
-					<div>
-						<h1>Custom Synthesis</h1>
-					</div>
-				</div>
-				<div class="banner analysis" ui-sref="services.analysis">
-					<div>
-						<h1>Microarray Analysis</h1>
-					</div>
-				</div>
-			</div>
-		</ui-view>		
+<ui-view>
+<div class="col-sm-12 banner synthesis" ui-sref="services.synthesis">
+	<div>
+		<h1>Custom Synthesis</h1>
 	</div>
 </div>
+<div class="col-sm-12 banner analysis" ui-sref="services.analysis">
+	<div>
+		<h1>Microarray Analysis</h1>
+	</div>
+</div>
+</ui-view>
