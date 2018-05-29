@@ -12,9 +12,9 @@
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="card">
-					<div class="card-header" ng-click="pNP.isCollapsed = !pNP.isCollapsed">
+					<div class="card-header supportbutton" ng-click="pNP.isCollapsed = !pNP.isCollapsed">
 						<span class="glyphicon align-right" ng-class="pNP.isCollapsed?'fas fa-caret-up':'fas fa-caret-down'"></span>
-						<h3 class="structure panel-title">pNP</h3>
+						<a class="structure card-title supporttitle">pNP</a>
 					</div>
 					<div class="card-body" uib-collapse="!pNP.isCollapsed">
 						<ul ng-repeat="x in compounds | filter : 'pNP'" class="article collapsed pNP">
@@ -33,10 +33,10 @@
 			</div>
 
 			<div class="col-sm-3">
-				<div class="card">
-					<div class="card-header" ng-click="azido.isCollapsed = !azido.isCollapsed">
+				<div class="card ">
+					<div class="card-header supportbutton " ng-click="azido.isCollapsed = !azido.isCollapsed">
 						<span class="glyphicon align-right" ng-class="azido.isCollapsed?'fas fa-caret-up':'fas fa-caret-down'"></span>
-						<h3 data-toggle="collapse" data-parent="#accordion" class="structure panel-title" data-target=".azido">Azido</h3>
+						<a class="structure card-title supporttitle">Azido</a>
 					</div>
 					<div class="card-body" uib-collapse="!azido.isCollapsed">
 
@@ -56,10 +56,10 @@
 			</div>
 			<div class="col-sm-3">
 				<div class="card">
-					<div class="card-header" ng-click="biotin.isCollapsed = !biotin.isCollapsed">
+					<div class="card-header supportbutton" ng-click="biotin.isCollapsed = !biotin.isCollapsed">
 						<span class="glyphicon align-right" ng-class="biotin.isCollapsed?'fas fa-caret-up':'fas fa-caret-down'"></span>
-						<h3 data-toggle="collapse" data-parent="#accordion" class="structure panel-title" data-target=".biotin">Biotin</h3>
-					</div>
+						<a class="structure card-title supporttitle">Biotin</a>
+										</div>
 					<div class="card-body" uib-collapse="!biotin.isCollapsed">
 						<ul ng-repeat="x in compounds | filter : 'Biotin'" class="article collapsed biotin">
 							<a data-toggle="collapse" data-parent="#accordion" class="collapsed" data-target="#{{x.Family}}-{{x.id}}-data-sheets" data-parent="#Sheets">{{x.Family}}-{{x.id}} Product Sheets</a>
@@ -77,9 +77,9 @@
 			</div>
 			<div class="col-sm-3">
 				<div class="card">
-					<div class="card-header" ng-click="fluorescein.isCollapsed = !fluorescein.isCollapsed">
+					<div class="card-header supportbutton" ng-click="fluorescein.isCollapsed = !fluorescein.isCollapsed">
 						<span class="glyphicon align-right" ng-class="fluorescein.isCollapsed?'fas fa-caret-up':'fas fa-caret-down'"></span>
-						<h3 data-toggle="collapse" data-parent="#accordion" class="structure panel-title" data-target="fluorescein">Fluorescein</h3>
+						<a class="structure card-title supporttitle">Fluorescein</a>
 					</div>
 					<div class="card-body" uib-collapse="!fluorescein.isCollapsed">
 						<ul ng-repeat="x in compounds | filter : 'Fluorescein'" class="article collapsed fluorescein">

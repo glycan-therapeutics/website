@@ -562,6 +562,31 @@ img.carousel {
 	border-radius: 5px;
 }
 
+.active-tagTitle{
+	background: #ddd;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
+
+.active-sizeTitle{
+	background: #ddd;
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
+.active-date{
+	background:#ddd;
+	border-radius: 5px;
+	margin-bottom: 5px;
+
+}
+
+.active-series{
+	background:#ddd;
+	border-radius: 5px;
+	margin-bottom: 5px;
+
+}
+
 .new-product {
 	background: #eee;
 	color: #0f0f0f;
@@ -1441,6 +1466,73 @@ transition: all 0.2s ease;
 	color: #FFF;
 	position: absolute;
 	left: 25px;
+}
+
+.supportbutton{
+	width: 233;
+	height: 42px;
+	margin:0;
+
+}
+
+.supporttitle{
+	font-size:110%;
+	font-weight: bold;
+	margin:0;
+	padding: 0px;
+	border:0px;
+}
+.productDropdown{
+	background:#fff;
+	float:left;
+	color: #000;
+	height: 30px;
+	width: 80px;
+	font-size: 95%;
+	border-radius: 3px;
+	padding:0;
+	
+}
+
+/*PRODUCTS DROPDOWN*/
+select::-ms-expand {
+    display: none;
+}
+select.minimal { background:
+    linear-gradient(45deg, transparent 50%, #000000 50%),
+	linear-gradient(135deg, #000000 50%, transparent 50%);
+	  background-position:
+    calc(100% - 15px) calc(13px),
+    calc(100% - 10px) calc(13px),
+    100% 0;
+  background-size:
+    5px 5px,
+	5px 5px;
+	
+  background-repeat: no-repeat;
+
+  /* styling and reset */
+
+  /* reset */
+  outline-color: #FFF;
+  border-radius: 0;
+  margin: 0;      
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance:none;
+}
+.red{
+	background-color:white;
+	color: #000;
+	border-radius: 5px;
+}
+  
+  .blue{
+	background-color:#0070c0;
+	color: #FFF;
+	border-radius: 5px;
+	width: 100%;
 }
 /*PROGRESS BAR*/
 md-progress-linear .md-container {
