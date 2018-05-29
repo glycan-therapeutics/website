@@ -25,21 +25,30 @@
 				<ul uib-collapse="isTagCollapsed" class="collapse nav-in-nav"> 
 					<li ng-repeat="tag in tagName" class="family-item" ng-class="tagFilter===tag?'active-size':''" ng-click="filterUrl(tag, 'tag')"><a ng-class="tagFilter===tag?'black-text':''">{{tag}}</a></li>
 				</ul>
+
 			</ul>
 		</div>
 		<div class="col-sm-9">
-			<h3>{{filtered.length}} available compounds. <a class="align-right desktop-display" href="/support/misc/Compounds_Sorting.pdf" download target="_self">Download our entire product list here.</a></h3>
-			<div ng-repeat="x in compounds | filter:{Series: seriesFilter, Name: sizeFilter, Family: tagFilter, Updated: dateFilter} | filter:nameFilter as filtered" class="row animate">
+			<h3>{{filtered.length}} available compounds.
+				<a class="align-right desktop-display" href="/support/misc/Compounds_Sorting.pdf"
+				 download target="_self">Download our entire product list here.</a>
+			</h3>
+			<div ng-repeat="x in compounds | filter:{Series: seriesFilter, Name: sizeFilter, Family: tagFilter, Updated: dateFilter} | filter:nameFilter as filtered"
+			 class="row animate">
 				<div class="col-sm-12">
 					<div class="series series-{{x.Series}}" ng-switch on="x.Sizes">
-						<select class="black-text float-right pricing-box" ng-switch-when="1" ng-model="$parent.pricing" ng-init="$parent.pricing=pnpOptions[0]" ng-options="option as option.label for option in pnpOptions"></select>
-						<select class="black-text float-right pricing-box" ng-switch-when="2" ng-model="$parent.pricing" ng-init="$parent.pricing=biotinOptions[0]" ng-options="option as option.label for option in biotinOptions"></select>
-						<select class="black-text float-right pricing-box" ng-switch-when="3" ng-model="$parent.pricing" ng-init="$parent.pricing=fluorOptions[0]" ng-options="option as option.label for option in fluorOptions"></select>
-						<select class="black-text float-right pricing-box" ng-switch-default ng-model="$parent.pricing" ng-init="$parent.pricing=options[0]" ng-options="option as option.label for option in options"></select>
+						<span class="black-text float-right pricing-box productDropdown ">
+							<select class="minimal btn dropdown-toggle productDropdown" ng-switch-default ng-model="$parent.pricing" ng-init="$parent.pricing=options[0]"
+							 ng-options="option as option.label for option in options"> </select>
+						</span>
 						No. {{x.id}} | {{x.Name}}
-						<a class="white-text" ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self"><span class="glyphicon glyphicon-info-sign"></span></a>	
+						<a class="white-text" ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">
+							<span class="glyphicon glyphicon-info-sign"></span>
+						</a>
 						<br>
-						<span> Price: $<span ng-bind="displayPrice(x.Price, x.Price2, x.Price3, pricing.value)"></span></span>		
+						<span> Price: $
+							<span ng-bind="displayPrice(x.Price, x.Price2, x.Price3, pricing.value)"></span>
+						</span>
 					</div>
 				</div>
 				<div class="col-sm-12">
@@ -49,14 +58,16 @@
 							<a class="structure card-title">{{x.Structure}}</a>
 						</div>
 						<div class="card-body" uib-collapse="x.isCollapsed">
-							<img class="structure-pic" ng-src="/images/{{x.id}}.jpg"/>
+							<img class="structure-pic" ng-src="/images/{{x.id}}.jpg" />
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-12 align-right">
-			<p>Don't see a compound you want? Try our <a ui-sref="demo">custom synthesis <i class="fas fa-arrow-alt-circle-right"></i></a></p>
+			<p>
+				Don't see a compound you want? Try our <a ui-sref="demo">custom synthesis <i class="fas fa-arrow-alt-circle-right"></i></a>
+			</p>
 		</div>
 	</div>
 </div>

@@ -1,15 +1,15 @@
-var app = angular.module('Compounds', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'ngHtmlCompile','ngAria','ngMaterial']);
+var app = angular.module('Compounds', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'ngHtmlCompile', 'ngAria', 'ngMaterial']);
 
 
 app.directive('updateTitle', ['$rootScope', '$timeout',
-	function($rootScope, $timeout) {
+	function ($rootScope, $timeout) {
 		return {
-			link: function(scope, element) {
-				var listener = function(event, toState) {
+			link: function (scope, element) {
+				var listener = function (event, toState) {
 					var webTitle = 'Innovative Carbohydrate Solutions - Glycan Therapeutics';
-					if(toState.data && toState.data.pageTitle)
+					if (toState.data && toState.data.pageTitle)
 						webTitle = toState.data.pageTitle;
-					$timeout(function() {
+					$timeout(function () {
 						element.text(webTitle);
 					}, 0, false);
 				}
@@ -19,11 +19,11 @@ app.directive('updateTitle', ['$rootScope', '$timeout',
 	}
 ]);
 
-app.controller('init', function($rootScope, $scope, $uibModal, $document, $http) {
+app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http) {
 	$http.get("/glycanapi.php/news")
-	.then(function(response) {
-		$scope.news = response.data;
-	});
+		.then(function (response) {
+			$scope.news = response.data;
+		});
 	$scope.slides = [{
 		title: "18-Mer Library",
 		text: "Pushing the boundaries of conventional heparan sulfates.",
@@ -50,68 +50,68 @@ app.controller('init', function($rootScope, $scope, $uibModal, $document, $http)
 	$scope.isCollapsed = true;
 	$scope.productCollapsed = true;
 	$scope.serviceCollapsed = true;
-	$rootScope.$on('$stateChangeSuccess', function() {
+	$rootScope.$on('$stateChangeSuccess', function () {
 		document.body.scrollTop = document.documentElement.scrollTop = 0;
-		for(var x in $scope.compounds) {
+		for (var x in $scope.compounds) {
 			$scope.compounds[x]['isCollapsed'] = true;
 		}
 	});
 
-	$scope.nextSlide = function() {
-		if($scope.active === $scope.slides.length-1)
+	$scope.nextSlide = function () {
+		if ($scope.active === $scope.slides.length - 1)
 			$scope.active = 0;
 		else
 			$scope.active = $scope.active + 1;
 		console.log($scope.active);
 	}
-	$scope.prevSlide = function() {
-		if($scope.active === 0)
-			$scope.active = $scope.slides.length-1;
+	$scope.prevSlide = function () {
+		if ($scope.active === 0)
+			$scope.active = $scope.slides.length - 1;
 		else
 			$scope.active = $scope.active - 1;
 		console.log($scope.active)
 	}
 
-   $scope.openModal = function(image) {
-   	$scope.image = image;
-   	var description = [{
-   		title: 'Fig. 1',
-   		body: 'Schematic presentation of HS microarray analysis.'
-   	}, {
-   		title: 'Fig. 2. Images of HS-array analysis.',
-   		body: 'Panel A shows the image of the array slide hybridized with fluorescently labeled 3-OST-1.  A total of 14 oligosaccharides were affixed on the slide, and each compound was spotted to 100 spots.  The histogram of fluorescence intensity analysis is shown on the right. The local background of the fluorescence value was to 106 ± 10. Panel B shows the image of the array slide hybridized with fluorescently labeled AT. The local background of the fluorescence value was 60 ± 3. The histogram of fluorescence intensity analysis is shown on the right.  Both 3-OST-1 and AT were labeled with Alexa Fluo® 488.  The symbolic structures of 14 heptasaccharides are shown on top of the figure. The images were acquired using the excitation wavelength of 488 nm on a GenePix 4300 A scanner.'
-   	}, {
-   		title: 'Fig. 3',
-   		body: 'HS microarray analysis of the bindings of HS and platelet factor 4 (PF4), fibroblast growth factor 2 (FGF2), and antithrombin (AT). A total of 52 HS oligosaccharides and heparin were printed on microarray chips. The chip was hybridized with Alexa 488-labeled PF4, Alexa 488-labeled FGF2, and Alexa 488-labeled AT. The abbreviated oligosaccharide sequences for each sample are listed. For each sample, 36 spots were printed. Thus, the data presented as mean ± S.D. (n=36).'
-   	}];
+	$scope.openModal = function (image) {
+		$scope.image = image;
+		var description = [{
+			title: 'Fig. 1',
+			body: 'Schematic presentation of HS microarray analysis.'
+		}, {
+			title: 'Fig. 2. Images of HS-array analysis.',
+			body: 'Panel A shows the image of the array slide hybridized with fluorescently labeled 3-OST-1.  A total of 14 oligosaccharides were affixed on the slide, and each compound was spotted to 100 spots.  The histogram of fluorescence intensity analysis is shown on the right. The local background of the fluorescence value was to 106 ± 10. Panel B shows the image of the array slide hybridized with fluorescently labeled AT. The local background of the fluorescence value was 60 ± 3. The histogram of fluorescence intensity analysis is shown on the right.  Both 3-OST-1 and AT were labeled with Alexa Fluo® 488.  The symbolic structures of 14 heptasaccharides are shown on top of the figure. The images were acquired using the excitation wavelength of 488 nm on a GenePix 4300 A scanner.'
+		}, {
+			title: 'Fig. 3',
+			body: 'HS microarray analysis of the bindings of HS and platelet factor 4 (PF4), fibroblast growth factor 2 (FGF2), and antithrombin (AT). A total of 52 HS oligosaccharides and heparin were printed on microarray chips. The chip was hybridized with Alexa 488-labeled PF4, Alexa 488-labeled FGF2, and Alexa 488-labeled AT. The abbreviated oligosaccharide sequences for each sample are listed. For each sample, 36 spots were printed. Thus, the data presented as mean ± S.D. (n=36).'
+		}];
 
-   	if(image === '/images/micro-analysis.fig1.jpg') {
-   		$scope.figureDescription = description[0].body;
-   		$scope.figureTitle = description[0].title;
-   	}
-   	else if(image === '/images/micro-analysis.fig2.jpg') {
-   		$scope.figureDescription = description[1].body;
-   		$scope.figureTitle = description[1].title;
-   	}
-   	else if(image === '/images/micro-analysis.fig3.jpg') {
-   		$scope.figureDescription = description[2].body;
-   		$scope.figureDescription = description[2].title;
-   	}
+		if (image === '/images/micro-analysis.fig1.jpg') {
+			$scope.figureDescription = description[0].body;
+			$scope.figureTitle = description[0].title;
+		}
+		else if (image === '/images/micro-analysis.fig2.jpg') {
+			$scope.figureDescription = description[1].body;
+			$scope.figureTitle = description[1].title;
+		}
+		else if (image === '/images/micro-analysis.fig3.jpg') {
+			$scope.figureDescription = description[2].body;
+			$scope.figureDescription = description[2].title;
+		}
 
-   	$('#myModal').modal();
-   }
+		$('#myModal').modal();
+	}
 });
 
 app.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
 	var $ctrl = this;
 
 	$ctrl.cancel = function () {
-    	$uibModalInstance.dismiss('cancel');
-  	};
+		$uibModalInstance.dismiss('cancel');
+	};
 });
 
-app.config(['$locationProvider', function($locationProvider) {
-  $locationProvider.html5Mode(true).hashPrefix('');
+app.config(['$locationProvider', function ($locationProvider) {
+	$locationProvider.html5Mode(true).hashPrefix('');
 }]);
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -291,11 +291,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider.state(demoState);
 });
 
-app.factory('GlcNAc6SRules', function() {
-	return function(structure, position) { //to check if any GlcNAc has been selected; if so then disable
+app.factory('GlcNAc6SRules', function () {
+	return function (structure, position) { //to check if any GlcNAc has been selected; if so then disable
 		var bool = false;
-		for(var x in structure) {
-			if(structure[x] === "GlcNS" || structure[x] === "GlcNAc") {
+		for (var x in structure) {
+			if (structure[x] === "GlcNS" || structure[x] === "GlcNAc") {
 				bool = true;
 				break;
 			}
@@ -306,11 +306,11 @@ app.factory('GlcNAc6SRules', function() {
 	}
 });
 
-app.factory('GlcNS6SRules', function() {
-	return function(structure, position) { //to check if any GlcNS has been selected; if so then disable
+app.factory('GlcNS6SRules', function () {
+	return function (structure, position) { //to check if any GlcNS has been selected; if so then disable
 		var bool = false;
-		for(var x in structure) {
-			if(structure[x] === "GlcNS" && x > 3 || structure[x] === "GlcNAc") {
+		for (var x in structure) {
+			if (structure[x] === "GlcNS" && x > 3 || structure[x] === "GlcNAc") {
 				bool = true;
 				break;
 			}
@@ -321,17 +321,17 @@ app.factory('GlcNS6SRules', function() {
 	}
 });
 
-app.factory('Ido2SRules', function() {
-	return function(structure, position) {
+app.factory('Ido2SRules', function () {
+	return function (structure, position) {
 		var bool = false;
-		for(var x in structure) {
-			if(structure[x] === "IdoA") {
+		for (var x in structure) {
+			if (structure[x] === "IdoA") {
 				bool = true;
 			}
-			else if(x > 4 && structure[x] === 'GlcA') {
+			else if (x > 4 && structure[x] === 'GlcA') {
 				bool = true;
 			}
-			else if(structure[x] === "GlcA2S") {
+			else if (structure[x] === "GlcA2S") {
 				bool = true;
 			}
 		}
@@ -339,7 +339,7 @@ app.factory('Ido2SRules', function() {
 	}
 });
 
-app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido2SRules', '$sce', function($scope, NA6S, NS6S, Ido2S, $sce) {
+app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido2SRules', '$sce', function ($scope, NA6S, NS6S, Ido2S, $sce) {
 
 	$scope.minSize = 4;
 	$scope.maxSize = 10;
@@ -401,63 +401,63 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	$scope.baseSize = 0;
 	var moreGlcA2S = false;
 
-	$scope.getHistory = function() {
+	$scope.getHistory = function () {
 		$scope.history = [];
-		for(var x=0; x<localStorage.getItem("historyLength"); x++) {
-			if(localStorage.getItem(x+1) != null) {
-				$scope.history.push({"key": x+1, "compound": localStorage.getItem(x+1)});
+		for (var x = 0; x < localStorage.getItem("historyLength"); x++) {
+			if (localStorage.getItem(x + 1) != null) {
+				$scope.history.push({ "key": x + 1, "compound": localStorage.getItem(x + 1) });
 			}
 		}
 	};
 
-	$scope.removeHistory = function(index, key) {
+	$scope.removeHistory = function (index, key) {
 		$scope.history.splice(index, 1);
 		localStorage.removeItem(key);
 	}
 
-	$scope.loadHistory = function(compound) {
+	$scope.loadHistory = function (compound) {
 		var structure = compound;
 		var split = structure.split('-');
 		$scope.size = 0;
 		$scope.continue = false;
 		$scope.structure = [];
 
-		if(split[split.length - 1] === 'Fluorescein')
-			$scope.baseSize = split.length - 2; 
+		if (split[split.length - 1] === 'Fluorescein')
+			$scope.baseSize = split.length - 2;
 		else
 			$scope.baseSize = split.length - 1;
 
-		for(var i=split.length-1; i >= 0; i--) {
-			if(split[i] != 'pA')
+		for (var i = split.length - 1; i >= 0; i--) {
+			if (split[i] != 'pA')
 				$scope.structure.push(split[i]);
-			if(i === split.length-1)
+			if (i === split.length - 1)
 				$scope.tag = split[i];
 		}
 
 		$('#myHistory').modal('toggle');
 	}
 
-	$scope.openHistory = function() {
+	$scope.openHistory = function () {
 		$scope.getHistory();
 		$('#myHistory').modal();
-   	}
+	}
 
-   	$scope.exportData = function() {
+	$scope.exportData = function () {
 		alasql('SELECT compound INTO XLSX("my_compounds.xlsx",{headers:false}) FROM ?', [$scope.history]);
 	}
 
-   	$scope.dismiss = function() {
-   		$scope.alert = false;
-   	}
+	$scope.dismiss = function () {
+		$scope.alert = false;
+	}
 
-	$scope.saveCompound = function(compound) {
+	$scope.saveCompound = function (compound) {
 		var size;
-		if($scope.structure.length > $scope.minSize) {
-			if(localStorage.getItem("historyLength") === null) {
+		if ($scope.structure.length > $scope.minSize) {
+			if (localStorage.getItem("historyLength") === null) {
 				size = 1;
 				localStorage.setItem("historyLength", size);
 
-			} 
+			}
 			else {
 				size = localStorage.getItem("historyLength");
 				size++;
@@ -472,27 +472,27 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 			$scope.alert = true;
 	};
 
-	$scope.arrayBack = function() {
-		if($scope.structure.length > 0) {
-			if($scope.baseSize % 2 != 0 && $scope.size === 0) {
-				$scope.structure.splice($scope.baseSize-1, 2);
+	$scope.arrayBack = function () {
+		if ($scope.structure.length > 0) {
+			if ($scope.baseSize % 2 != 0 && $scope.size === 0) {
+				$scope.structure.splice($scope.baseSize - 1, 2);
 				$scope.size += 2;
 				$scope.continue = true;
 			}
 			else {
 				$scope.structure.pop();
 				$scope.size++;
-			    $scope.continue = true;
+				$scope.continue = true;
 			}
 		}
 		$scope.highestSeries = '';
 	}
 
-	$scope.structureDisplay = function() { //to give the list of similar compounds
+	$scope.structureDisplay = function () { //to give the list of similar compounds
 		var structure = "";
 		$scope.highestSeries = "";
-		for(x in $scope.structure) {
-			switch($scope.structure[x]) {
+		for (x in $scope.structure) {
+			switch ($scope.structure[x]) {
 				case 'GlcNS6S3S':
 					$scope.highestSeries = '3S';
 					break;
@@ -500,12 +500,12 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 					$scope.highestSeries = 'GlcA2S';
 					break;
 				case 'IdoA':
-					if($scope.highestSeries != '3S')
+					if ($scope.highestSeries != '3S')
 						$scope.highestSeries = 'IdoA';
-				    break;
+					break;
 				case 'IdoA2S':
-					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S') {
-						if($scope.highestSeries === '6S' || $scope.highestSeries === '2S-6S')
+					if ($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S') {
+						if ($scope.highestSeries === '6S' || $scope.highestSeries === '2S-6S')
 							$scope.highestSeries = '2S-6S';
 						else
 							$scope.highestSeries = '2S';
@@ -513,24 +513,24 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 					break;
 				case 'GlcNS6S':
 				case 'GlcNAc6S':
-					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S') {
-						if($scope.highestSeries === '2S' || $scope.highestSeries === '2S-6S')
+					if ($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S') {
+						if ($scope.highestSeries === '2S' || $scope.highestSeries === '2S-6S')
 							$scope.highestSeries = '2S-6S';
 						else
 							$scope.highestSeries = '6S';
 					}
 					break;
 				case 'GlcNS':
-					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S' && $scope.highestSeries != '2S-6S' && $scope.highestSeries != '2S' && $scope.highestSeries != '6S') {
-						if($scope.highestSeries === 'NA' || $scope.highestSeries === 'NS-NA')
+					if ($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S' && $scope.highestSeries != '2S-6S' && $scope.highestSeries != '2S' && $scope.highestSeries != '6S') {
+						if ($scope.highestSeries === 'NA' || $scope.highestSeries === 'NS-NA')
 							$scope.highestSeries = 'NS-NA';
-						else 
+						else
 							$scope.highestSeries = 'NS';
 					}
 					break;
 				case 'GlcNAc':
-					if($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S' && $scope.highestSeries != '2S-6S' && $scope.highestSeries != '2S' && $scope.highestSeries != '6S') {
-						if($scope.highestSeries === 'NS' || $scope.highestSeries === 'NS-NA')
+					if ($scope.highestSeries != '3S' && $scope.highestSeries != 'IdoA' && $scope.highestSeries != 'GlcA2S' && $scope.highestSeries != '2S-6S' && $scope.highestSeries != '2S' && $scope.highestSeries != '6S') {
+						if ($scope.highestSeries === 'NS' || $scope.highestSeries === 'NS-NA')
 							$scope.highestSeries = 'NS-NA';
 						else
 							$scope.highestSeries = 'NA';
@@ -539,8 +539,8 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 				default:
 					break;
 			}
-			if(x < 1) {
-				if($scope.structure[x] === 'Fluorescein'){
+			if (x < 1) {
+				if ($scope.structure[x] === 'Fluorescein') {
 					structure = 'pA-' + $scope.structure[x] + structure;
 				}
 				else
@@ -552,62 +552,62 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		return structure;
 	}
 
-	$scope.setTag = function(tag) {
-		if($scope.structure[0] === undefined) {
+	$scope.setTag = function (tag) {
+		if ($scope.structure[0] === undefined) {
 			$scope.tag = tag;
 			$scope.structure.push(tag);
 		}
 		else {
 			$scope.tag = tag;
 			$scope.structure[0] = tag;
- 		}
+		}
 	}
 
-	$scope.addPiece = function(molecule, position) {
-		if($scope.structure.length === 3 && molecule === "GlcA2S") {
+	$scope.addPiece = function (molecule, position) {
+		if ($scope.structure.length === 3 && molecule === "GlcA2S") {
 			var choice = confirm("Do you wish to change the first GlcA to GlcA2S? (This will allow more than one GlcA2S to be added.)");
-			if(choice) {
+			if (choice) {
 				moreGlcA2S = true;
 				$scope.structure[$scope.structure.length - 2] = 'GlcA2S';
 				$scope.structure[$scope.structure.length - 1] = 'GlcNS';
 			}
 		}
 
-		if(molecule === "GlcNAc") {
+		if (molecule === "GlcNAc") {
 			moreGlcA2S = false;
 		}
 
 		$scope.structure.push(molecule);
 	}
 
-	$scope.oddRules = function(position, piece) {
+	$scope.oddRules = function (position, piece) {
 		var bool = true;
-		if(piece === 'GlcA') {
+		if (piece === 'GlcA') {
 			bool = false;
 		}
-		if(position < $scope.maxSize - 1) {
-			switch(piece) {
+		if (position < $scope.maxSize - 1) {
+			switch (piece) {
 				case 'GlcA':
 					bool = false;
 					break;
 				case 'GlcA2S':
-					if($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS")	{
-						if(position === 3) {
+					if ($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS") {
+						if (position === 3) {
 							bool = false;
-						}		
-						if(moreGlcA2S) {
+						}
+						if (moreGlcA2S) {
 							bool = false;
 						}
 					}
 					break;
 				case 'IdoA':
-					if(position === 3) {
-						if($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS" || $scope.structure[position - 1] === "GlcNS6S")
+					if (position === 3) {
+						if ($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS" || $scope.structure[position - 1] === "GlcNS6S")
 							bool = false;
 					}
 					break;
 				case 'IdoA2S':
-					if($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS" || $scope.structure[position - 1] === "GlcNS6S")
+					if ($scope.structure[position - 1] != "GlcNS6S3S" && $scope.structure[position - 1] === "GlcNS" || $scope.structure[position - 1] === "GlcNS6S")
 						bool = Ido2S($scope.structure, position);
 					break;
 			}
@@ -615,15 +615,15 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		return bool;
 	}
 
-	$scope.evenRules = function(position, piece) { //disable if true
+	$scope.evenRules = function (position, piece) { //disable if true
 		var bool = true;
-		switch(piece) {
+		switch (piece) {
 			case 'GlcNAc':
-				if($scope.structure[position - 1] === "GlcA")
+				if ($scope.structure[position - 1] === "GlcA")
 					bool = false;
 				break;
 			case 'GlcNAc6S':
-				if($scope.structure[position - 1] === "GlcA")
+				if ($scope.structure[position - 1] === "GlcA")
 					bool = NA6S($scope.structure, position);
 				break;
 			case 'GlcNS':
@@ -633,17 +633,17 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 				bool = NS6S($scope.structure, position);
 				break;
 			case 'GlcNS6S3S':
-				if($scope.structure[position - 1] === 'IdoA2S')
+				if ($scope.structure[position - 1] === 'IdoA2S')
 					bool = NS6S($scope.structure, position);
 				break;
 		}
 		return bool;
 	}
 
-	$scope.isEven = function(length) {
+	$scope.isEven = function (length) {
 		var bool;
-		if(length > 0) {
-			if(length % 2 === 0)
+		if (length > 0) {
+			if (length % 2 === 0)
 				bool = true;
 			else {
 				bool = false;
@@ -652,48 +652,48 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		return bool;
 	}
 
-		var self = this;
-		self.determinateValue = 100;
-		
-		$scope.increment= function(){
-		 self.determinateValue -=11.1;
+	var self = this;
+	self.determinateValue = 100;
+
+	$scope.increment = function () {
+		self.determinateValue -= 11.1;
+	}
+
+	$scope.decrement = function () {
+		if (self.determinateValue < 100) {
+			self.determinateValue += 11.1;
 		}
-		
-		$scope.decrement= function(){
-			if(self.determinateValue<100){
-			self.determinateValue +=11.1;
-		}
-		   }
-   
- 
+	}
+
+
 }]);
 
-app.controller('limitedCtrl', function($location, $scope, $sce, $http, $uibModal, $log, $document, $state) {
+app.controller('limitedCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state) {
 	$http.get("/glycanapi.php/library18")
-	.then(function(response) {
-		$scope.limited = response.data;
-		for(var x in $scope.limited)
-			$scope.limited[x]['isOpen'] = false;
-	});
+		.then(function (response) {
+			$scope.limited = response.data;
+			for (var x in $scope.limited)
+				$scope.limited[x]['isOpen'] = false;
+		});
 	$scope.tabs = [
 		'Azido',
 		'Biotin'
 	];
-	$scope.selectedTag = 'Biotin';	
+	$scope.selectedTag = 'Biotin';
 
-	checkPrice = function() {
-		if($scope.selectedTag==='Azido')
+	checkPrice = function () {
+		if ($scope.selectedTag === 'Azido')
 			$scope.currentPrice = Number($scope.limited[$scope.index].Price100);
-		else if($scope.selectedTag==='Biotin')
+		else if ($scope.selectedTag === 'Biotin')
 			$scope.currentPrice = Number($scope.limited[$scope.index].Price100) + 200;
 	}
 
-	$scope.selectTag = function(tag) {
+	$scope.selectTag = function (tag) {
 		$scope.selectedTag = tag;
 		checkPrice();
 	}
 
-	$scope.openLibrary = function(index) {
+	$scope.openLibrary = function (index) {
 		$scope.index = index;
 		$scope.limited[index]['isOpen'] = !$scope.limited[index]['isOpen'];
 		$scope.currentName = $scope.limited[index].Name;
@@ -701,7 +701,7 @@ app.controller('limitedCtrl', function($location, $scope, $sce, $http, $uibModal
 		$scope.currentPID = $scope.limited[index].PID;
 		checkPrice();
 
-		if($scope.lastIndex != undefined)
+		if ($scope.lastIndex != undefined)
 			$scope.limited[$scope.lastIndex]['isOpen'] = !$scope.limited[$scope.lastIndex]['isOpen'];
 
 		$scope.lastIndex = index;
@@ -709,27 +709,27 @@ app.controller('limitedCtrl', function($location, $scope, $sce, $http, $uibModal
 		$("html, body").animate({
 			scrollTop: $("#limitedDisplay").offset().top
 		}, {
-			duration: 'fast', 
-			easing: 'swing'
-		});
+				duration: 'fast',
+				easing: 'swing'
+			});
 		$('#wrapper')
-		    // tile mouse actions
-		    .on('mouseover', function() {
-		      $(this).children('.limited-picture').css({'transform': 'scale(2.4)'});
-		    })
-		    .on('mouseout', function() {
-		      $(this).children('.limited-picture').css({'transform': 'scale(1)'});
-		    })
-		    .on('mousemove', function(e) {
-		      $(this).children('.limited-picture').css({'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 +'%'});
-		    })
-		    .children('.limited-picture')
-		    	.css({
-		    		'background-image': 'url("/images/' + $scope.currentPID +'")'
-		    	});
+			// tile mouse actions
+			.on('mouseover', function () {
+				$(this).children('.limited-picture').css({ 'transform': 'scale(2.4)' });
+			})
+			.on('mouseout', function () {
+				$(this).children('.limited-picture').css({ 'transform': 'scale(1)' });
+			})
+			.on('mousemove', function (e) {
+				$(this).children('.limited-picture').css({ 'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 + '%' });
+			})
+			.children('.limited-picture')
+			.css({
+				'background-image': 'url("/images/' + $scope.currentPID + '")'
+			});
 	}
-	$scope.getBackground = function(pid) { 
-		if(pid === $scope.currentPID)
+	$scope.getBackground = function (pid) {
+		if (pid === $scope.currentPID)
 			outp = 'url(/images/' + pid + ')';
 		else
 			outp = "";
@@ -739,16 +739,21 @@ app.controller('limitedCtrl', function($location, $scope, $sce, $http, $uibModal
 	}
 });
 
-app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModal, $log, $document, $state){
+app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state) {
 	$http.get("/glycanapi.php/compounds")
-	.then(function (response) {
-		$scope.compounds = response.data;
-		for(var x in $scope.compounds) {
-			$scope.compounds[x]['isCollapsed'] = true;
-		}
-	});
+		.then(function (response) {
+			$scope.compounds = response.data;
+			for (var x in $scope.compounds) {
+				$scope.compounds[x]['isCollapsed'] = true;
+			}
+		});
 
-/*******PRICING SECTION********/
+	/*******PRICING SECTION********/
+	$scope.isNewCollapsed = true;
+	$scope.isSeriesCollapsed = true;
+	$scope.isSizeCollapsed = true;
+	$scope.isTagCollapsed = true;
+	
 	$scope.pnpOptions = [{
 		value: '10',
 		label: '1 mg'
@@ -809,24 +814,24 @@ app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModa
 
 	$scope.displayPrice = function(price, price2, price3, multiplier) {
 		display = 0;
-		switch(multiplier) {
+		switch (multiplier) {
 			case '1': display = price;
-			break;
+				break;
 			case '5': display = price2;
-			break;
+				break;
 			case '10': display = price3;
-			break;
+				break;
 			default: display = 0;
 		}
 		display = Number(display);
 		return display.toFixed(2);
 	}
 
-/*******END OF PRICING SECTION********/
+	/*******END OF PRICING SECTION********/
 
-/*******URL READING SECTION********/
+	/*******URL READING SECTION********/
 
-	$scope.filterBy = function(x) {
+	$scope.filterBy = function (x) {
 		$scope.nameFilter = x;
 	}
 
@@ -854,7 +859,7 @@ app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModa
 			$location.search({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter});
 		}
 		else {
-			switch(filter) {
+			switch (filter) {
 				case 'date':
 					$scope.dateFilter = x;
 					break;
@@ -868,22 +873,23 @@ app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModa
 					$scope.sizeFilter = x;
 					break;
 			}
-			$location.search({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter});
+			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
 		}
 	}
-/*******END OF URL READING SECTION********/
+	/*******END OF URL READING SECTION********/
+
 });
 
-app.filter('highlight', function($sce) {
-    return function(text, phrase) {
-        if (phrase) {
-        	var split = phrase.split("-");
-        	for(var x in split) {
-        		var regex = new RegExp('(' + phrase + ')','gi');
-        		something = text.search(regex);
-        		text = text.replace(regex, '<span class="highlighted">$1</span>');
-        	}
-        }
-        return $sce.trustAsHtml(text)
-    }
+app.filter('highlight', function ($sce) {
+	return function (text, phrase) {
+		if (phrase) {
+			var split = phrase.split("-");
+			for (var x in split) {
+				var regex = new RegExp('(' + phrase + ')', 'gi');
+				something = text.search(regex);
+				text = text.replace(regex, '<span class="highlighted">$1</span>');
+			}
+		}
+		return $sce.trustAsHtml(text)
+	}
 });
