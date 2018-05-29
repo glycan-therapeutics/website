@@ -6,6 +6,7 @@
 </div>
 <div class="container align-center" ng-controller="limitedCtrl">
 	<div id="limitedDisplay" ng-class="lastIndex!=undefined?'limited-display':'d-none'">
+		<h2>{{currentName}}</h2>
 		<div class="row">
 			<div class="col-lg-3">
 				<div class="align-center">
@@ -31,7 +32,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row container-fluid">
+	<div class="row col-sm-12 align-center">
 		<div ng-click="openLibrary($index)" ng-repeat="compound in limited track by compound.ID" ng-style="getBackground(compound.PID)" ng-class="compound.isOpen?'col-sm-6 banner-limited opened':'col-sm-6 banner-limited'">
 			<h2>{{compound.Name}}</h2>
 		</div>

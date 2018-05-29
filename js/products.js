@@ -25,23 +25,20 @@ app.controller('init', function($rootScope, $scope, $uibModal, $document, $http)
 		$scope.news = response.data;
 	});
 	$scope.slides = [{
-		id: 0,
 		title: "18-Mer Library",
 		text: "Pushing the boundaries of conventional heparan sulfates.",
-		img: '/images/placeholder.jpg',
-		color: 'black',
+		img: '/images/limited18.png',
+		color: 'white',
 		state: 'products.limited',
 		link: '/products/18-mer-library'
 	}, {
-		id: 1,
 		title: "High Throughput Microarray Screening for Heparan Sulfate libraries",
-		text: "Image - raw data of our 52 library. Learn how to utilize our new service today.",
+		text: "Learn how to utilize our new service today.",
 		img: "/images/micro-array-banner-2.jpg",
 		color: 'white',
 		state: "services.analysis",
 		link: '/services/microarray-analysis'
 	}, {
-		id: 2,
 		title: "Innovative solutions for carbohydrate medicines.",
 		text: "Click to find out more.",
 		img: "/images/Heparin_CoverArt.jpg",
@@ -158,12 +155,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
   	name: 'products.compounds',
   	parent: productIndexState,
   	url: 'compounds?series&size&tag&date',
+  	reloadOnSearch: false,
   	templateUrl: '/products/products.html',
   	controller: function($stateParams, $scope) {
-  		$scope.seriesFilter = $stateParams.series;
-  		$scope.sizeFilter = $stateParams.size;
-  		$scope.tagFilter = $stateParams.tag;
-  		$scope.dateFilter = $stateParams.date;
+		$scope.seriesFilter = $stateParams.series;
+		$scope.sizeFilter = $stateParams.size;
+		$scope.tagFilter = $stateParams.tag;
+		$scope.dateFilter = $stateParams.date;
   	}, 
   	data: {
   		pageTitle: 'Compounds - Glycan Therapeutics'
@@ -805,6 +803,10 @@ app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModa
 		'Fluorescein'
 	];
 
+	$scope.isSeriesCollapsed = true;
+	$scope.isSizeCollapsed = true;
+	$scope.isTagCollapsed = true;
+
 	$scope.displayPrice = function(price, price2, price3, multiplier) {
 		display = 0;
 		switch(multiplier) {
@@ -828,10 +830,6 @@ app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModa
 		$scope.nameFilter = x;
 	}
 
-	$scope.filterDate = function(date) {
-		$scope.dateFilter = date;
-	}
-
 	$scope.filterUrl = function(x, filter) {
 		var search = $location.search();
 		$scope.seriesFilter = search.series;
@@ -840,19 +838,19 @@ app.controller('compoundCtrl', function($location, $scope, $sce, $http, $uibModa
 		$scope.dateFilter = search.date;
 
 		if(x === $scope.seriesFilter) {
-			$scope.seriesFilter = '';
+			$scope.seriesFilter = undefined;
 			$location.search({size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter});
 		}
 		else if(x === $scope.tagFilter) {
-			$scope.tagFilter = '';
+			$scope.tagFilter = undefined;
 			$location.search({series: $scope.seriesFilter, size: $scope.sizeFilter, date: $scope.dateFilter});
 		}
 		else if(x === $scope.sizeFilter) {
-			$scope.sizeFilter = '';
+			$scope.sizeFilter = undefined;
 			$location.search({series: $scope.seriesFilter, tag: $scope.tagFilter, date: $scope.dateFilter});
 		}
 		else if(x === $scope.dateFilter) {
-			$scope.dateFilter = '';
+			$scope.dateFilter = undefined;
 			$location.search({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter});
 		}
 		else {

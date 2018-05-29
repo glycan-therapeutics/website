@@ -4,21 +4,25 @@
 			<ul class="nav nav-pills flex-column nav-collapsible">
 				<li class="active">Filter Products: </li>
 				<li><input type="text" placeholder=" Search..." ng-model="nameFilter" style="width:100%"></li>
-				<li ng-class="dateFilter===''?'new-product':''">
+				<li ng-class="dateFilter!==undefined?'collapse-header':''">
 					<a ng-click="filterUrl('2018-04-13', 'date')">By New</a>
 				</li>
-				<li ng-class="dateFilter===''?'new-product':''">
-					<a data-toggle="collapse" class="collapsed" data-target="#by-series">By Series </a>
+				<li ng-click="isSeriesCollapsed = !isSeriesCollapsed" ng-class="seriesFilter!==undefined?'collapse-header':''">
+					<span>By Series </span>
 				</li>
-				<ul id="by-series" class="collapse nav-in-nav"> 
+				<ul uib-collapse="isSeriesCollapsed" class="collapse nav-in-nav"> 
 					<li ng-repeat="series in seriesName" class="family-item" ng-class="seriesFilter===series?'nav-'+series:''" ng-click="filterUrl(series, 'series')"><a ng-class="seriesFilter===series?'white-text':''">{{series}} Series</a></li>
 				</ul>
-				<li><a data-toggle="collapse" class="collapsed" data-target="#by-size">By Size </a></li>
-				<ul id="by-size" class="collapse nav-in-nav"> 
+				<li ng-click="isSizeCollapsed = !isSizeCollapsed" ng-class="sizeFilter!==undefined?'collapse-header':''">
+					<a>By Size </a>
+				</li>
+				<ul uib-collapse="isSizeCollapsed" class="collapse nav-in-nav"> 
 					<li ng-repeat="size in sizeName" class="family-item" ng-class="sizeFilter===size?'active-size':''" ng-click="filterUrl(size, 'size')"><a ng-class="sizeFilter===size?'black-text':''">{{size}}</a></li>
 				</ul>
-				<li><a data-toggle="collapse" class="collapsed" data-target="#by-tag">By Tag </a></li>
-				<ul id="by-tag" class="collapse nav-in-nav"> 
+				<li ng-click="isTagCollapsed = !isTagCollapsed" ng-class="tagFilter!==undefined?'collapse-header':''">
+					<a>By Tag </a>
+				</li>
+				<ul uib-collapse="isTagCollapsed" class="collapse nav-in-nav"> 
 					<li ng-repeat="tag in tagName" class="family-item" ng-class="tagFilter===tag?'active-size':''" ng-click="filterUrl(tag, 'tag')"><a ng-class="tagFilter===tag?'black-text':''">{{tag}}</a></li>
 				</ul>
 			</ul>
@@ -51,8 +55,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row align-right">
-		<p>Don't see a compound you want? Try our <a ui-sref="demo">custom synthesis <i class="fas fa-arrow-alt-circle-right"></i></a></p>
+		<div class="col-sm-12 align-right">
+			<p>Don't see a compound you want? Try our <a ui-sref="demo">custom synthesis <i class="fas fa-arrow-alt-circle-right"></i></a></p>
+		</div>
 	</div>
 </div>
