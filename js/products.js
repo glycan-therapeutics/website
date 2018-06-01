@@ -95,7 +95,7 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 		}
 		else if (image === '/images/micro-analysis.fig3.jpg') {
 			$scope.figureDescription = description[2].body;
-			$scope.figureDescription = description[2].title;
+			$scope.figureTitle = description[2].title;
 		}
 
 		$('#myModal').modal();
@@ -725,12 +725,12 @@ app.controller('limitedCtrl', function ($location, $scope, $sce, $http, $uibModa
 			})
 			.children('.limited-picture')
 			.css({
-				'background-image': 'url("/images/' + $scope.currentPID + '")'
+				'background-image': 'url("/images/' + $scope.currentPID + '.jpg")'
 			});
 	}
 	$scope.getBackground = function (pid) {
 		if (pid === $scope.currentPID)
-			outp = 'url(/images/' + pid + ')';
+			outp = 'url(/images/' + pid + '.jpg)';
 		else
 			outp = "";
 		return {
@@ -837,24 +837,20 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 
 	$scope.filterUrl = function(x, filter) {
 		var search = $location.search();
-		$scope.seriesFilter = search.series;
-		$scope.tagFilter = search.tag;
-		$scope.sizeFilter = search.size;
-		$scope.dateFilter = search.date;
 
-		if(x === $scope.seriesFilter) {
+		if(x === search.series) {
 			$scope.seriesFilter = undefined;
 			$location.search({size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter});
 		}
-		else if(x === $scope.tagFilter) {
+		else if(x === search.tag) {
 			$scope.tagFilter = undefined;
 			$location.search({series: $scope.seriesFilter, size: $scope.sizeFilter, date: $scope.dateFilter});
 		}
-		else if(x === $scope.sizeFilter) {
+		else if(x === search.size) {
 			$scope.sizeFilter = undefined;
 			$location.search({series: $scope.seriesFilter, tag: $scope.tagFilter, date: $scope.dateFilter});
 		}
-		else if(x === $scope.dateFilter) {
+		else if(x === search.date) {
 			$scope.dateFilter = undefined;
 			$location.search({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter});
 		}

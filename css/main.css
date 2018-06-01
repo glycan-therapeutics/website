@@ -193,7 +193,6 @@ nav ul {
 nav ul li {	
 	display: inline-block;
 	list-style-type: none;
-	height: 30px;
 	padding: 0px 10px 0px 10px;
 }
 
@@ -218,7 +217,7 @@ nav ul li {
 	text-align: left;
 	text-shadow: none;
 	font-weight: 200;
-	font-size: 1.5vw;
+	font-size: 1.1rem;
 	bottom: 60px;
 	width: 70%;
 }
@@ -518,9 +517,14 @@ footer {
 	border-radius: 5px;
 }
 
+.dropdown-item:active {
+	background-color: #305597!important;
+}
+
 .dropdown:hover .dropdown-menu {
 	position: absolute;
 	display: block;
+	top: 50%;
 }
 
 .dropdown:hover > .dropdown-menu > div > a:hover {
@@ -579,8 +583,8 @@ img {
 }
 
 .active-size {
-	background: #fce111;
-	color: white;
+	background: #eee;
+	color: black;
 	padding: 5px;
 	font-size: 14px;
 	border-radius: 5px;
@@ -1004,14 +1008,15 @@ button[disabled]{
 	margin-bottom: 20px;
 	display: block;
 	color: white;
+	cursor: pointer;
 }
 
 .banner.analysis {
-	background: blue;
+	background: #58ba1f;
 }
 
 .banner.synthesis {
-	background: red;
+	background: #305597;
 }
 
 .banner h1 {
@@ -1083,6 +1088,13 @@ div > .banner-limited {
     border-top: 1px solid;
     margin-bottom: 20px;
     padding: 10px 0px 20px 0px;
+}
+
+.limited-display button {
+	padding: 10px;
+	background: #E73C7E;
+	border-color: #E73C7E;
+	color: white;
 }
 
 .limited-structure {
@@ -1475,21 +1487,23 @@ transition: all 0.2s ease;
 	left: 25px;
 }
 
-.supportbutton{
-	width: 233;
-	height: 42px;
-	margin:0;
-
+.supportbutton {
+	padding: 10px;
 }
 
-.supporttitle{
+.supportbutton > .fas {
+	position: relative;
+	top: 5px;
+}
+
+.supporttitle {
 	font-size:110%;
 	font-weight: bold;
 	margin:0;
 	padding: 0px;
 	border:0px;
 }
-.productDropdown{
+.productDropdown {
 	background:#fff;
 	float:left;
 	color: #000;

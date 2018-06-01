@@ -41,13 +41,13 @@
 							<select class="minimal btn dropdown-toggle productDropdown" ng-switch-default ng-model="$parent.pricing" ng-init="$parent.pricing=options[0]"
 							 ng-options="option as option.label for option in options"> </select>
 						</span>
-						No. {{x.id}} | {{x.Name}}
+						No. {{x.id}} | {{x.Name}} 
 						<a class="white-text" ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">
-							<span class="glyphicon glyphicon-info-sign"></span>
+							<i class="fas fa-info-circle"></i>
 						</a>
 						<br>
-						<span> Price: $
-							<span ng-bind="displayPrice(x.Price, x.Price2, x.Price3, pricing.value)"></span>
+						<span> 
+							Price: $<span ng-bind="displayPrice(x.Price, x.Price2, x.Price3, pricing.value)"></span>
 						</span>
 					</div>
 				</div>

@@ -1,13 +1,16 @@
 <?php
-$server = "localhost";
-$user = "kliu10";
-$pass = "Saweqr1!";
-$dbname = "glycan";
+if(!isset($connection)) {
+	$config = parse_ini_file('../dbconfig/config.ini');
+	$server = $config['server'];
+	$user = $config['user'];
+	$pass = $config['pass'];
+	$dbname = $config['dbname'];
 
-$conn = new mysqli($server, $user, $pass, $dbname);
+	$conn = new mysqli($server, $user, $pass, $dbname);
 
-if($conn->connect_error) {
-	die("Connection failed: ").$conn->connect_error;
+	if($conn->connect_error) {
+		die("Connection failed: ".$pass).$conn->connect_error;
+	}
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
