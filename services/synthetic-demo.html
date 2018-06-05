@@ -3,25 +3,26 @@
 		<button type="button" class="close white-text" ng-click="dismiss()">×</button>
 		<h3>Please build at least a 4-Mer before saving.</h3>
 	</div>
-	<div id="myHistory" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-lg">
-	    <div class="modal-content">
-	    	<div class="modal-header align-center">
-	    		<h3>Saved Compounds</h3>
-	    		<button type="button" class="close modal-close" data-dismiss="modal">×</button>
+	<div id="myHistory" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+	 aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header align-center">
+					<h3>Saved Compounds</h3>
+					<button type="button" class="close modal-close" data-dismiss="modal">×</button>
+				</div>
+				<div class="row align-center" ng-if="history.length===0">
+					No compounds saved.
+				</div>
+				<div class="row align-center" ng-repeat="compound in history">
+					<a href='#' ng-click='loadHistory(compound.compound)'>{{compound.compound}}</a>
+					<button type='button' class='close history-close' ng-click='removeHistory($index, compound.key)'>×</button>
+				</div>
+				<p class="footnote modal-footer">
+					<a class="structure" ng-click="exportData()">EXPORT TO EXCEL</a>
+				</p>
 			</div>
-			<div class="row align-center" ng-if="history.length===0">
-				No compounds saved.
-			</div>
-		    <div class="row align-center" ng-repeat="compound in history">	    	
-		    	<a href='#' ng-click='loadHistory(compound.compound)'>{{compound.compound}}</a>
-		    	<button type='button' class='close history-close' ng-click='removeHistory($index, compound.key)'>×</button>	    	
-		    </div>
-		    <p class="footnote modal-footer">
-		    	<a class="structure" ng-click="exportData()">EXPORT TO EXCEL</a>
-		    </p>
-	    </div>
-	  </div>
+		</div>
 	</div>
 	<div class="container">
 		<div class="row builder-menu">
@@ -30,13 +31,22 @@
 				<div class="row">
 					<button style="width:49%" ng-click="openHistory()">LOAD</button>
 					<button style="width:49%" ng-click="saveCompound(structureDisplay())">SAVE</button>
-					<button ng-click="arrayBack();decrement()">BACK</button>
+					<button  ng-click="arrayBack();decrement()">BACK</button>
 				</div>
 				<div class="row">
-					<button ng-repeat="odd in oddPiece" ng-if="!isEven(structure.length)&&structure.length<maxSize&&structure.length>0" ng-click="addPiece(odd.name);increment()"
-					 ng-disabled="oddRules(structure.length, odd.name);" uib-tooltip="{{odd.tooltip}}">{{odd.name}}</button>
-					<button ng-repeat="even in evenPiece" ng-if="isEven(structure.length)&&structure.length<maxSize&&structure.length>0" ng-click="addPiece(even.name);increment()"
-					 ng-disabled="evenRules(structure.length, even.name)" uib-tooltip="{{even.tooltip}}">{{even.name}}</button>
+					<span style="width:100%" ng-if="!isEven(structure.length)&&structure.length<maxSize&&structure.length>0">
+						<div ng-class="structure.length<5?'glow':'glowinactive'"  ng-repeat="odd in oddPiece">
+							<button class="reduceBottom" ng-click="addPiece(odd.name);increment()" ng-disabled="oddRules(structure.length, odd.name);"
+							 uib-tooltip="{{odd.tooltip}}">{{odd.name}}</button>
+						</div>
+					</span>
+					<span style="width:100%" ng-if="isEven(structure.length)&&structure.length<maxSize&&structure.length>0">
+						<div ng-class="structure.length<5?'glow':'glowinactive'"  ng-repeat="even in evenPiece">
+							<button class="reduceBottom" ng-click="addPiece(even.name);increment()" ng-disabled="evenRules(structure.length, even.name)"
+							 uib-tooltip="{{even.tooltip}}">{{even.name}}</button>
+						</div>
+					</span>
+
 				</div>
 			</div>
 			<div class="col-md-8 align-center">
@@ -45,19 +55,29 @@
 				<h3 class="builder-structure" ng-if="structure.length===0">
 					Select a tag to get started.
 				</h3>
+				<h3 class="builder-structure" ng-if="structure.length===1">
+						Now select a site
+					</h3>
 				<h3 class="builder-structure">
-					<strong ng-if="structure.length==4">____-</strong><strong ng-if="structure.length==3">____-____-</strong><strong ng-if="structure.length==2">____-____-____-</strong><strong ng-if="structure.length==1">____-____-____-____-</strong>{{structureDisplay()}}
+					<strong ng-if="structure.length==4">____-</strong>
+					<strong ng-if="structure.length==3">____-____-</strong>
+					<strong ng-if="structure.length==2">____-____-____-</strong>
+					<strong ng-if="structure.length==1">____-____-____-____-</strong>{{structureDisplay()}}
 				</h3>
 			</div>
 			<div class="col-md-2 align-center">
 				<h2>Tags</h2>
-				<div ng-controller="compoundCtrl" ng-repeat="tag in tags">
-					<button ng-click="setTag(tag.name)" uib-tooltip="{{tag.tooltip}}">
-						<div class="center" ng-repeat="x in compounds | filter:{Series: highestSeries, Family: tag.name } as thistag"></div>
-						<strong class="circle" ng-if="structure.length>minSize">{{thistag.length}}</strong>
-						{{tag.name}}
-					</button>
-				</div>
+				<span>
+					<div ng-controller="compoundCtrl" ng-repeat="tag in tags">
+						<div ng-class="structure.length==0?'glow':'glowinactive'">
+							<button ng-click="setTag(tag.name)" uib-tooltip="{{tag.tooltip}}" class="reduceBottom">
+								<div class="center " ng-repeat="x in compounds | filter:{Series: highestSeries, Family: tag.name } as thistag"></div>
+								<strong class="circle" ng-if="structure.length>minSize">{{thistag.length}}</strong>
+								{{tag.name}}
+							</button>
+						</div>
+					</div>
+				</span>
 			</div>
 			<div class="border-top col-sm-10 justify-content-xs-center align-center animate" ng-if="structure.length>minSize" ng-controller="compoundCtrl">
 				<h3 style="margin:15px">{{filtered.length}} Similar Compounds</h3>
@@ -85,20 +105,20 @@
 						</span>
 					</div>
 					<div class="card text-left">
-					<div class="card-header" ng-click="x.isCollapsed = !x.isCollapsed">
-						<div>
-							<i class="glyphicon align-right" ng-class="x.isCollapsed?'fas fa-caret-down':'fas fa-caret-up'"></i>
-							<a class="structure" ng-bind-html="x.Structure | highlight:structureDisplay()"></a>
+						<div class="card-header" ng-click="x.isCollapsed = !x.isCollapsed">
+							<div>
+								<i class="glyphicon align-right" ng-class="x.isCollapsed?'fas fa-caret-down':'fas fa-caret-up'"></i>
+								<a class="structure" ng-bind-html="x.Structure | highlight:structureDisplay()"></a>
+							</div>
+						</div>
+						<div class="card-body" uib-collapse="x.isCollapsed">
+							<img class="structure-pic" ng-src="/images/{{x.id}}.jpg" />
 						</div>
 					</div>
-					<div class="card-body" uib-collapse="x.isCollapsed">
-						<img class="structure-pic" ng-src="/images/{{x.id}}.jpg"/>
-					</div>
-					</div>
 				</div>
-			<div class="row align-center" ng-if="structure.length>minSize">
-				<strong>No similar compounds? Email us at
-					<a href="mailto:info@glycantherapeutics.com?subject=Custom%20Compound&body={{structureDisplay()}}">info@glycantherapeutics.com</a> for a quote on your custom compound.</strong>
+				<div class="row align-center" ng-if="structure.length>minSize">
+					<strong>No similar compounds? Email us at
+						<a href="mailto:info@glycantherapeutics.com?subject=Custom%20Compound&body={{structureDisplay()}}">info@glycantherapeutics.com</a> for a quote on your custom compound.</strong>
+				</div>
 			</div>
 		</div>
-	</div>

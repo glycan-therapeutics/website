@@ -50,6 +50,7 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 	$scope.isCollapsed = true;
 	$scope.productCollapsed = true;
 	$scope.serviceCollapsed = true;
+	$scope.Username=localStorage.getItem("Name");
 	$rootScope.$on('$stateChangeSuccess', function () {
 		document.body.scrollTop = document.documentElement.scrollTop = 0;
 		for (var x in $scope.compounds) {
@@ -114,181 +115,202 @@ app.config(['$locationProvider', function ($locationProvider) {
 	$locationProvider.html5Mode(true).hashPrefix('');
 }]);
 
-app.config(function($stateProvider, $urlRouterProvider) {
-  var indexState = {
-  	name: 'index',
-  	url: '/',
-  	templateUrl: '/home.html',
-  };
+app.config(function ($stateProvider, $urlRouterProvider) {
+	var indexState = {
+		name: 'index',
+		url: '/',
+		templateUrl: '/home.html',
+	};
 
-  var newsIndexState = {
-  	name: 'news',
-  	url: '/news/',
-  	templateUrl: '/news/news-home.html',
-  	data: {
-  		pageTitle: 'All News - Glycan Therapeutics'
-  	}
-  };
+	var newsIndexState = {
+		name: 'news',
+		url: '/news/',
+		templateUrl: '/news/news-home.html',
+		data: {
+			pageTitle: 'All News - Glycan Therapeutics'
+		}
+	};
 
-  var newsState = {
-  	name: 'news.detailed',
-  	parent: newsIndexState,
-  	url: ':newsId',
-  	templateUrl: function($stateParams) {
-  		return '/news/' + $stateParams.newsId + '.html';
-  	},
-  	data: {
-  		pageTitle: 'News - Glycan Therapeutics'
-  	}
-  };
+	var newsState = {
+		name: 'news.detailed',
+		parent: newsIndexState,
+		url: ':newsId',
+		templateUrl: function ($stateParams) {
+			return '/news/' + $stateParams.newsId + '.html';
+		},
+		data: {
+			pageTitle: 'News - Glycan Therapeutics'
+		}
+	};
 
-  var productIndexState = {
-  	name: 'products',
-  	url: '/products/',
- 	templateUrl: '/products/products-home.html',
- 	data: {
- 		pageTitle: 'All Products - Glycan Therapeutics'
- 	}
-  };
+	var productIndexState = {
+		name: 'products',
+		url: '/products/',
+		templateUrl: '/products/products-home.html',
+		data: {
+			pageTitle: 'All Products - Glycan Therapeutics'
+		}
+	};
 
-  var productState = {
-  	name: 'products.compounds',
-  	parent: productIndexState,
-  	url: 'compounds?series&size&tag&date',
-  	reloadOnSearch: false,
-  	templateUrl: '/products/products.html',
-  	controller: function($stateParams, $scope) {
-		$scope.seriesFilter = $stateParams.series;
-		$scope.sizeFilter = $stateParams.size;
-		$scope.tagFilter = $stateParams.tag;
-		$scope.dateFilter = $stateParams.date;
-  	}, 
-  	data: {
-  		pageTitle: 'Compounds - Glycan Therapeutics'
-  	}
-  };
+	var productState = {
+		name: 'products.compounds',
+		parent: productIndexState,
+		url: 'compounds?series&size&tag&date',
+		reloadOnSearch: false,
+		templateUrl: '/products/products.html',
+		controller: function ($stateParams, $scope) {
+			$scope.seriesFilter = $stateParams.series;
+			$scope.sizeFilter = $stateParams.size;
+			$scope.tagFilter = $stateParams.tag;
+			$scope.dateFilter = $stateParams.date;
+		},
+		data: {
+			pageTitle: 'Compounds - Glycan Therapeutics'
+		}
+	};
 
-  var limitedProductState = {
-  	name: 'products.limited',
-  	parent: productIndexState,
-  	url: '18-mer-library',
-  	templateUrl: '/products/limited.html',
-  	data: {
-  		pageTitle: '18-mer Library - Limited - Glycan Therapeutics'
-  	}
-  }
+	var limitedProductState = {
+		name: 'products.limited',
+		parent: productIndexState,
+		url: '18-mer-library',
+		templateUrl: '/products/limited.html',
+		data: {
+			pageTitle: '18-mer Library - Limited - Glycan Therapeutics'
+		}
+	}
 
-  var serviceState = {
-  	name: "services",
-  	url: '/services/',
-  	templateUrl: '/services/services.html',
-  	data: {
-  		pageTitle: 'All Services - Glycan Therapeutics'
-  	}
-  };
+	var serviceState = {
+		name: "services",
+		url: '/services/',
+		templateUrl: '/services/services.html',
+		data: {
+			pageTitle: 'All Services - Glycan Therapeutics'
+		}
+	};
 
-  var analysisState = {
-  	name: "services.analysis",
-  	parent: serviceState,
-  	url: 'microarray-analysis',
-  	templateUrl: '/services/micro-array.html',
-  	data: {
-  		pageTitle: "Microarray Analysis - Glycan Therapeutics"
-  	}
-  };
+	var analysisState = {
+		name: "services.analysis",
+		parent: serviceState,
+		url: 'microarray-analysis',
+		templateUrl: '/services/micro-array.html',
+		data: {
+			pageTitle: "Microarray Analysis - Glycan Therapeutics"
+		}
+	};
 
-  var synthesisState = {
-  	name: "services.synthesis",
-  	parent: serviceState,
-  	url: 'custom-synthesis',
-  	templateUrl: '/services/custom-synthesis.html',
-  	data: {
-  		pageTitle: 'Custom Synthesis - Glycan Therapeutics'
-  	}
-  };
+	var synthesisState = {
+		name: "services.synthesis",
+		parent: serviceState,
+		url: 'custom-synthesis',
+		templateUrl: '/services/custom-synthesis.html',
+		data: {
+			pageTitle: 'Custom Synthesis - Glycan Therapeutics'
+		}
+	};
 
-  var researchState = {
-  	name: "research",
-  	url: '/research/',
-  	templateUrl: '/research/research.html',
-  	data: {
-  		pageTitle: 'Research - Glycan Therapeutics'
-  	}
-  };
+	var researchState = {
+		name: "research",
+		url: '/research/',
+		templateUrl: '/research/research.html',
+		data: {
+			pageTitle: 'Research - Glycan Therapeutics'
+		}
+	};
 
-  var supportState = {
-  	name: "support",
-  	url: '/support/',
-  	templateUrl: '/support/support.html',
-  	data: {
-  		pageTitle: 'Support - Glycan Therapeutics'
-  	}
-  };
+	var supportState = {
+		name: "support",
+		url: '/support/',
+		templateUrl: '/support/support.html',
+		data: {
+			pageTitle: 'Support - Glycan Therapeutics'
+		}
+	};
 
-  var aboutUsState = {
-  	name: 'about-us',
-  	url: '/support/about-us',
-  	templateUrl: '/support/about_us.html',
-  	data: {
-  		pageTitle: 'About Us - Glycan Therapeutics'
-  	}
-  };
+	var aboutUsState = {
+		name: 'about-us',
+		url: '/support/about-us',
+		templateUrl: '/support/about_us.html',
+		data: {
+			pageTitle: 'About Us - Glycan Therapeutics'
+		}
+	};
 
-  var contactState = {
-  	name: 'contact-us',
-  	url: '/support/contact-us',
-  	templateUrl: '/support/contact_us.html',
-  	data: {
-  		pageTitle: 'Contact Us - Glycan Therapeutics'
-  	}
-  };
+	var contactState = {
+		name: 'contact-us',
+		url: '/support/contact-us',
+		templateUrl: '/support/contact_us.html',
+		data: {
+			pageTitle: 'Contact Us - Glycan Therapeutics'
+		}
+	};
 
-  var privacyState = {
-  	name: 'privacy',
-  	url: '/support/privacy-policy',
-  	templateUrl: '/support/privacy-policy.html',
-  	data: {
-  		pageTitle: 'Privacy Policy - Glycan Therapeutics'
-  	}
-  };
+	var privacyState = {
+		name: 'privacy',
+		url: '/support/privacy-policy',
+		templateUrl: '/support/privacy-policy.html',
+		data: {
+			pageTitle: 'Privacy Policy - Glycan Therapeutics'
+		}
+	};
 
-  var termsState = {
-  	name: 'terms',
-  	url: '/support/terms-conditions',
-  	templateUrl: '/support/terms-conditions.html',
-  	data: {
-  		pageTitle: 'Terms & Conditions - Glycan Therapeutics'
-  	}
-  };
+	var termsState = {
+		name: 'terms',
+		url: '/support/terms-conditions',
+		templateUrl: '/support/terms-conditions.html',
+		data: {
+			pageTitle: 'Terms & Conditions - Glycan Therapeutics'
+		}
+	};
 
-  var demoState = {
-  	name: 'demo',
-  	url: '/compound-builder',
-  	templateUrl: '/services/synthetic-demo.html',
-  	controller: function($stateParams, $scope) {
-  		$scope.structure = [];
-  	},
-  	data: {
-  		pageTitle: 'Online Synthesis - Glycan Therapeutics'
-  	}
-  };
+	var demoState = {
+		name: 'demo',
+		url: '/compound-builder',
+		templateUrl: '/services/synthetic-demo.html',
+		controller: function ($stateParams, $scope) {
+			$scope.structure = [];
+		},
+		data: {
+			pageTitle: 'Online Synthesis - Glycan Therapeutics'
+		}
+	};
 
-  $stateProvider.state(indexState);
-  $stateProvider.state(productIndexState);
-  $stateProvider.state(productState);
-  $stateProvider.state(limitedProductState)
-  $stateProvider.state(serviceState);
-  $stateProvider.state(analysisState);
-  $stateProvider.state(synthesisState);
-  $stateProvider.state(researchState);
-  $stateProvider.state(supportState);
-  $stateProvider.state(aboutUsState);
-  $stateProvider.state(contactState);
-  $stateProvider.state(newsIndexState);
-  $stateProvider.state(newsState);
-  $stateProvider.state(privacyState);
-  $stateProvider.state(termsState);
-  $stateProvider.state(demoState);
+	var loginState = {
+		name: 'login',
+		url: '/login/',
+		templateUrl: '/login/login.html',
+		data: {
+			pageTitle: 'Login - Glycan Therapeutics'
+		}
+	};
+
+	var registerState = {
+		name: 'register',
+		url: '/register/',
+		templateUrl: '/login/register.html',
+		data: {
+			pageTitle: 'register - Glycan Therapeutics'
+		}
+	};
+
+	$stateProvider.state(indexState);
+	$stateProvider.state(productIndexState);
+	$stateProvider.state(productState);
+	$stateProvider.state(limitedProductState)
+	$stateProvider.state(serviceState);
+	$stateProvider.state(analysisState);
+	$stateProvider.state(synthesisState);
+	$stateProvider.state(researchState);
+	$stateProvider.state(supportState);
+	$stateProvider.state(aboutUsState);
+	$stateProvider.state(contactState);
+	$stateProvider.state(newsIndexState);
+	$stateProvider.state(newsState);
+	$stateProvider.state(privacyState);
+	$stateProvider.state(termsState);
+	$stateProvider.state(demoState);
+	$stateProvider.state(loginState);
+	$stateProvider.state(registerState);
+
 });
 
 app.factory('GlcNAc6SRules', function () {
@@ -739,6 +761,82 @@ app.controller('limitedCtrl', function ($location, $scope, $sce, $http, $uibModa
 	}
 });
 
+app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
+	$http.get('http://api.ipstack.com/check?access_key=ea58e47e5ff55d39cdc827f7bc1aae89&format=1')
+		.then(function (response) {
+			$scope.ip = response.data.ip;
+		});
+	$scope.name = "";
+	$scope.email = "";
+	$scope.password = "";
+	$scope.register = function () {
+		var request = $http({
+			method: "POST",
+			url: "glycanapi.php/users/register",
+			data: {
+				'firstName': $scope.firstName,
+				'lastName': $scope.lastName,
+				'email': $scope.email,
+				'password': $scope.password,
+				'function': 'register'
+			},
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function(response){
+			$scope.loginError=response.data;
+		})
+		},
+
+		$scope.login = function () {
+			var request = $http({
+				method: "POST",
+				url: "glycanapi.php/users/login-attempt",
+				data: {
+					'email': $scope.email,
+					'password': $scope.password,
+					'ip': $scope.ip,
+					'function': 'login-attempt'
+				},
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function(){
+				var request = $http({
+					method: "GET",
+					url: "glycanapi.php/login",
+					params: {
+						'email': $scope.email,
+						'ip': $scope.ip,
+					},
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function (response) {
+					$scope.attempt = response.data;
+					console.log($scope.attempt);
+					if ($scope.attempt[0].login_successful == 1){
+					$scope.loginError="login successful";
+					var request = $http({
+						method: "GET",
+						url: "tokengenerator.php/login",
+						params: {
+							'email': $scope.email,
+							'ip': $scope.ip,
+						},
+						headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+					}).then(function (response) {
+						$scope.token = response.data;
+						console.log($scope.token);
+						localStorage.setItem("Name", $scope.attempt[0].FirstName+" "+$scope.attempt[0].LastName);
+						localStorage.setItem("Token", $scope.token);
+						$window.location.href = '../';
+				})
+			}
+			else{
+			$scope.loginError="Incorrect email or password";
+			};	
+			}).catch(function (data) {
+				$scope.loginError="User does not exist";			
+			});
+			});
+		}	
+});
+
 app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state) {
 	$http.get("/glycanapi.php/compounds")
 		.then(function (response) {
@@ -753,7 +851,7 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 	$scope.isSeriesCollapsed = true;
 	$scope.isSizeCollapsed = true;
 	$scope.isTagCollapsed = true;
-	
+
 	$scope.pnpOptions = [{
 		value: '10',
 		label: '1 mg'
@@ -812,7 +910,7 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 	$scope.isSizeCollapsed = true;
 	$scope.isTagCollapsed = true;
 
-	$scope.displayPrice = function(price, price2, price3, multiplier) {
+	$scope.displayPrice = function (price, price2, price3, multiplier) {
 		display = 0;
 		switch (multiplier) {
 			case '1': display = price;
@@ -835,28 +933,28 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 		$scope.nameFilter = x;
 	}
 
-	$scope.filterUrl = function(x, filter) {
+	$scope.filterUrl = function (x, filter) {
 		var search = $location.search();
 		$scope.seriesFilter = search.series;
 		$scope.tagFilter = search.tag;
 		$scope.sizeFilter = search.size;
 		$scope.dateFilter = search.date;
 
-		if(x === $scope.seriesFilter) {
+		if (x === $scope.seriesFilter) {
 			$scope.seriesFilter = undefined;
-			$location.search({size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter});
+			$location.search({ size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
 		}
-		else if(x === $scope.tagFilter) {
+		else if (x === $scope.tagFilter) {
 			$scope.tagFilter = undefined;
-			$location.search({series: $scope.seriesFilter, size: $scope.sizeFilter, date: $scope.dateFilter});
+			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, date: $scope.dateFilter });
 		}
-		else if(x === $scope.sizeFilter) {
+		else if (x === $scope.sizeFilter) {
 			$scope.sizeFilter = undefined;
-			$location.search({series: $scope.seriesFilter, tag: $scope.tagFilter, date: $scope.dateFilter});
+			$location.search({ series: $scope.seriesFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
 		}
-		else if(x === $scope.dateFilter) {
+		else if (x === $scope.dateFilter) {
 			$scope.dateFilter = undefined;
-			$location.search({series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter});
+			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter });
 		}
 		else {
 			switch (filter) {
