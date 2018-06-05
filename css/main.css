@@ -720,8 +720,10 @@ img {
 }
 
 .row {
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-top: 	5px;
+	margin-bottom: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 .series-2S {
@@ -1590,4 +1592,27 @@ md-progress-linear .md-container.md-mode-query .md-bar2 {
 md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 		display: none; 
 }
-	 
+
+/* SUPPORT SYNTH TUTORIAL*/
+
+.glow{
+	background: linear-gradient(60deg, #FFF, #305597);
+	background-size: 400% 400%;
+	-webkit-animation: Gradient 2.5s linear infinite;
+	-moz-animation: Gradient 2.5s linear infinite;
+	animation: Gradient 2.5s linear infinite;
+	margin: 2px;
+	padding: 3px 3px 0px 3px;
+	border-radius: 5px;
+	width: 100%;
+
+}
+
+.glowinactive{
+	margin: 2px;
+	padding: 3px 2px 0px 2px;
+}
+
+.reduceBottom{
+	margin-bottom: 3px!important;
+}

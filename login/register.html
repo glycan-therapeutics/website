@@ -1,0 +1,40 @@
+<div class="container" ng-controller="loginCtrl" autocomplete='given-name'>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        {{loginError}}
+        <form name="signupForm" class="form-horizontal" role="form">
+            <br/>
+            <div class="form-group">
+                <input type="text" id="FirstName" autocomplete='given-firstname' class="form-control input-lg" placeholder="First Name" ng-model="firstName">
+            </div>
+            
+            <div class="form-group">
+                    <input type="text" id="LastName" autocomplete='given-lastname' class="form-control input-lg" placeholder="Last Name" ng-model="lastName">
+                </div>
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" autocomplete='given-email' placeholder="Email" name="email" ng-model="email" focus>
+                     <span ng-show="signupForm.email.$error.email" class="help-inline">Invalid email address</span>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" required validateEqual="email" placeholder="Confirm Email" autocomplete='given-email' name="confemail" ng-model="confemail" focus>
+                <span data-ng-show="signupForm.confemail.$dirty && confemail != email">Emails do not match</span>
+            </div>
+            <div class="form-group">
+                    <div class="form-group">
+                        <input type="password" autocomplete='given-password' class="form-control input-lg" name="password" placeholder="Password" ng-model="password" required>
+                        <span class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> Enter Password.</span>
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <a ng-href="/login/" ui-sref="login" class="btn btn-success btn-block btn-lg">Log In</a>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="register()" data-ng-disabled="signupForm.$invalid">Sign Up
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="container" ng-controller="loginCtrl">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        {{loginError}}
+        <form name="signupForm" class="form-horizontal" role="form">
+            <br/>
+            <div class="form-group">
+                <input type="email" class="form-control input-lg" placeholder="Email" autocomplete='given-email' name="email" ng-model="email" focus>
+                <span ng-show="signupForm.email.$error.email" class="help-inline">Invalid email address</span>
+
+
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <input type="password" class="form-control input-lg" autocomplete='given-password' name="password" placeholder="Password" ng-model="password" required>
+                        <span class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> Enter Password.</span>
+                    </div>
+                </div>
+               
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="login()" >Log In</button>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <button class="btn btn-primary btn-block btn-lg" ng-href="/register/" ui-sref="register">Sign Up
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
