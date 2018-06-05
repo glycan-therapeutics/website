@@ -6,16 +6,16 @@
 	<div id="myHistory" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg">
 	    <div class="modal-content">
+	    	<button type="button" class="close modal-close" data-dismiss="modal">×</button>
 	    	<div class="modal-header align-center">
 	    		<h3>Saved Compounds</h3>
-	    		<button type="button" class="close modal-close" data-dismiss="modal">×</button>
 			</div>
 			<div class="row align-center" ng-if="history.length===0">
 				No compounds saved.
 			</div>
-		    <div class="row align-center" ng-repeat="compound in history">	    	
-		    	<a href='#' ng-click='loadHistory(compound.compound)'>{{compound.compound}}</a>
-		    	<button type='button' class='close history-close' ng-click='removeHistory($index, compound.key)'>×</button>	    	
+		    <div class="row align-center" ng-repeat="compound in history | orderBy: '-ID'">	    
+		    	<button type='button' class='close history-close' ng-click='removeHistory(compound)'>×</button>	    		
+		    	<a href='#' ng-click='loadHistory(compound.Structure)'>{{compound.Structure}}</a>
 		    </div>
 		    <p class="footnote modal-footer">
 		    	<a class="structure" ng-click="exportData()">EXPORT TO EXCEL</a>

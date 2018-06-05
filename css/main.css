@@ -321,6 +321,7 @@ div div h3 {
 
 .close {
 	opacity: .5;
+	line-height: .5!important;
 }
 
 .close:hover {
@@ -339,11 +340,9 @@ div div h3 {
 }
 
 .history-close {
-	position: relative;
-	color: red;
-	float: right;
-	left: 220px;
-	bottom: 5px;
+	position: absolute;
+    color: red;
+    right: 50px;
 }
 
 .news {
@@ -454,9 +453,9 @@ footer {
 }
 
 .modal-close {
-	display: inline;
-	position: relative;
-	bottom: 10px;
+	position: absolute;
+    right: 10px;
+    top: 3px;
 }
 
 .collapsed {

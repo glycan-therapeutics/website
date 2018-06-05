@@ -1,5 +1,10 @@
-var app = angular.module('Compounds', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'ngHtmlCompile', 'ngAria', 'ngMaterial']);
+/** TEST **/
+localStorage.setItem('uid', 500);
 
+
+
+
+var app = angular.module('Compounds', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'ngHtmlCompile', 'ngAria', 'ngMaterial']);
 
 app.directive('updateTitle', ['$rootScope', '$timeout',
 	function ($rootScope, $timeout) {
@@ -339,7 +344,7 @@ app.factory('Ido2SRules', function () {
 	}
 });
 
-app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido2SRules', '$sce', function ($scope, NA6S, NS6S, Ido2S, $sce) {
+app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido2SRules', '$sce', '$http', function ($scope, NA6S, NS6S, Ido2S, $sce, $http) {
 
 	$scope.minSize = 4;
 	$scope.maxSize = 10;
@@ -402,17 +407,25 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	var moreGlcA2S = false;
 
 	$scope.getHistory = function () {
-		$scope.history = [];
-		for (var x = 0; x < localStorage.getItem("historyLength"); x++) {
-			if (localStorage.getItem(x + 1) != null) {
-				$scope.history.push({ "key": x + 1, "compound": localStorage.getItem(x + 1) });
-			}
-		}
+		$http.get("/glycanapi.php/synthesis/"+localStorage.getItem('uid'))
+		.then(function (response) {
+			$scope.history = response.data;
+		});
 	};
 
-	$scope.removeHistory = function (index, key) {
-		$scope.history.splice(index, 1);
-		localStorage.removeItem(key);
+	$scope.removeHistory = function (compound) {
+		var request = $http({
+			method: 'POST',
+			url: '/glycanapi.php/synthesis/delete',
+			data: {
+				id: compound.ID
+			},
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			}
+		}).then(function(response) {
+			$scope.getHistory();
+		});
 	}
 
 	$scope.loadHistory = function (compound) {
@@ -443,7 +456,7 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	}
 
 	$scope.exportData = function () {
-		alasql('SELECT compound INTO XLSX("my_compounds.xlsx",{headers:false}) FROM ?', [$scope.history]);
+		alasql('SELECT compound INTO XLSX("my_compounds.xlsx",{headers:false}) FROM ?', [$scope.history[0]]);
 	}
 
 	$scope.dismiss = function () {
@@ -451,22 +464,22 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	}
 
 	$scope.saveCompound = function (compound) {
-		var size;
+		var uid=localStorage.getItem('uid');
 		if ($scope.structure.length > $scope.minSize) {
-			if (localStorage.getItem("historyLength") === null) {
-				size = 1;
-				localStorage.setItem("historyLength", size);
-
-			}
-			else {
-				size = localStorage.getItem("historyLength");
-				size++;
-				localStorage.setItem("historyLength", size);
-			}
-
-			localStorage.setItem(size, compound);
-			console.log(localStorage.getItem("historyLength"));
-			$scope.openHistory();
+			var save = $http({
+				method: 'POST',
+				url: '/glycanapi.php/synthesis',
+				data: {
+					structure: compound,
+					uid: uid
+				},
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				}
+			}).then(function(response) {
+				console.log(response.data);
+				$scope.openHistory();
+			});
 		}
 		else
 			$scope.alert = true;

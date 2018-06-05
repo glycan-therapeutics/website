@@ -9,7 +9,7 @@ if(!isset($connection)) {
 	$conn = new mysqli($server, $user, $pass, $dbname);
 
 	if($conn->connect_error) {
-		die("Connection failed: ".$pass).$conn->connect_error;
+		die("Connection failed: ").$conn->connect_error;
 	}
 }
 
@@ -20,12 +20,42 @@ $input = json_decode(file_get_contents("php://input"));
 //to access table
 $table = preg_replace('/[^a-z0-9_]+/i','',array_shift($request));
 //specific area of table
-$key = array_shift($request)+0;
+$key = array_shift($request);
+
+$query = '';
 
 //decides which query is used
 switch($method) {
 	case 'GET':
-		$query = "SELECT * FROM `$table` ORDER BY `$table`.id ASC";
+		if($table == 'synthesis') {
+			$query = "SELECT * FROM `$table` WHERE UID = $key";
+		}
+		else {
+			$query = "SELECT * FROM `$table` ORDER BY `$table`.id ASC";
+		}
+		break;
+	case 'POST':
+		if($table == 'synthesis') {
+			if($key == 'delete') {
+				$id = $input->id;
+				$date_deleted = date("Y-m-d H:i:s");
+				$query = "INSERT INTO `synthesis:deleted` VALUES ( (SELECT ID FROM synthesis WHERE id=$id), (SELECT UID FROM synthesis WHERE id=$id), (SELECT Structure FROM synthesis WHERE id=$id), (SELECT Date_Created FROM synthesis WHERE id=$id), '$date_deleted');";
+				$conn->query($query);
+				$query = "DELETE FROM synthesis WHERE id=?";
+				$result = $conn->prepare($query);
+				$result->bind_param('s', $id);
+				$result->execute();
+			}
+			else {
+				$uid = $input->uid;
+				$structure = $input->structure;
+				$date = date("Y-m-d H:i:s");
+				$query = "INSERT INTO `$table` (UID, Structure, Date_Created) VALUES (?, ?, ?)";
+				$result = $conn->prepare($query);
+				$result->bind_param('iss', $uid, $structure, $date);
+				$result->execute();
+			}
+		}
 		break;
 }
 
@@ -44,6 +74,11 @@ if($method == "GET") {
 	
 	$conn->close();
 	echo(json_encode($outp));
+	exit();
+}
+
+else if($method == "POST") {
+	$conn->close();
 	exit();
 }
 ?>
