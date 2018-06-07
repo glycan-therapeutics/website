@@ -57,7 +57,12 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 			$scope.compounds[x]['isCollapsed'] = true;
 		}
 	});
-
+	$scope.logout = function(){
+		console.log(localStorage.getItem("Token"));
+		console.log(localStorage.removeItem("Token"));
+		console.log(localStorage.removeItem("Name"));
+		$scope.Username=null;
+	}
 	$scope.nextSlide = function () {
 		if ($scope.active === $scope.slides.length - 1)
 			$scope.active = 0;
@@ -766,9 +771,26 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 		.then(function (response) {
 			$scope.ip = response.data.ip;
 		});
-	$scope.name = "";
-	$scope.email = "";
-	$scope.password = "";
+	$scope.securityQ1 = [
+		"Select a security question",
+		"What is your mother's maiden name?",
+		"What is your favorite color?",
+		"What was the name of your first pet?",
+		"What was the name of your elementary / primary school?",
+		"What is your favorite food?",
+		"What city were you born in?"
+	
+	];
+	$scope.securityQ2 = [
+		"Select a security question",
+		"What is your mother's maiden name?",
+		"What is your favorite color?",
+		"What was the name of your first pet?",
+		"What was the name of your elementary / primary school?",
+		"What is your favorite food?",
+		"What city were you born in?"
+		];
+
 	$scope.register = function () {
 		var request = $http({
 			method: "POST",
@@ -778,7 +800,10 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 				'lastName': $scope.lastName,
 				'email': $scope.email,
 				'password': $scope.password,
-				'function': 'register'
+				'Q1': $scope.Q1,
+				'Q2': $scope.Q2,
+				'A1': $scope.A1,
+				'A2': $scope.A2,
 			},
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(response){
@@ -794,7 +819,6 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 					'email': $scope.email,
 					'password': $scope.password,
 					'ip': $scope.ip,
-					'function': 'login-attempt'
 				},
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function(){
@@ -821,7 +845,6 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 						headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 					}).then(function (response) {
 						$scope.token = response.data;
-						console.log($scope.token);
 						localStorage.setItem("Name", $scope.attempt[0].FirstName+" "+$scope.attempt[0].LastName);
 						localStorage.setItem("Token", $scope.token);
 						$window.location.href = '../';

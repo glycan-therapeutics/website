@@ -25,6 +25,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/alasql"></script>
 	<!--[Angular Material Library]-->
 	<script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.9/angular-material.js"></script>
+	<!--[Angular Sanatize Library]-->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
 	<!--[htmlclean-protect]-->
 	<!--inject:js-->
 	<!--endinject-->
@@ -149,11 +151,12 @@
 						<li class="nav-item">
 							<a ng-href="/compound-builder" ui-sref="demo" ui-sref-active="active">Online Synthesis</a>
 						</li>
-						<li class="nav-item">
+						
+						<li class="nav-item" ng-if="!Username">
 							<a ng-href="/register/" ui-sref="register" ui-sref-active="active">Register</a>
 						</li>
 						<li class="nav-item" ng-if="Username.length>0">
-								<h4>{{Username}}</h4>
+							<h4><a ng-href="/" ng-click="logout()">Logout</a> {{Username}}</h4>
 						</li>
 
 					</ul>
