@@ -1,4 +1,6 @@
 <?php
+include '/mc-connector.php';
+
 if(!isset($connection)) {
 	$config = parse_ini_file('../dbconfig/config.ini');
 	$server = $config['server'];
@@ -47,28 +49,25 @@ switch($method) {
 			while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
 				array_push($outp, $rs);
 			}
-			$conn->close();
-			echo(json_encode($outp));
-			exit();
 		}
 		else {
 			$query = "SELECT * FROM `$table` ORDER BY `$table`.id ASC";
-			$result = $conn->query($query);
-			if(!$result) {
-				http_response_code(404);
-				die($conn->error);
-			}
-			$outp = array();
-		
-			while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
-				array_push($outp, $rs);
-			}
-			
-			$conn->close();
-			echo(json_encode($outp));
-			exit();
-			break;
 		}
+
+		$result = $conn->query($query);
+		if(!$result) {
+			http_response_code(404);
+			die($conn->error);
+		}
+		$outp = array();
+	
+		while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+			array_push($outp, $rs);
+		}
+			
+		$conn->close();
+		echo(json_encode($outp));
+		exit();
 		break;
 	case 'POST':
 		if($table == 'synthesis') {
@@ -98,6 +97,9 @@ switch($method) {
 				$last = $input->lastName;
 	 			$email = $input->email;
 				$password = $input->password;
+				$subscribe = $input->subscribe;
+				$mc = new mcApi();
+
 				$Q1 = $input->Q1;
 				$A1 = $input->A1;
 				$Q2 = $input->Q2;
@@ -111,7 +113,10 @@ switch($method) {
 						echo "Email successfully registered";
 						$query ="INSERT INTO `users:recovery`(UID, Q1, Q2, A1, A2) VALUES ((SELECT id FROM users WHERE email = ?),?,?,?,?)";	
 						$result=$conn->prepare($query);
-						$result->bind_param('sssss', $email, $Q1, $Q2, $A1, $A2);	
+						$result->bind_param('sssss', $email, $Q1, $Q2, $A1, $A2);
+						if($result->execute() && $subscribe) {
+							$mc->subscribe($email, $first, $last, '068752b958');
+						}	
 					}
 					else {
 						echo "Email already exists";

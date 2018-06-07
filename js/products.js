@@ -823,6 +823,7 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 		];
 
 	$scope.register = function () {
+		console.log($scope.newsletter);
 		var request = $http({
 			method: "POST",
 			url: "glycanapi.php/users/register",
@@ -834,7 +835,8 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 				'Q1': $scope.Q1,
 				'Q2': $scope.Q2,
 				'A1': $scope.A1,
-				'A2': $scope.A2
+				'A2': $scope.A2,
+				'subscribe': $scope.newsletter
 			},
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(response){
