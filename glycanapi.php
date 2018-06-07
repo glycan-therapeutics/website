@@ -22,7 +22,6 @@ $input = json_decode($postdata);
 $table = preg_replace('/[^a-z0-9_]+/i','',array_shift($request));
 //specific area of table
 $key = array_shift($request);
-
 $options = [
 	'cost' => 11,
 ];
@@ -36,13 +35,39 @@ switch($method) {
 		else if($table == 'users') {
 			break;
 		}
-		else if($table == 'login') {
-			$ip = $_GET['ip'];
-			$email = $_GET['email'];
-			$query = "SELECT login.date, login.login_successful, users.FirstName, users.LastName , users.id FROM login INNER JOIN users ON login.email= users.email WHERE date = ( SELECT MAX(date) FROM login WHERE(IP = '$ip' AND email='$email') )";
+		else if($table == 'login'){
+			$ip=$_GET['ip'];
+			$email=$_GET['email'];
+			$query=$conn->prepare("SELECT login.date, login.login_successful, users.FirstName, users.LastName , users.id FROM login INNER JOIN users ON login.email= users.email WHERE date = (SELECT MAX(date) FROM login WHERE(IP = ? AND email=?))");
+			$query->bind_param('ss',$ip, $email);
+			$query->execute();
+			$result = $query->get_result();
+			$outp = array();
+
+			while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+				array_push($outp, $rs);
+			}
+			$conn->close();
+			echo(json_encode($outp));
+			exit();
 		}
 		else {
 			$query = "SELECT * FROM `$table` ORDER BY `$table`.id ASC";
+			$result = $conn->query($query);
+			if(!$result) {
+				http_response_code(404);
+				die($conn->error);
+			}
+			$outp = array();
+		
+			while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+				array_push($outp, $rs);
+			}
+			
+			$conn->close();
+			echo(json_encode($outp));
+			exit();
+			break;
 		}
 		break;
 	case 'POST':
@@ -68,31 +93,45 @@ switch($method) {
 			}
 		}
 		else if($table == 'users') {
-			if($key == "register") {
+			if($key == "register"){
 				$first = $input->firstName;
 				$last = $input->lastName;
-		 		$email = $input->email;
+	 			$email = $input->email;
 				$password = $input->password;
+				$Q1 = $input->Q1;
+				$A1 = $input->A1;
+				$Q2 = $input->Q2;
+				$A2 = $input->A2;
 				$date = date("Y-m-d H:i:s");
 				$hash = password_hash($password, PASSWORD_BCRYPT, $options);		
-				$query ="INSERT INTO users(FirstName, LastName, email, password, created) VALUES (?,?,?,?,?)";	
-				$result=$conn->prepare($query);
-				$result->bind_param('sssss', $first, $last, $email, $hash, $date);	
-				if ($result->execute()) {
-					echo "Email successfully registered";
-				}
-				else {
-					echo "Email already exists";
-				}
+					$query ="INSERT INTO users(FirstName, LastName, email, password, created) VALUES (?,?,?,?,?)";	
+					$result=$conn->prepare($query);
+					$result->bind_param('sssss', $first, $last, $email, $hash, $date);	
+					if ($result->execute()) {
+						echo "Email successfully registered";
+						$query ="INSERT INTO `users:recovery`(UID, Q1, Q2, A1, A2) VALUES ((SELECT id FROM users WHERE email = ?),?,?,?,?)";	
+						$result=$conn->prepare($query);
+						$result->bind_param('sssss', $email, $Q1, $Q2, $A1, $A2);	
+					}
+					else {
+						echo "Email already exists";
+					}
 			}		
 
-			else if($key == "login-attempt") {
+			else if($key == "login-attempt"){
 				$email = $input->email;
 				$password = $input->password;
 				$ip = $input->ip;
 				$date = date("Y-m-d H:i:s");
 				$verified = 0;
-				$hashedPasswordFromDB=$conn->query("SELECT password FROM users WHERE email = '$email'")->fetch_object()->password;
+				$result=$conn->prepare("SELECT password FROM users WHERE email = ?");
+				$result->bind_param('s',$email);
+				$result->execute();
+				$result->bind_result($passwordfromDB);
+				while ($result->fetch()) {
+					$hashedPasswordFromDB=$passwordfromDB;	
+				}
+
 				if (password_verify($password, $hashedPasswordFromDB)) {
 					echo 'Password is valid!';
 					$verified = 1;
@@ -104,29 +143,7 @@ switch($method) {
 			}
 		}
 		break;
-}
-
-//prints json to be used by JS
-if($method == "GET") {
-	$result = $conn->query($query);
-	if(!$result) {
-		http_response_code(404);
-		die($conn->error);
-	}
-	$outp = array();
-
-	while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
-		array_push($outp, $rs);
-	}
-	
-	$conn->close();
-	echo(json_encode($outp));
-	exit();
-}
-
-//Add a user
-else if($method == "POST"){
 	$conn->close();
 	exit();
-}
+}		
 ?>
