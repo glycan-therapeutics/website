@@ -1,7 +1,7 @@
 <div class="align-center" ng-controller="synthesisCtrl as $ctrl" style="min-height:700px">
 	<div class="container-fluid error" ng-if="alert">
 		<button type="button" class="close white-text" ng-click="dismiss()">×</button>
-		<h3>Please build at least a 4-Mer before saving.</h3>
+		<h3>{{alertMsg}}</h3>
 	</div>
 	<div id="myHistory" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg">
@@ -28,8 +28,8 @@
 			<div class="col-md-2">
 				<h2>Menu</h2>
 				<div class="row">
-					<button style="width:49%" ng-click="openHistory()">LOAD</button>
-					<button style="width:49%" ng-click="saveCompound(structureDisplay())">SAVE</button>
+					<button style="width:49%" ng-click="openHistory()" ng-disabled="token===undefined">LOAD</button>
+					<button style="width:49%" ng-click="saveCompound(structureDisplay())" ng-disabled="token===undefined">SAVE</button>
 					<button  ng-click="arrayBack();decrement()">BACK</button>
 				</div>
 				<div class="row">

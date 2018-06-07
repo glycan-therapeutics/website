@@ -1,9 +1,3 @@
-/** TEST **/
-localStorage.setItem('uid', 500);
-
-
-
-
 var app = angular.module('Compounds', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'ngSanitize', 'ngHtmlCompile', 'ngAria', 'ngMaterial']);
 
 app.directive('updateTitle', ['$rootScope', '$timeout',
@@ -24,7 +18,7 @@ app.directive('updateTitle', ['$rootScope', '$timeout',
 	}
 ]);
 
-app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http) {
+app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http, $state) {
 	$http.get("/glycanapi.php/news")
 		.then(function (response) {
 			$scope.news = response.data;
@@ -51,11 +45,14 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 		state: "about-us",
 		link: '/support/about-us'
 	}];
+	if(localStorage.getItem('Token')) {
+		$scope.token = parseJwt( localStorage.getItem('Token') );
+		$scope.Username = $scope.token.data.FirstName + " " + $scope.token.data.LastName;
+	}
 	$scope.active = 0;
 	$scope.isCollapsed = true;
 	$scope.productCollapsed = true;
 	$scope.serviceCollapsed = true;
-	$scope.Username=localStorage.getItem("Name");
 	$rootScope.$on('$stateChangeSuccess', function () {
 		document.body.scrollTop = document.documentElement.scrollTop = 0;
 		for (var x in $scope.compounds) {
@@ -105,6 +102,11 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 		}
 
 		$('#myModal').modal();
+	}
+
+	$scope.logOut = function() {
+		$scope.token = localStorage.removeItem('Token');
+		$scope.Username = null;
 	}
 });
 
@@ -367,6 +369,10 @@ app.factory('Ido2SRules', function () {
 });
 
 app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido2SRules', '$sce', '$http', function ($scope, NA6S, NS6S, Ido2S, $sce, $http) {
+	if(!$scope.token) {
+		$scope.alertMsg = "Please log in to save & load your custom compounds.";
+		$scope.alert = 1;
+	}
 
 	$scope.minSize = 4;
 	$scope.maxSize = 10;
@@ -429,10 +435,16 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	var moreGlcA2S = false;
 
 	$scope.getHistory = function () {
-		$http.get("/glycanapi.php/synthesis/"+localStorage.getItem('uid'))
-		.then(function (response) {
-			$scope.history = response.data;
-		});
+		if($scope.token) {
+			var uid = $scope.token.data.id;
+			$http.get("/glycanapi.php/synthesis/" + uid)
+			.then(function (response) {
+				$scope.history = response.data;
+			});
+		}
+		else {
+			alert("You must log in to view saved compounds.");
+		}
 	};
 
 	$scope.removeHistory = function (compound) {
@@ -486,25 +498,31 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 	}
 
 	$scope.saveCompound = function (compound) {
-		var uid=localStorage.getItem('uid');
-		if ($scope.structure.length > $scope.minSize) {
-			var save = $http({
-				method: 'POST',
-				url: '/glycanapi.php/synthesis',
-				data: {
-					structure: compound,
-					uid: uid
-				},
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded'
-				}
-			}).then(function(response) {
-				console.log(response.data);
-				$scope.openHistory();
-			});
+		if($scope.token) {
+			var uid = $scope.token.data.id;
+			if ($scope.structure.length > $scope.minSize) {
+				var save = $http({
+					method: 'POST',
+					url: '/glycanapi.php/synthesis',
+					data: {
+						structure: compound,
+						uid: uid
+					},
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					}
+				}).then(function(response) {
+					$scope.openHistory();
+				});
+			}
+			else {
+				$scope.alertMsg = "The compound must be at least a 4-mer before saving.";
+				$scope.alert = true;
+			}
 		}
-		else
-			$scope.alert = true;
+		else {
+			alert("Please log in before attempting to save your compound.");
+		}
 	};
 
 	$scope.arrayBack = function () {
@@ -795,57 +813,56 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(response){
 			$scope.loginError=response.data;
-		})
-		},
+		});
+	};
 
-		$scope.login = function () {
+	$scope.login = function () {
+		var request = $http({
+			method: "POST",
+			url: "glycanapi.php/users/login-attempt",
+			data: {
+				'email': $scope.email,
+				'password': $scope.password,
+				'ip': $scope.ip,
+			},
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function(){
 			var request = $http({
-				method: "POST",
-				url: "glycanapi.php/users/login-attempt",
-				data: {
+				method: "GET",
+				url: "glycanapi.php/login",
+				params: {
 					'email': $scope.email,
-					'password': $scope.password,
-					'ip': $scope.ip,
+					'ip': $scope.ip
 				},
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-			}).then(function(){
+			}).then(function (response) {
+				$scope.attempt = response.data;
+				console.log($scope.attempt);
+				if ($scope.attempt[0].login_successful == 1){
+				$scope.loginError="login successful";
 				var request = $http({
 					method: "GET",
-					url: "glycanapi.php/login",
+					url: "tokengenerator.php/login",
 					params: {
 						'email': $scope.email,
 						'ip': $scope.ip,
 					},
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 				}).then(function (response) {
-					$scope.attempt = response.data;
-					console.log($scope.attempt);
-					if ($scope.attempt[0].login_successful == 1){
-					$scope.loginError="login successful";
-					var request = $http({
-						method: "GET",
-						url: "tokengenerator.php/login",
-						params: {
-							'email': $scope.email,
-							'ip': $scope.ip,
-						},
-						headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-					}).then(function (response) {
-						$scope.token = response.data;
-						console.log($scope.token);
-						localStorage.setItem("Name", $scope.attempt[0].FirstName+" "+$scope.attempt[0].LastName);
-						localStorage.setItem("Token", $scope.token);
-						$window.location.href = '../';
+					$scope.token = response.data;
+					console.log($scope.token);
+					localStorage.setItem("Token", $scope.token);
+					$window.location.href = '../';
 				})
-			}
-			else{
+		}
+		else{
 			$scope.loginError="Incorrect email or password";
-			};	
-			}).catch(function (data) {
+		};	
+		}).catch(function (data) {
 				$scope.loginError="User does not exist";			
 			});
-			});
-		}	
+		});
+	};	
 });
 
 app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state) {
@@ -998,3 +1015,9 @@ app.filter('highlight', function ($sce) {
 		return $sce.trustAsHtml(text)
 	}
 });
+
+function parseJwt(token) {
+	var base64Url = token.split('.')[1];
+	var base64 = base64Url.replace('-', '+').replace('_', '/');
+	return JSON.parse(window.atob(base64));
+}

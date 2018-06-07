@@ -411,10 +411,11 @@ footer {
 }
 
 .information {
-	display: none;
+	cursor: pointer;
+	display: block;
 	position: absolute;
 	top: 10px;
-	right: 30px;
+	right: 15px;
 	font-size: 14px;
 }
 
@@ -634,7 +635,7 @@ img {
 	background-color: red;
 	color: white;
 	margin: 0px;
-	padding-bottom: 10px;
+	padding: 10px;
 	text-align: center;
 	font-size: 24px;
 	width: 100%;
@@ -1186,6 +1187,9 @@ div > .banner-limited {
 
 /* TABLET LOOK */
 @media all and (max-width: 768px) {
+	.information {
+		display: none;
+	}
 	.slide-title {
 		font-size: 26px;
 	    position: absolute;

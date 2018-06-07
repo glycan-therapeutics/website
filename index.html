@@ -137,13 +137,26 @@
 						<li class="nav-item">
 							<a ng-href="/compound-builder" ui-sref="demo" ui-sref-active="active">Online Synthesis</a>
 						</li>
-						<li class="nav-item">
-							<a ng-href="/register/" ui-sref="register" ui-sref-active="active">Register</a>
+					</ul>
+					<ul class="information">
+						<li>
+							<a ng-href="/login/" ui-sref="login" ui-sref-active="active" ng-if="token===undefined">Login</a>
 						</li>
-						<li class="nav-item" ng-if="Username.length>0">
-								<h4>{{Username}}</h4>
+						<li ng-if="token===undefined">
+							<span>|</span>
 						</li>
-
+						<li>
+							<a ng-href="/register/" ui-sref="register" ui-sref-active="active" ng-if="token===undefined">Register</a>
+						</li>
+						<li class="nav-item" ng-if="Username">
+							<span>{{Username}}</span>
+						</li>
+						<li ng-if="Username">
+							<span>|</span>
+						</li>
+						<li class="nav-item" ng-if="Username">
+							<a ng-href="#" ng-click="logOut()">Logout</a>
+						</li>
 					</ul>
 				</div>
 			</nav>
