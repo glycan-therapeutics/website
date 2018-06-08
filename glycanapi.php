@@ -49,6 +49,9 @@ switch($method) {
 			while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
 				array_push($outp, $rs);
 			}
+			$conn->close();
+			echo(json_encode($outp));
+			exit();
 		}
 		else {
 			$query = "SELECT * FROM `$table` ORDER BY `$table`.id ASC";

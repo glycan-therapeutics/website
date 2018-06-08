@@ -1,15 +1,15 @@
 <?php
-
 class mcApi {
 	public function __construct() {
-		$apiKey = 'd5397b7a3e2dec9362fb217b37e33835-us18';
-		$mcServer = 'https://us18.api.mailchimp.com/3.0/';
+		$config = parse_ini_file('../dbconfig/config.ini');
+		$this->apikey = $config['mcapikey'];
+		$this->mcserver = $config['mcserver'];
 		$debug = isset($_POST["debug"])?$_POST["debug"]:0;
 	}
 
 	public function subscribe($email, $firstn, $lastn, $listid) {
-		$apiKey = 'd5397b7a3e2dec9362fb217b37e33835-us18';
-		$mcServer = 'https://us18.api.mailchimp.com/3.0/lists/'.$listid.'/members';
+		$apiKey = $this->apikey;
+		$mcServer = $this->mcserver.$listid.'/members';
 		$debug = isset($_POST["debug"])?$_POST["debug"]:0;
 		$auth = base64_encode('user:'.$apiKey);
 		$data = array(
