@@ -1,0 +1,77 @@
+<div class="container" ng-controller="profileCtrl">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        <h2>Account Settings</h2>
+        <p ng-class="profileError == 'Email already in use'?'form-error':'form-success'">{{profileError}}</p>
+        <br/>
+        <p>Name: &nbsp; {{Username}}
+            <a class="login-edit" ng-click="changeName= !changeName; changeEmail= false; changePassword= false; emailChange=null; firstNameChange=null; lastNameChange=null; oldPassword=null; newPassword=null; confPassword=null; changePasswordForm.newPassword.$setPristine() "
+                ng-href="#">Edit</a>
+        </p>
+
+        <div class="row" ng-show="changeName">
+            <div class="col-xs-12 col-md-12">
+                <form name="changeNameForm" class="form-horizontal" role="form">
+                    <div class="reduced-top col-xs-6 col-sm-6 col-md-6 paddingZero">
+                        <div>
+                            <input type="text" id="FirstName" autocomplete='given-firstname' class="formspace form-control input-lg" ng-model="firstNameChange"
+                                placeholder={{firstName}} required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="LastName" autocomplete='given-lastname' class="formspace form-control input-lg" ng-model="lastNameChange"
+                                placeholder={{lastName}} required>
+                        </div>
+                        <div class="form-group">
+
+                            <button type="submit" class="btn btn-success btn-block btn-lg reduce-left" ng-click="updateUser()" data-ng-disabled="changeNameForm.$invalid">submit</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+        <br>
+        <p>Email: &nbsp; {{currentEmail}}
+            <a class="login-edit" ng-click="changeEmail= !changeEmail; changeName= false; changePassword= false; emailChange=null; firstNameChange=null; lastNameChange=null; oldPassword=null; newPassword=null; confPassword=null;"
+                ng-href="#">Edit</a>
+        </p>
+
+        <div class="row" ng-show="changeEmail">
+            <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                <form name="changeEmailForm" class="form-horizontal" role="form">
+                    <input type="email" class="formspace form-control input-lg" autocomplete='given-email' ng-model="emailChange" placeholder={{currentEmail}}
+                        maxlength="64" required>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block btn-lg reduce-left" ng-click="updateUser()" data-ng-disabled="changeEmailForm.$invalid">submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <p>Password: &nbsp; ********
+            <a class="login-edit" ng-href="#" ng-click="changePassword= !changePassword; changeName= false; changeEmail=false; emailChange=null; firstNameChange=null; lastNameChange=null; oldPassword=null; newPassword=null; confPassword=null; changePasswordForm.newPassword.$setPristine()">Edit</a>
+        </p>
+        <div class="row" ng-show="changePassword">
+            <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                <form name="changePasswordForm" class="form-horizontal" role="form">
+                    <input type="password" autocomplete='given-password' class="formspace form-control input-lg" name="oldPassword" placeholder="Current Password"
+                        ng-model="oldPassword" required>
+                    <div class="form-group">
+                        <input type="password" autocomplete='given-password' class="formspace form-control input-lg" name="newPassword" placeholder="New Password"
+                            pattern="(?=.*\d)(?=.*[A-Z]).{8,64}" ng-model="newPassword" title="Must contain at least 8 characters with numbers and uppercase." required>
+                        <span class="errorMessage" data-ng-show="changePasswordForm.newPassword.$dirty && changePasswordForm.newPassword.$invalid">
+                            Invalid Password</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="formspace form-control input-lg" required validateEqual="newPassword" placeholder="Confirm Password"
+                            autocomplete='given-password' name="confPassword" ng-model="confPassword" focus>
+                        <span class="errorMessage" data-ng-show="changePasswordForm.confPassword.$dirty && confPassword != newPassword">Passwords do not match</span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block btn-lg reduce-left" ng-click="updateUser()" data-ng-disabled="changePasswordForm.$invalid  || confPassword != newPassword">submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+    </div>

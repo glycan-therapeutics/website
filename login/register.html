@@ -1,59 +1,76 @@
 <div class="container" ng-controller="loginCtrl" autocomplete='given-name'>
-    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+    <div class="form-box">
         <h2>Register an Account</h2>
         <p ng-class="loginError != 'Email successfully registered'?'form-error':'form-success'">{{loginError}}</p>
         <form name="signupForm" class="form-horizontal" role="form">
             <br/>
-            <div class="reduced-top">
-                <input type="text" id="FirstName" autocomplete='given-firstname' class="formspace form-control input-lg" placeholder="First Name" ng-model="firstName" maxlength="32" >
+            <div class=row>
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <input type="text" id="FirstName" autocomplete='given-firstname' class="formspace form-control input-lg reduce-left" placeholder="First Name"
+                        ng-model="firstName">
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 ">
+                    <input type="text" id="LastName" autocomplete='given-lastname' class="formspace form-control input-lg float-right reduce-left"
+                        placeholder="Last Name" ng-model="lastName">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <input type="email" class="formspace form-control input-lg" autocomplete='given-email' placeholder="Email" name="email" ng-model="email"
+                        maxlength="64" focus>
+                    <span ng-show="signupForm.email.$error.email" class="errorMessage">Invalid email address</span>
+                </div>
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <div ng-class="!errorMessage.exists?'':'glow'">
+                        <input type="email" class="formspace form-control input-lg" required validateEqual="email" placeholder="Confirm Email" autocomplete='given-email'
+                            name="confemail" ng-model="confemail" focus>
+                        <span class="errorMessage" data-ng-show="signupForm.confemail.$dirty && confemail != email">Emails do not match</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <input type="text" id="LastName" autocomplete='given-lastname' class="formspace form-control input-lg" placeholder="Last Name" ng-model="lastName" maxlength="32">
-            </div>
-            <div class="form-group">
-                <input type="email" class="formspace form-control input-lg" autocomplete='given-email' placeholder="Email" name="email" ng-model="email" maxlength="16"
-                    focus>
-                <span ng-show="signupForm.email.$error.email" class="errorMessage">Invalid email address</span>
-            </div>
-            <div class="form-group" ng-class="!errorMessage.exists?'':'glow'">
-                <input type="email" class="formspace form-control input-lg" required validateEqual="email" placeholder="Confirm Email" autocomplete='given-email'
-                    name="confemail" ng-model="confemail" focus>
-                <span class="errorMessage" data-ng-show="signupForm.confemail.$dirty && confemail != email">Emails do not match</span>
-            </div>
-            <div class="form-group">
-                <input type="password" autocomplete='given-password' class="formspace form-control input-lg" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    ng-model="password" required>
-                <span class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> Must be at least 8 characters long and contain at least one number and uppercase.</span>
-            </div>
-            <div class="form-group">
-                <input type="password" class="formspace form-control input-lg" required validateEqual="password" placeholder="Confirm Password" autocomplete='given-password'
-                    name="confpassword" ng-model="confpassword" focus>
-                <span class="errorMessage"  data-ng-show="signupForm.confpassword.$dirty && confpassword != password">Passwords do not match</span>
+            <div class="form-group row">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <input type="password" autocomplete='given-password' class="formspace form-control input-lg" name="password" placeholder="Password"
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}" ng-model="password" required>
+                    <span class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> Must contain at least 8 characters with numbers and uppercase.</span>
+                </div>
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <input type="password" class="formspace form-control input-lg" required validateEqual="password" placeholder="Confirm Password"
+                        autocomplete='given-password' name="confpassword" ng-model="confpassword" focus>
+                    <span class="errorMessage" data-ng-show="signupForm.confpassword.$dirty && confpassword != password">Passwords do not match</span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <select class="minimal form-control input -lg securityQ" ng-model="Q1" ng-options="x for x in securityQ1" ng-init="Q1=securityQ1[0]"></select>
+            <div class="form-group row">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <select class="minimal form-control input -lg securityQ" ng-model="Q1" ng-options="x for x in securityQ1" ng-init="Q1=securityQ1[0]"></select>
+                </div>
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <select class="minimal form-control input -lg securityQ" ng-model="Q2" ng-options="x for x in securityQ2" ng-init="Q2=securityQ2[0]">
+                    </select>
+                    <span class="errorMessage" data-ng-show=" Q2 == Q1 && Q2 !='Select a security question' "> Please select a different question</span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <input type="text" autocomplete='given-answer1' class="form-control input-lg" name="security1" placeholder="Answer" required  maxlength="64"
-                    ng-model="A1" required></div>
-            <div class="form-group">
-                <select class="minimal form-control input -lg securityQ" ng-model="Q2" ng-options="x for x in securityQ2" ng-init="Q2=securityQ2[0]">
-                </select>
-                <span class="errorMessage" data-ng-show=" Q2 == Q1 && Q2 !='Select a security question' "> Please select a different question</span>
-            </div>
-            <div class="form-group">
-                <input type="text" autocomplete='given-answer2' class="form-control input-lg" name="security2" placeholder="Answer" required maxlength="64"
-                    ng-model="A2" required>
-                <span class="errorMessage" data-ng-show="signupForm.A2.$dirty && signupForm.A2.$invalid"> Enter an answer.</span>
+            <div class="form-group row">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <input type="text" autocomplete='given-answer1' class="form-control input-lg" name="security1" placeholder="Answer" required
+                        maxlength="64" ng-model="A1" required>
+                </div>
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                    <input type="text" autocomplete='given-answer2' class="form-control input-lg" name="security2" placeholder="Answer" required
+                        maxlength="64" ng-model="A2" required>
+                    <span class="errorMessage" data-ng-show="signupForm.A2.$dirty && signupForm.A2.$invalid"> Enter an answer.</span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="customcheck">Accept our <a href="/support/terms-conditions" target="_blank">Terms & Services</a>
+            <div class="form-bottom">
+                <label class="customcheck">Accept our
+                    <a href="/support/terms-conditions" target="_blank">Terms & Services &nbsp</a>
                     <input type="checkbox" name="terms" required ng-model="terms" required>
                     <span class="checkmark"></span>
+                    <br>
                     <span style="font-weight: bold" class="errorMessage" data-ng-show="signupForm.terms.$dirty&&terms == null"> You must accept our Terms & Services</span>
                 </label>
             </div>
@@ -65,13 +82,13 @@
 
                 </label>
             </div>
-
-
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <button type="submit" class="btn btn-primary btn-block btn-lg  reduce-left" ng-click="register()" data-ng-disabled="signupForm.$invalid|| confemail != email || confpassword != password || Q1 == Q2 || terms != true">Sign Up
-                    </button>
-                    <a ng-href="/login/" style="margin-left: 4px">Already have an account?</a>
+            <div class="reduced-top col-xs-6 col-sm-6 col-md-6 paddingZero">
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <button type="submit" class="betterbutton  reduce-left" ng-click="register()" data-ng-disabled="signupForm.$invalid|| confemail != email || confpassword != password || Q1 == Q2 || terms != true">Sign Up
+                        </button>
+                        <a ng-href="/login/" style="margin-left: 4px">Already have an account?</a>
+                    </div>
                 </div>
             </div>
         </form>

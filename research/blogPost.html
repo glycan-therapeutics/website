@@ -1,0 +1,18 @@
+<div class="container" ng-controller="blogPostCtrl">
+    <p>{{blogError}}</p>
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 paddingZero">
+        <h3 class='black'>Insert a new post</h3>
+        <form>
+            <input type="text" id="Title" class="blogTitleInput" autocomplete='given-title' class="formspace form-control input-lg" ng-model="title" placeholder=Title maxlength="80"
+                required>
+            <textarea rows="30" cols="50" class="blogform" ng-model="content" placeholder="Write here" required></textarea>
+            <div class="blogbottom">
+                <input type="text" id="source" autocomplete='given-title' class="formspace form-control input-lg" ng-model="source" placeholder=source>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <button type="submit" class="betterbutton reduce-left" ng-click="submit()">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>

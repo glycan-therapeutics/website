@@ -1,5 +1,5 @@
 <div class="container" ng-controller="loginCtrl">
-    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 login-box">
         <h2>Login</h2>
         <p ng-class="loginError != 'login successful'?'form-error':'form-success'">{{loginError}}</p>
         <form name="signupForm" class="form-horizontal reduced-top" role="form">
@@ -13,18 +13,17 @@
             <div class="form-group">
                 <input type="password" class="form-control input-lg" autocomplete='given-password' name="password" placeholder="Password"
                     ng-model="password" required>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <button type="submit" class="betterbutton reduce-left" ng-click="login()">Log In</button>
                 </div>
 
-
-    <div class="row">
-        <div class="col-xs-12 col-md-6">
-            <button type="submit" class="btn btn-success btn-block btn-lg reduce-left" ng-click="login()">Log In</button>
-        </div>
-
-        <div class="col-xs-12 col-md-6">
-            <button class="btn btn-success btn-block btn-lg reduce-left" ng-href="/register/" ui-sref="register">Sign Up </button>
-        </div>
+                <div class="col-xs-12 col-md-6">
+                    <button class="betterbutton reduce-left" ng-href="/register/" ui-sref="register">Sign Up </button>
+                </div>
+            </div>
+        </form>
     </div>
-    </form>
-</div>
 </div>

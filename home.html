@@ -14,12 +14,13 @@
 	<div class="row">
 		<div class="col-sm-6">
 			<h3 class="news-header">
-			News
+				News
 			</h3>
 			<ul class="news-partner">
-				<div ng-repeat="item in news | orderBy:'-Updated'">
-					<li >
-						<strong>{{item.Updated}}</strong> - {{item.News}} <a ng-if="item.Link!==''" ui-sref="{{item.Link}}">{{item.Anchor}}</a>
+				<div ng-repeat="item in news | orderBy:'-Date'">
+					<li>
+						<strong>{{item.Date}}</strong> - {{item.News}}
+						<a ng-if="item.Link!==''" ui-sref="{{item.Link}}">{{item.Anchor}}</a>
 					</li>
 				</div>
 			</ul>
@@ -27,11 +28,28 @@
 		</div>
 		<div class="col-sm-6">
 			<h3 class="news-header">
-			Partnerships & Investment Opportunities
+				Scientist's Corner
+			</h3>
+			<ul class="news-partner">
+				<div ng-repeat="blog in blog| orderBy:id:true|limitTo: 1">
+					<li>
+						<strong>{{blog.date}}&nbsp; - &nbsp;{{blog.title}}</strong>
+						<br>
+						<p>{{blog.content.substring(0,650)}}...
+							<a ui-sref="detailed({id: {{blog.id}}})">Read more</a>
+						</p>
+					</li>
+					<a class="align-right size-14 desktop-display" ui-sref="blog({currentPage: 1})">View all posts.</a>
+				</div>
+			</ul>
+
+			<h3 class="news-header">
+				Partnerships & Investment Opportunities
 			</h3>
 			<p class="news-partner">
-				We welcome inquiries about partnerships and/or investment into research and development of 
-				synthetic carbohydrate therapeutics. Feel free to contact us at <a href="mailto:info@glycantherapeutics.com" target="_top">info@glycantherapeutics.com</a>
+				We welcome inquiries about partnerships and/or investment into research and development of synthetic carbohydrate therapeutics.
+				Feel free to contact us at
+				<a href="mailto:info@glycantherapeutics.com" target="_top">info@glycantherapeutics.com</a>
 			</p>
 		</div>
 	</div>

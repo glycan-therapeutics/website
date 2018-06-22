@@ -128,8 +128,13 @@
 								<a class="dropdown-item" ng-href="/services/microarray-analysis" ui-sref="services.analysis">Microarray Analysis</a>
 							</div>
 						</li>
-						<li class="nav-item">
-							<a ng-href="/research/" ui-sref="research" ui-sref-active="active">Research</a>
+						<li class="nav-item dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/research/" ui-sref="research" ui-sref-active="active">Research</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" ng-href="/research/" ui-sref="research">What do we do?</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" ng-href="/research/blog" ui-sref="blog">What is going on in Glycobiology?</a>
+							</div>
 						</li>
 						<li class="nav-item">
 							<a ng-href="/support/" ui-sref="support" ui-sref-active="active">Support</a>
@@ -149,13 +154,13 @@
 							<a ng-href="/register/" ui-sref="register" ui-sref-active="active" ng-if="token===undefined">Register</a>
 						</li>
 						<li class="nav-item" ng-if="Username">
-							<span>{{Username}}</span>
+							<a ng-href="/profile/" ui-sref="profile">{{Username}}</a>
 						</li>
 						<li ng-if="Username">
 							<span>|</span>
 						</li>
-						<li class="nav-item" ng-if="Username">
-							<a ng-href="#" ng-click="logOut()">Logout</a>
+						<li class="nav-item"" ng-if="Username"">
+							<a  ng-href="/" ng-click="logout()">Logout</a>
 						</li>
 					</ul>
 				</div>
