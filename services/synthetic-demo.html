@@ -1,7 +1,7 @@
 <div class="align-center" ng-controller="synthesisCtrl as $ctrl" style="min-height:700px">
 	<div class="container-fluid error" ng-if="alert">
 		<button type="button" class="close white-text" ng-click="dismiss()">×</button>
-		<h3>{{alertMsg}}</h3>
+		<h3>{{alertMsg}} <a class="resend"href=resendVerify>{{alertMsg2}}</a></h3>
 	</div>
 	<div id="myHistory" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg">
@@ -36,7 +36,7 @@
 					<span style="width:100%" ng-if="!isEven(structure.length)&&structure.length<maxSize&&structure.length>0">
 						<div ng-class="structure.length<5?'glow':'glowinactive'"  ng-repeat="odd in oddPiece">
 							<button class="reduceBottom" ng-click="addPiece(odd.name);increment()" ng-disabled="oddRules(structure.length, odd.name);"
-							 uib-tooltip="{{odd.tooltip}}">{{odd.name}}</button>
+							 uib-tooltip="{{odd.tooltip}}" tooltip-trigger="none">{{odd.name}}</button>
 						</div>
 					</span>
 					<span style="width:100%" ng-if="isEven(structure.length)&&structure.length<maxSize&&structure.length>0">
@@ -64,14 +64,14 @@
 					<strong ng-if="structure.length==1">____-____-____-____-</strong>{{structureDisplay()}}
 				</h3>
 			</div>
-			<div class="col-md-2 align-center">
+			<div class="ipadTag col-md-2 align-center ">
 				<h2>Tags</h2>
 				<span>
 					<div ng-controller="compoundCtrl" ng-repeat="tag in tags">
 						<div ng-class="structure.length==0?'glow':'glowinactive'">
 							<button ng-click="setTag(tag.name)" uib-tooltip="{{tag.tooltip}}" class="reduceBottom">
 								<div class="center " ng-repeat="x in compounds | filter:{Series: highestSeries, Family: tag.name } as thistag"></div>
-								<strong class="circletest" ng-if="structure.length>minSize">{{thistag.length}}</strong>
+								<strong class="circle circleMobile" ng-if="structure.length>minSize">{{thistag.length}}</strong>
 								{{tag.name}}
 							</button>
 						</div>

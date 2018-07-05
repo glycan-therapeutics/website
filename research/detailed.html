@@ -1,28 +1,27 @@
 <title>Research - Glycan Therapeutics</title>
 <div ng-repeat="item in blog| filter:{id: blogFilter}|orderBy:id|limitTo: 1">
     <div class="container">
-        <a ui-sref="blog" class="blogShell"><i class=" arrow blogLeft"></i>Go back</a>
+        <a ui-sref="blog" style="font-size:22px">
+            <i class=" arrow blogLeft"></i>Go back</a>
     </div>
     <div class=" jumbotron-fluid blogGradient" ng-controller="blogCtrl">
         <div class="blogDiv">
             <div class="container">
                 <h2 class="blogHeadDetailed" ui-sref="blog">
                     {{item.title}} </h2>
-                <p class="blogDateDetailed">Posted on {{item.date}}</p>
+                <p class="blogDate blogDateDetailed">Posted on {{item.date}}</p>
             </div>
         </div>
     </div>
     <div class="container">
         <ul class="blogDisplay">
             <li>
-                <div class="blogheader">
-                    <div class="blogContentDetailed">
-                        <h5 class="preserve">{{item.content}}</h5>
-                        <h3 class="blogbottom" ng-if="item.source !== '' ">
-                            <a href={{item.source}}>Learn more here</a>
-                        </h3>
-                        <br>
-                    </div>
+                <div class="blogContent paddingbottom0">
+                    <h5 class="blogPreserveStyle">{{item.content}}</h5>
+                    <h3 class="blogbottom" ng-if="item.source !== '' ">
+                        <a href={{item.source}}>Learn more here</a>
+                    </h3>
+                    <br>
             </li>
             </div>
         </ul>

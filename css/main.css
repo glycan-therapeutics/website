@@ -721,7 +721,7 @@ img {
 }
 
 .row {
-	margin-top: 	5px;
+	margin-top: 5px;
 	margin-bottom: 5px;
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -1351,6 +1351,52 @@ div > .banner-limited {
 	    margin: 0px;
 	    padding-bottom: 0px;
 	}
+
+	.form-box{
+		padding: 0px!important;
+	}
+
+	.formMobile{
+		margin-top: 0px!important;
+		padding-top: 0px!important;
+	}
+
+	.form-group{
+		margin-top: 0px!important;
+	}
+
+	.formUpper{
+		margin-bottom: 10px!important;
+	}
+
+	.form-bottom{
+		margin-bottom: 25px;
+	}
+	.login-box{
+		padding:0px!important;
+	}
+	.loginMobile{
+		margin-top: 20px;
+	}
+	.formMobileSpace{
+		margin-bottom: 0px!important;
+	}
+	
+.circleMobile {
+	display:inline-block;
+	padding: 2px;
+	margin: 0;
+	border: 0;
+    line-height:16px!important;
+    width: 20px!important;
+	height: 20px!important;
+	border-radius:50%;
+	background: #434DB3;
+	color: #FFF;
+	position: absolute;
+	left: 7%!important;
+}
+
 }
 
 @media all and (max-width: 767px) {
@@ -1440,6 +1486,29 @@ div > .banner-limited {
 
 }
 
+@media all and (max-width: 1024px) {
+.ipadTag{
+	padding: 0px!important;
+}
+.circleMobile {
+	display:inline-block;
+	padding: 2px;
+	margin: 0;
+	border: 0;
+	border-radius:50%;
+	background: #434DB3;
+	color: #FFF;
+	position: absolute;
+	left: 7%!important;
+}
+
+}
+
+@media all and (max-width: 575px) {
+.reduced-top{
+	margin-top: 15px!important;
+}
+}
 @-webkit-keyframes Gradient {
 	0% {
 		background-position: 0% 50%
@@ -1523,21 +1592,6 @@ transition: all 0.2s ease;
 	color: #FFF;
 	position: absolute;
 	left: 25px;
-}
-
-.circletest{
-	display:inline-block;
-	padding: 2px;
-	margin: 0;
-	border: 0;
-    line-height:18px;
-    width: 22px;
-	height: 22px;
-	border-radius:50%;
-	background: #434DB3;
-	color: #FFF;
-	position: absolute;
-	left: 17%;
 }
 
 .supportbutton {
@@ -1657,7 +1711,6 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 	padding: 3px 3px 0px 3px;
 	border-radius: 5px;
 	width: 100%;
-
 }
 
 .glowinactive{
@@ -1819,9 +1872,8 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 		display: flex;
 		width: 100%;
 	}
-
-	.small-margins{
-		margin-bottom:0px!important;
+	.padding-bottom0{
+		padding-bottom:0px;
 	}
 
 	.blogContent{
@@ -1838,58 +1890,29 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 		list-style-type: none;
 		border-radius: 5px;
 	}
-
 	
-	.blogContentDetailed{
-		margin-top: 10px;
-		text-align: left;
-		color: black;
-		background: rgb(247, 247, 247);
-		padding: 10px;
-		padding-bottom: 0px;
-		font-size: 18px;
-		border-top-style: solid;
-		border-top-width: 1px;
-		border-radius: 1px;
-		border-color:  #0070c0;
-		list-style-type: none;
-		border-radius: 5px;
-	}
-
 	.blogbottom{
 		margin-top: 25px;
 		margin-bottom: 0px;
 		padding-bottom: 0px;
 	}
-	.blogform{
-		margin-top: 25px;
-		margin-bottom: 0px;
-	}
-	.preserve{
+	.blogPreserveStyle{
 		margin-top: 0px!important;
 		margin-bottom: 0px!important;
 		padding-top: 0px;
 		white-space: pre-line;
 	}
-	
 	.blogbutton{	
 		width: 25%;
 		float:right;
 		margin:0px;
 	}
-
-
 	.blogalternate{
 		background-color: #e0e0ff;
 		border-top-style: solid;
 		border-top-width: 1px;
 		border-radius: 1px;
 		border-color:  #0c66b9;
-
-	}
-
-	.blogheader{
-		display:flex;
 	}
 	.blogTitle{
 		display:inline;
@@ -1902,13 +1925,7 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 		-webkit-text-stroke-width: .6px;
 		-webkit-text-stroke-color: rgb(0, 0, 0);
 	}
-
-	.blogTitleInput{
-		font-size: 40px;
-		font-weight: 800;
-		width: 100%;
-	}
-
+	
 	.blogTitle:hover{
 		text-shadow: 1px 2px rgba(0,0,0,0.2);
 		cursor: pointer;
@@ -1930,6 +1947,12 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 		-webkit-text-stroke-color: rgb(0, 0, 0);
 	}
 	
+	.blogTitleInput{
+		font-size: 40px;
+		font-weight: 800;
+		width: 100%;
+	}
+	
 	.blogDate{
 		float:right;
 		line-height: 44px;
@@ -1939,15 +1962,11 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 		font-size: 20px;
 	}
 	.blogDateDetailed{
-		float:right;
 		line-height: 3.5;
-		margin:0px;
-		padding:0px;
-		font-size: 20px;
-		font-weight: 200;
 		}
 
 	.blogGradient{
+		display:flex;
 		background: linear-gradient(105deg, rgb(107, 129, 255),rgb(107, 129, 255),#FFF,#FFF);
 		padding:40px;
 		margin:auto;
@@ -1955,19 +1974,7 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 		position:relative;
 		width: 100%;
 		}
-	
-	.blogViewAll{
-		float:right;
-		line-height: 2;
-		font-size: 30px;
-	}
 
-	.blogShell{
-		font-size: 20px;
-		font-weight: 500;
-		padding-left: 15px;
-		
-	}
 	i.arrow{
 		border: solid rgb(5, 5, 165);
 		border-width: 0 3px 3px 0;
@@ -1979,4 +1986,9 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 	.blogLeft{
 		transform: rotate(135deg);
 		-webkit-transform: rotate(135deg);
+	}
+	.resend{
+		font-size: 80%;
+		color:#FFF;
+		font-weight: bold;
 	}

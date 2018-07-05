@@ -22,6 +22,46 @@ $key = array_shift($request);
 $options = [
 	'cost' => 11,
 ];
+function sendMail($subject,$body,$email){
+	$config = parse_ini_file('../dbconfig/config.ini');					
+	$emailuser = $config['emailuser'];
+	$emailpass = $config['emailpass'];
+	require_once('PHPMailer/PHPMailerAutoload.php');
+	$mail = new PHPMailer();
+	$mail->isSMTP();
+	$mail->SMTPAuth = true;
+	$mail->SMTPSecure = 'ssl';
+	$mail->Host = 'smtp.gmail.com';
+	$mail->Port = '465';
+	$mail->isHTML();
+	$mail->Username =  $emailuser;
+	$mail->Password = $emailpass;
+	$mail->SetFrom('no-reply@glycan.com');
+	$mail->Subject = $subject;
+	$mail->Body= $body;
+	$mail->AddAddress($email);
+	$mail->Send();
+}
+
+function sendVerification($email){
+	$config = parse_ini_file('../dbconfig/config.ini');
+	$server = $config['server'];
+	$user = $config['user'];
+	$pass = $config['pass'];
+	$dbname = $config['dbname'];
+	$conn = new mysqli($server, $user, $pass, $dbname);
+	if($conn->connect_error) {
+		die("Connection failed: ").$conn->connect_error;
+	}
+	$verify = dechex(rand(1000000,9999999));			
+	$result=$conn->prepare("UPDATE users SET `hash`=? WHERE email = ?");
+	$result->bind_param('ss', $verify, $email);
+	$result->execute();
+	$subject= 'Verify registration';
+	$body="https://localhost:3000/verify?verifyEmail=$email&verifyHash=$verify";
+	sendMail($subject,$body,$email);
+}
+
 //decides which query is used
 switch($method) {
 	case 'GET':
@@ -34,7 +74,7 @@ switch($method) {
 		else if($table == 'login'){
 			$ip=$_GET['ip'];
 			$email=$_GET['email'];
-			$query=$conn->prepare("SELECT login.date, login.login_successful, users.FirstName, users.LastName , users.id FROM login INNER JOIN users ON login.email= users.email WHERE date = (SELECT MAX(date) FROM login WHERE(IP = ? AND email=?))");
+			$query=$conn->prepare("SELECT login.date, login.login_successful,users.verified, users.FirstName, users.LastName , users.id FROM login INNER JOIN users ON login.email= users.email WHERE date = (SELECT MAX(date) FROM login WHERE(IP = ? AND email=?))");
 			$query->bind_param('ss',$ip, $email);
 			$query->execute();
 			$result = $query->get_result();
@@ -145,7 +185,7 @@ switch($method) {
 				$Q2 = $input->Q2;
 				$A2 = $input->A2;
 				$date = date("Y-m-d H:i:s");
-				$hash = password_hash($password, PASSWORD_BCRYPT, $options);		
+				$hash = password_hash($password, PASSWORD_BCRYPT, $options);
 					$query ="INSERT INTO users(FirstName, LastName, email, password, created) VALUES (?,?,?,?,?)";	
 					$result=$conn->prepare($query);
 					$result->bind_param('sssss', $first, $last, $email, $hash, $date);	
@@ -156,12 +196,82 @@ switch($method) {
 						$result->bind_param('sssss', $email, $Q1, $Q2, $A1, $A2);
 						if($result->execute() && $subscribe) {
 							$mc->subscribe($email, $first, $last, '068752b958');
-						}	
+						}
+						sendVerification($email);
 					}
 					else {
 						echo "Email already exists";
 					}
 			}		
+			else if($key == "verify"){
+				$email = $input->verifyEmail;
+				$hash = $input->verifyHash;
+				$hashDB = null;
+				$result=$conn->prepare("SELECT `hash` FROM users WHERE email = ?");
+				$result->bind_param('s',$email);
+				$result->execute();
+				$result->bind_result($hashfromDB);
+				while ($result->fetch()) {
+					$hashDB=$hashfromDB;	
+				};
+				if(trim($hash) === trim($hashDB)){
+					$result=$conn->prepare("UPDATE users SET verified = 1 WHERE email = ?");
+					$result->bind_param('s',$email);
+					$result->execute();
+					echo "account successfully verified";	
+				}
+				else{
+						echo "account failed to verify";
+				}
+				  
+			}
+		else if($key == "resendVerification"){
+			$email = $input->email;
+			$result=$conn->prepare("SELECT `email` FROM users WHERE `email` = ?");
+			$result->bind_param('s', $email);
+			$result->execute();
+			$result->bind_result($exist);
+			while ($result->fetch()) {
+				$exist=$exist;	
+			};
+			if(trim($email) === trim($exist)){
+
+			sendVerification($email);
+			echo "verification resent!";
+			}
+			else{
+				echo($exist);
+				echo "User does not exist";
+			}				
+		
+		}
+		else if($key == "resetPassword"){
+			$email = $input->email;
+			$result=$conn->prepare("SELECT `email` FROM users WHERE `email` = ?");
+			$result->bind_param('s', $email);
+			$result->execute();
+			$result->bind_result($exist);
+			while ($result->fetch()) {
+				$exist=$exist;	
+			};
+			if(trim($email) === trim($exist)){
+			$tempPassword = dechex(rand(10000000,99999999));
+			$hash = password_hash($tempPassword, PASSWORD_BCRYPT, $options);					
+			$result=$conn->prepare("UPDATE users SET password = ? WHERE email = ?");
+			$result->bind_param('ss', $hash, $email);
+			$result->execute();
+			$subject= 'Reset Password';
+			$body="Temporary Password: $tempPassword";
+			sendMail($subject,$body,$email);
+			echo "password sent!";
+			
+			}
+			else{
+				echo($exist);
+				echo "User does not exist";
+			}				
+		}
+
 			else if($key == "login-attempt"){
 				$email = $input->email;
 				$password = $input->password;

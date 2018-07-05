@@ -28,7 +28,7 @@ $key = array_shift($request);
 	if($key == "login"){
 	$ip=$_GET['ip'];
 	$email=$_GET['email'];
-	$query=$conn->prepare("SELECT login.date, login.login_successful,users.permission, users.FirstName, users.LastName, users.email, users.id FROM login INNER JOIN users ON login.email= users.email WHERE date = (SELECT MAX(date) FROM login WHERE(IP = ? AND email=?))");
+	$query=$conn->prepare("SELECT login.date, login.login_successful,users.permission, users.FirstName, users.LastName, users.email, users.id, users.verified FROM login INNER JOIN users ON login.email= users.email WHERE date = (SELECT MAX(date) FROM login WHERE(IP = ? AND email=?))");
 	$query->bind_param('ss',$ip, $email);
 	$query->execute();
 	$result = $query->get_result();
@@ -59,7 +59,7 @@ $key = array_shift($request);
 else if($key=="update"){
 	$ip=$_GET['ip'];
 	$uid=$_GET['uid'];
-	$query=$conn->prepare("SELECT `users:changelog`.date, users.FirstName,users.permission, users.LastName ,users.email, users.id FROM `users:changelog` INNER JOIN users ON `users:changelog`.uid= users.id WHERE date = (SELECT MAX(date) FROM `users:changelog` WHERE(IP = ? AND uid=?))");
+	$query=$conn->prepare("SELECT `users:changelog`.date, users.FirstName,users.permission, users.LastName ,users.email, users.id, users.verified FROM `users:changelog` INNER JOIN users ON `users:changelog`.uid= users.id WHERE date = (SELECT MAX(date) FROM `users:changelog` WHERE(IP = ? AND uid=?))");
 	$query->bind_param('ss',$ip, $uid);
 	$query->execute();
 	$result = $query->get_result();

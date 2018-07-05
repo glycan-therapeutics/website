@@ -19,6 +19,12 @@ app.directive('updateTitle', ['$rootScope', '$timeout',
 ]);
 
 app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http, $state, $window, $location) {
+
+	var $ctrl = this;
+	$ctrl.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+
 	$http.get("/glycanapi.php/news")
 		.then(function (response) {
 			$scope.news = response.data;
@@ -27,7 +33,6 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 		.then(function (response) {
 			$scope.blog = response.data;
 		});
-
 	$scope.slides = [{
 		title: "18-Mer Library",
 		text: "Pushing the boundaries of conventional heparan sulfates.",
@@ -58,7 +63,7 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 			$scope.lastName = $scope.token.data.LastName;
 			$scope.currentEmail = $scope.token.data.email;
 			$scope.permission = $scope.token.data.permission;
-
+			$scope.verification = $scope.token.data.verified;
 		}
 		catch (err) {
 			console.log(localStorage.removeItem("Token"));
@@ -66,7 +71,6 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 
 
 	}
-
 	$scope.active = 0;
 	$scope.isCollapsed = true;
 	$scope.productCollapsed = true;
@@ -132,6 +136,16 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 	}
 });
 
+app.controller('verifyAlertCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
+	if ($scope.verification == 0) {
+		$scope.alertMsg = "Please verify your account.";
+		$scope.alert = 1;
+	}
+	$scope.dismiss = function () {
+		$scope.alert = false;
+	}
+});
+
 app.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
 	var $ctrl = this;
 
@@ -139,6 +153,22 @@ app.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
 		$uibModalInstance.dismiss('cancel');
 	};
 });
+
+app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
+	var parser = new UAParser();
+	var result = parser.getResult();
+	var touch = result.device && (result.device.type === 'tablet' || result.device.type === 'mobile');
+
+	if (touch) {
+		var options = {
+			trigger: 'dontTrigger' // default dummy trigger event to show tooltips
+		};
+
+		$uibTooltipProvider.options(options);
+	}
+
+}]);
+
 
 app.config(['$locationProvider', function ($locationProvider) {
 	$locationProvider.html5Mode(true).hashPrefix('');
@@ -279,6 +309,38 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 		}
 	}
 
+	var verifyState = {
+		name: 'verifyAccount',
+		url: '/verify?verifyEmail=email&verifyHash=hash',
+		templateUrl: 'login/verify.html',
+		controller: function ($stateParams, $scope) {
+			$scope.verifyEmail = $stateParams.verifyEmail;
+			$scope.verifyHash = $stateParams.verifyHash;
+		},
+
+		data: {
+			pageTitle: 'blog - Glycan Therapeutics'
+		}
+	}
+
+	var resendVerifyState = {
+		name: 'resendVerify',
+		url: '/resendVerify',
+		templateUrl: 'login/resendVerify.html',
+		data: {
+			pageTitle: 'resend verification code - Glycan Terapeutics'
+		}
+	}
+	var passwordRecoveryState = {
+		name: 'passwordRecovery',
+		url: '/passwordRecovery',
+		templateUrl: 'login/passwordRecovery.html',
+		data: {
+			pageTitle: 'reset password - Glycan Terapeutics'
+		}
+	}
+
+
 	var supportState = {
 		name: "support",
 		url: '/support/',
@@ -384,6 +446,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 	$stateProvider.state(blogIndexState);
 	$stateProvider.state(blogDetailedState);
 	$stateProvider.state(blogPostState);
+	$stateProvider.state(verifyState);
+	$stateProvider.state(resendVerifyState);
+	$stateProvider.state(passwordRecoveryState);
+
 });
 
 app.factory('GlcNAc6SRules', function () {
@@ -439,10 +505,8 @@ app.controller('synthesisCtrl', ['$scope', 'GlcNAc6SRules', 'GlcNS6SRules', 'Ido
 		$scope.alertMsg = "Please log in to save & load your custom compounds.";
 		$scope.alert = 1;
 	}
-
 	$scope.minSize = 4;
 	$scope.maxSize = 10;
-
 
 	//store different tag possibilites in JSON
 	$scope.tags = [{
@@ -889,12 +953,6 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 		subscribe = false;
 
 	$scope.register = function () {
-		console.log($scope.newsletter);
-		console.log(/^[^<>%$]*$/.test($scope.firstName));
-		console.log(/^[^<>%$]*$/.test($scope.lastName));
-		console.log(/[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test($scope.email));
-		console.log(/(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test($scope.password));
-		console.log(/^[^<>%$]*$/.test($scope.A1) && /^[^<>%$]*$/.test($scope.A2));
 		if (/^[^<>%$]*$/.test($scope.firstName) && /^[^<>%$]*$/.test($scope.lastName) && /[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test($scope.email) && /(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test($scope.password) && /^[^<>%$]*$/.test($scope.A1) && /^[^<>%$]*$/.test($scope.A2)) {
 			var request = $http({
 				method: "POST",
@@ -913,6 +971,7 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function (response) {
 				$scope.loginError = response.data;
+				console.log($scope.loginError);
 			});
 		}
 		else {
@@ -921,8 +980,6 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 	};
 
 	$scope.login = function () {
-		console.log(/[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test($scope.email));
-		console.log(/(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test($scope.password));
 		if (/[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test($scope.email) && /(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test($scope.password)) {
 			var request = $http({
 				method: "POST",
@@ -945,7 +1002,7 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 				}).then(function (response) {
 					$scope.attempt = response.data;
 					console.log($scope.attempt);
-					if ($scope.attempt[0].login_successful == 1) {
+					if ($scope.attempt[0].login_successful == 1/* && $scope.attempt[0].verified == 1*/) {
 						$scope.loginError = "login successful";
 						var request = $http({
 							method: "GET",
@@ -964,8 +1021,12 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 					}
 					else {
 						$scope.loginError = "Incorrect email or password";
-					};
+						/*if ($scope.attempt[0].verified == 0)
+							$scope.loginError = "Please verify your account";
+					*/};
 				}).catch(function (data) {
+
+
 					$scope.loginError = "User does not exist";
 				});
 			});
@@ -973,6 +1034,49 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 		else {
 			$scope.loginError = "Incorrect password or email";
 		};
+	}
+
+});
+app.controller('resetCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
+	$scope.resendVerification = function () {
+		if ($scope.emailreset) {
+			var request = $http({
+				method: "POST",
+				url: "glycanapi.php/users/resendVerification",
+				data: {
+					'email': $scope.emailreset,
+				},
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function (response) {
+				$scope.resendResponse = response.data;
+			})
+			$scope.emailreset = null;
+			$scope.emailreset.$setPristine();
+		}
+
+		else {
+			$scope.resendResponse = "please enter an email";
+		}
+	}
+	$scope.resetPassword = function () {
+		if ($scope.emailreset) {
+			var request = $http({
+				method: "POST",
+				url: "glycanapi.php/users/resetPassword",
+				data: {
+					'email': $scope.emailreset,
+				},
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function (response) {
+				$scope.resendResponse = response.data;
+			})
+			$scope.emailreset = null;
+			$scope.emailreset.$setPristine();
+		}
+		else {
+			$scope.resendResponse = "please enter an email";
+		}
+
 	}
 
 });
@@ -988,6 +1092,7 @@ app.controller('profileCtrl', function ($location, $scope, $sce, $http, $uibModa
 		$window.location.href = '../';
 	};
 	var uid = $scope.token.data.id;
+
 	$scope.updateUser = function () {
 		var firstName = $scope.firstNameChange;
 		var lastName = $scope.lastNameChange;
@@ -1020,8 +1125,6 @@ app.controller('profileCtrl', function ($location, $scope, $sce, $http, $uibModa
 			oldPassword = null;
 			var target = "Name";
 			var run = true;
-			console.log(/^[^<>%$]*$/.test($scope.firstName));
-			console.log(/^[^<>%$]*$/.test($scope.lastName));
 		}
 
 		else if (password != undefined && password != null && /(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test(password) && /(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test(oldPassword)) {
@@ -1030,10 +1133,7 @@ app.controller('profileCtrl', function ($location, $scope, $sce, $http, $uibModa
 			email = null;
 			var target = "Password";
 			var run = true;
-			console.log(/(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test($scope.password));
 		}
-
-		console.log(target);
 		if (run == true) {
 			var request = $http({
 				method: "POST",
@@ -1061,7 +1161,6 @@ app.controller('profileCtrl', function ($location, $scope, $sce, $http, $uibModa
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 				}).then(function (response) {
 					$scope.token = response.data;
-					console.log($scope.token);
 					localStorage.setItem("Token", $scope.token);
 					if ($scope.profileError == "Password updated!") {
 						$window.location.href = '/profile/';
@@ -1083,6 +1182,47 @@ app.controller('profileCtrl', function ($location, $scope, $sce, $http, $uibModa
 		}
 	};
 });
+app.controller('verifyCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
+	/*$http.get('http://api.ipstack.com/check?access_key=ea58e47e5ff55d39cdc827f7bc1aae89&format=1')
+	.then(function (response) {
+		$scope.ip = response.data.ip;
+	});
+	*/
+	$scope.ip = "71.69.166.95";
+	if (!$scope.verifyEmail || !$scope.verifyHash) {
+		$window.location.href = "/";
+	}
+	var request = $http({
+		method: "POST",
+		url: "glycanapi.php/users/verify",
+		data: {
+			'verifyEmail': $scope.verifyEmail,
+			'verifyHash': $scope.verifyHash,
+		},
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+	}).then(function (response) {
+		$scope.verify = response.data;
+		if ($scope.token) {
+			var uid = $scope.token.data.id;
+			var request = $http({
+				method: "GET",
+				url: "tokengenerator.php/users/login",
+				params: {
+					'email': $scope.verifyEmail,
+					'ip': $scope.ip,
+				},
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function (response) {
+				$scope.token = response.data;
+				localStorage.setItem("Token", $scope.token);
+			})
+		}
+	})
+
+
+});
+
+
 app.controller('blogCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
 	if (!$scope.currentPage) {
 		$scope.currentPage = 1;
@@ -1094,7 +1234,6 @@ app.controller('blogCtrl', function ($location, $scope, $sce, $http, $uibModal, 
 	}).then(function (response) {
 		$scope.blogmax = response.data;
 		$scope.totalItems = $scope.blogmax.length;
-		console.log($scope.totalItems);
 		pageChanged();
 	});
 
@@ -1109,10 +1248,8 @@ app.controller('blogCtrl', function ($location, $scope, $sce, $http, $uibModal, 
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function (response) {
 			$scope.page = response.data;
-			console.log($scope.page);
 		});
-		$log.log('Page changed to: ' + $scope.currentPage);
-		console.log($scope.pageMin = ($scope.currentPage - 1) * 10 + 1);
+		$scope.pageMin = ($scope.currentPage - 1) * 10 + 1;
 		$scope.pageUpper = $scope.currentPage * 10;
 		if ($scope.pageUpper > $scope.totalItems)
 			$scope.pageUpper = $scope.totalItems;
@@ -1121,10 +1258,8 @@ app.controller('blogCtrl', function ($location, $scope, $sce, $http, $uibModal, 
 	$scope.$watch("currentPage", function () {
 		pageChanged();
 	})
-
-
-
 });
+
 app.controller('blogPostCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
 	var permission = $scope.permission;
 	if (permission != undefined) {
@@ -1155,9 +1290,7 @@ app.controller('blogPostCtrl', function ($location, $scope, $sce, $http, $uibMod
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function (response) {
 				$scope.blogError = response.data;
-				console.log($scope.blogError);
-				console.log(source);
-				$window.location.href = '/blog';
+				$window.location.href = '/blog/page/1';
 
 			})
 		}

@@ -1,13 +1,10 @@
 <title>Research - Glycan Therapeutics</title>
 <div class=" jumbotron-fluid" ng-controller="blogCtrl">
-    <div class="blogDiv">
-        <div class="container">
-            <button type="submit" class="betterbutton blogbutton" ui-sref="blogPost" ng-if='permission.includes("admin")'>Add a post</button>
-        </div>
+    <div class="container">
+        <button type="submit" class="betterbutton blogbutton" ui-sref="blogPost" ng-if='permission.includes("admin")'>Add a post</button>
     </div>
     <div ng-repeat="item in page| orderBy:id:true">
-
-        <div class="blogheader blogGradient">
+        <div class="blogGradient">
             <div class="container">
                 <div class="blogDiv">
                     <div style="flex: 1;">
@@ -22,7 +19,6 @@
             </div>
         </div>
         <ul class="blogDisplay">
-
             <li>
                 <div class="container">
                     <h5 ng-class-even="'blogalternate'" class="blogContent">{{item.content.substring(0,650)}}...
@@ -32,10 +28,10 @@
             </li>
         </ul>
     </div>
-    <div class="container text-center">
+    <div class="text-center">
         <p>Showing {{pageMin}} to {{pageUpper}} of {{blogmax.length}}</p>
         <ul uib-pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" class="pagination justify-content-center"
-             rotate="true"  force-ellipses="true"  ui-sref="blog({currentPage: currentPage})" max-size="5" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
-            last-text="&raquo;"></ul>
+            rotate="true" force-ellipses="true" ui-sref="blog({currentPage: currentPage})" max-size="5" previous-text="&lsaquo;"
+            next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
     </div>
 </div>

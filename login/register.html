@@ -4,18 +4,18 @@
         <p ng-class="loginError != 'Email successfully registered'?'form-error':'form-success'">{{loginError}}</p>
         <form name="signupForm" class="form-horizontal" role="form">
             <br/>
-            <div class=row>
-                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+            <div class="row">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6 formUpper  formMobile">
                     <input type="text" id="FirstName" autocomplete='given-firstname' class="formspace form-control input-lg reduce-left" placeholder="First Name"
                         ng-model="firstName">
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 ">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6 ">
                     <input type="text" id="LastName" autocomplete='given-lastname' class="formspace form-control input-lg float-right reduce-left"
                         placeholder="Last Name" ng-model="lastName">
                 </div>
             </div>
             <div class="form-group row">
-                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6 formUpper">
                     <input type="email" class="formspace form-control input-lg" autocomplete='given-email' placeholder="Email" name="email" ng-model="email"
                         maxlength="64" focus>
                     <span ng-show="signupForm.email.$error.email" class="errorMessage">Invalid email address</span>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="form-group row">
-                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6 formUpper">
                     <input type="password" autocomplete='given-password' class="formspace form-control input-lg" name="password" placeholder="Password"
                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,64}" ng-model="password" required>
                     <span class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> Must contain at least 8 characters with numbers and uppercase.</span>
@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-group row">
-                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6 formUpper">
                     <select class="minimal form-control input -lg securityQ" ng-model="Q1" ng-options="x for x in securityQ1" ng-init="Q1=securityQ1[0]"></select>
                 </div>
                 <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
@@ -54,8 +54,8 @@
             </div>
 
             <div class="form-group row">
-                <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
-                    <input type="text" autocomplete='given-answer1' class="form-control input-lg" name="security1" placeholder="Answer" required
+                <div class="reduced-top col-xs-6 col-sm-6 col-md-6  formUpper ">
+                    <input type="text" autocomplete='given-answer1' class="form-control input-lg formMobileSpace" name="security1" placeholder="Answer" required
                         maxlength="64" ng-model="A1" required>
                 </div>
                 <div class="reduced-top col-xs-6 col-sm-6 col-md-6">
