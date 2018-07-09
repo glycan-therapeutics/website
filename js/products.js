@@ -123,6 +123,21 @@ app.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
 	};
 });
 
+app.config(['$uibTooltipProvider', function ($uibTooltipProvider) {
+	var parser = new UAParser();
+	var result = parser.getResult();
+	var touch = result.device && (result.device.type === 'tablet' || result.device.type === 'mobile');
+
+	if (touch) {
+		var options = {
+			trigger: 'dontTrigger' // default dummy trigger event to show tooltips
+		};
+
+		$uibTooltipProvider.options(options);
+	}
+
+}]);
+
 app.config(['$locationProvider', function ($locationProvider) {
 	$locationProvider.html5Mode(true).hashPrefix('');
 }]);

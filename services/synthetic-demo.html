@@ -64,14 +64,14 @@
 					<strong ng-if="structure.length==1">____-____-____-____-</strong>{{structureDisplay()}}
 				</h3>
 			</div>
-			<div class="col-md-2 align-center">
+			<div class="ipadTag col-md-2 align-center">
 				<h2>Tags</h2>
 				<span>
 					<div ng-controller="compoundCtrl" ng-repeat="tag in tags">
 						<div ng-class="structure.length==0?'glow':'glowinactive'">
 							<button ng-click="setTag(tag.name)" uib-tooltip="{{tag.tooltip}}" class="reduceBottom">
 								<div class="center " ng-repeat="x in compounds | filter:{Series: highestSeries, Family: tag.name } as thistag"></div>
-								<strong class="circle" ng-if="structure.length>minSize">{{thistag.length}}</strong>
+								<strong class="circle circleMobile" ng-if="structure.length>minSize">{{thistag.length}}</strong>
 								{{tag.name}}
 							</button>
 						</div>

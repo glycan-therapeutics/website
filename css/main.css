@@ -1341,6 +1341,22 @@ div > .banner-limited {
 	    margin: 0px;
 	    padding-bottom: 0px;
 	}
+	
+	.circleMobile {
+		display:inline-block;
+		padding: 2px;
+		margin: 0;
+		border: 0;
+		line-height:16px!important;
+		width: 20px!important;
+		height: 20px!important;
+		border-radius:50%;
+		background: #434DB3;
+		color: #FFF;
+		position: absolute;
+		left: 7%!important;
+	}
+
 }
 
 @media all and (max-width: 767px) {
@@ -1349,6 +1365,23 @@ div > .banner-limited {
 	}
 	.footer-left-border {
 		border-left-style: none;
+	}
+}
+
+@media all and (max-width: 1024px) {
+	.ipadTag{
+		padding: 0px!important;
+	}
+	.circleMobile {
+		display:inline-block;
+		padding: 2px;
+		margin: 0;
+		border: 0;
+		border-radius:50%;
+		background: #434DB3;
+		color: #FFF;
+		position: absolute;
+		left: 7%!important;
 	}
 }
 
