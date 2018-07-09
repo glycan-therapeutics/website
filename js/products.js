@@ -1313,7 +1313,22 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 				$scope.compounds[x]['isCollapsed'] = true;
 			}
 		});
-
+		if ($scope.token) {
+			var uid = $scope.token.data.id;
+			console.log(uid);
+		var request = $http({
+			method: "GET",
+			url: "glycanapi.php/favorites",
+			params: {
+				'uid': uid,
+			},
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function (response) {
+			$scope.favorites = response.data;
+			console.log($scope.favorites);
+			console.log($scope.favorites[0]);
+		});
+	}
 	/*******PRICING SECTION********/
 	$scope.isNewCollapsed = true;
 	$scope.isSeriesCollapsed = true;
@@ -1397,67 +1412,86 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 
 	/*******URL READING SECTION********/
 
-	$scope.filterBy = function (x) {
-		$scope.nameFilter = x;
-	}
+		/*	$scope.favorite() = function () {
+				var request = $http({
+					method: "POST",
+					url: "glycanapi.php/blog/submit",
+					data: {
+						'uid': $scope.uid,
+						'cid': $scope.id,
+					},
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function (response) {
+					$scope.blogError = response.data;
+					$window.location.href = '/blog/page/1';
+				})
 
-	$scope.filterUrl = function (x, filter) {
-		var search = $location.search();
-
-		if (x === search.series) {
-			$scope.seriesFilter = undefined;
-			$location.search({ size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
-		}
-		else if (x === search.tag) {
-			$scope.tagFilter = undefined;
-			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, date: $scope.dateFilter });
-		}
-		else if (x === search.size) {
-			$scope.sizeFilter = undefined;
-			$location.search({ series: $scope.seriesFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
-		}
-		else if (x === search.date) {
-			$scope.dateFilter = undefined;
-			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter });
-		}
-		else {
-			switch (filter) {
-				case 'date':
-					$scope.dateFilter = x;
-					break;
-				case 'series':
-					$scope.seriesFilter = x;
-					break;
-				case 'tag':
-					$scope.tagFilter = x;
-					break;
-				case 'size':
-					$scope.sizeFilter = x;
-					break;
 			}
-			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
-		}
-	}
-	/*******END OF URL READING SECTION********/
-
-});
-
-app.filter('highlight', function ($sce) {
-	return function (text, phrase) {
-		if (phrase) {
-			var split = phrase.split("-");
-			for (var x in split) {
-				var regex = new RegExp('(' + phrase + ')', 'gi');
-				something = text.search(regex);
-				text = text.replace(regex, '<span class="highlighted">$1</span>');
+			*/
+			$scope.filterBy = function (x) {
+				$scope.nameFilter = x;
 			}
-		}
-		return $sce.trustAsHtml(text)
-	}
-});
 
-function parseJwt(token) {
-	var base64Url = token.split('.')[1];
-	var base64 = base64Url.replace('-', '+').replace('_', '/');
-	return JSON.parse(window.atob(base64));
-}
+			$scope.filterUrl = function (x, filter) {
+				var search = $location.search();
+
+				if (x === search.series) {
+					$scope.seriesFilter = undefined;
+					$location.search({ size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
+				}
+				else if (x === search.tag) {
+					$scope.tagFilter = undefined;
+					$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, date: $scope.dateFilter });
+				}
+				else if (x === search.size) {
+					$scope.sizeFilter = undefined;
+					$location.search({ series: $scope.seriesFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
+				}
+				else if (x === search.date) {
+					$scope.dateFilter = undefined;
+					$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter });
+				}
+				else {
+					switch (filter) {
+						case 'date':
+							$scope.dateFilter = x;
+							break;
+						case 'series':
+							$scope.seriesFilter = x;
+							break;
+						case 'tag':
+							$scope.tagFilter = x;
+							break;
+						case 'size':
+							$scope.sizeFilter = x;
+							break;
+						case 'favorite':
+							$scope.favoriteFilter = x;
+							break;
+					}
+					$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
+				}
+			}
+			/*******END OF URL READING SECTION********/
+
+		});
+
+	app.filter('highlight', function ($sce) {
+		return function (text, phrase) {
+			if (phrase) {
+				var split = phrase.split("-");
+				for (var x in split) {
+					var regex = new RegExp('(' + phrase + ')', 'gi');
+					something = text.search(regex);
+					text = text.replace(regex, '<span class="highlighted">$1</span>');
+				}
+			}
+			return $sce.trustAsHtml(text)
+		}
+	});
+
+	function parseJwt(token) {
+		var base64Url = token.split('.')[1];
+		var base64 = base64Url.replace('-', '+').replace('_', '/');
+		return JSON.parse(window.atob(base64));
+	}

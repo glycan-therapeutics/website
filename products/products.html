@@ -25,6 +25,10 @@
 				<ul uib-collapse="isTagCollapsed" class="collapse nav-in-nav"> 
 					<li ng-repeat="tag in tagName" class="family-item" ng-class="tagFilter===tag?'active-size':''" ng-click="filterUrl(tag, 'tag')"><a ng-class="tagFilter===tag?'black-text':''">{{tag}}</a></li>
 				</ul>
+				<li ng-class="favoriteFilter!==undefined?'collapse-header':''" ng-click="favoriteFilter">
+					<a>By Favorite</a>
+				</li>
+
 
 			</ul>
 		</div>
@@ -45,6 +49,7 @@
 						<a class="white-text" ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">
 							<i class="fas fa-info-circle"></i>
 						</a>
+						<i  ng-click="favoritea=!favoritea" ng-class="x.id ==101?'fas fa-star gold':'fas fa-star'"></i>
 						<br>
 						<span> 
 							Price: $<span ng-bind="displayPrice(x.Price, x.Price2, x.Price3, pricing.value)"></span>

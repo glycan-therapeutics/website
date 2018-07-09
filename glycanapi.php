@@ -71,6 +71,20 @@ switch($method) {
 		else if($table == 'users') {
 			break;
 		}
+		else if($table == 'favorites') {
+			$uid=$_GET['uid'];
+			$query=$conn->prepare("SELECT `cid`, `favorited`, `uid` FROM `users:favorites` WHERE uid = ?");
+			$query->bind_param('i',$uid);
+			$query->execute();
+			$result = $query->get_result();
+			$outp = array();
+			while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+				array_push($outp, $rs);
+			}
+			$conn->close();
+			echo(json_encode($outp));
+			exit();		
+		}
 		else if($table == 'login'){
 			$ip=$_GET['ip'];
 			$email=$_GET['email'];

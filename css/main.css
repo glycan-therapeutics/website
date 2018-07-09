@@ -1992,3 +1992,13 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 		color:#FFF;
 		font-weight: bold;
 	}
+
+	.gold{
+		color: #f2c12e;
+	}
+
+	.fa-star{
+		cursor: pointer;
+		outline: none !important;
+
+	}
