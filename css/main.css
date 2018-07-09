@@ -23,7 +23,7 @@ h3 {
 	float: right!important;
 	position: relative;
     top: 20px;
-    right: 10px;
+    right: 5px;
 }
 
 #content {
@@ -179,14 +179,13 @@ header {
 .navbar-nav {
 	height: 50px;
 	margin-top: 30px;
-	font-size: 2.7vmin;
+	font-size: 1.1rem;
 }
 
 /*list text style*/
 nav ul {
 	margin: 0px;
 	display: inline;
-	font-size: 30px;
 }
 
 /*list style*/
@@ -197,7 +196,7 @@ nav ul li {
 }
 
 .dropdown-toggle::after {
-	font-size: 14px;
+	font-size: .8rem;
 }
 
 /*jumbotron text style*/
@@ -524,7 +523,7 @@ footer {
 .dropdown:hover .dropdown-menu {
 	position: absolute;
 	display: block;
-	top: 50%;
+	top: 1.5rem;
 }
 
 .dropdown:hover > .dropdown-menu > div > a:hover {
@@ -1261,7 +1260,7 @@ div > .banner-limited {
 	}
 	.sidebar-close {
 		position: relative;
-	    bottom: 20px;
+	    bottom: 15px;
 	    left: 15px;
 	}
 	.sidebar {
@@ -1301,7 +1300,7 @@ div > .banner-limited {
 		transition: .1s ease;
 	    -webkit-transition: .1s ease;
 	    -moz-transition: .1s ease;
-		padding: 5px 0px 10px 20px;
+		padding: 15px 0px 15px 20px;
 		border-bottom: 1px solid rgba(0,10,120,0.2);
 		background-color: inherit;
 		width: 100%;
@@ -1533,13 +1532,13 @@ transition: all 0.2s ease;
 }
 .productDropdown {
 	background:#fff;
-	float:left;
+	float: right;
+	text-align: center;
 	color: #000;
 	height: 30px;
 	width: 80px;
-	font-size: 95%;
-	border-radius: 3px;
-	padding:0;
+	font-size: 85%;
+	padding-left: 5px;
 	
 }
 
@@ -1547,29 +1546,24 @@ transition: all 0.2s ease;
 select::-ms-expand {
     display: none;
 }
-select.minimal { background:
-    linear-gradient(45deg, transparent 50%, #000000 50%),
-	linear-gradient(135deg, #000000 50%, transparent 50%);
-	  background-position:
-    calc(100% - 15px) calc(13px),
-    calc(100% - 10px) calc(13px),
-    100% 0;
-  background-size:
-    5px 5px,
-	5px 5px;
-	
-  background-repeat: no-repeat;
-
-  /* styling and reset */
-
+select.minimal {
   /* reset */
   outline-color: #FFF;
-  border-radius: 0;
+  border-radius: 2px;
   margin: 0;      
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   -webkit-appearance:none;
+}
+.series > label:after {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 800;
+	content:"\f0d7";
+	font-size: 70%;
+	color: black;
+	position: relative;
+	left: 72px;
 }
 .red{
 	background-color:white;

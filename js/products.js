@@ -59,12 +59,7 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 			$scope.compounds[x]['isCollapsed'] = true;
 		}
 	});
-	$scope.logout = function(){
-		console.log(localStorage.getItem("Token"));
-		console.log(localStorage.removeItem("Token"));
-		console.log(localStorage.removeItem("Name"));
-		$scope.Username=null;
-	}
+
 	$scope.nextSlide = function () {
 		if ($scope.active === $scope.slides.length - 1)
 			$scope.active = 0;
@@ -72,6 +67,7 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 			$scope.active = $scope.active + 1;
 		console.log($scope.active);
 	}
+
 	$scope.prevSlide = function () {
 		if ($scope.active === 0)
 			$scope.active = $scope.slides.length - 1;
@@ -112,6 +108,7 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 	$scope.logOut = function() {
 		$scope.token = localStorage.removeItem('Token');
 		$scope.Username = null;
+		$state.reload('');
 	}
 });
 
@@ -290,6 +287,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 		name: 'login',
 		url: '/login/',
 		templateUrl: '/login/login.html',
+		controller: function($stateParams, $scope) {
+			$scope.loginError = $stateParams.msg;
+		},
+		params: {
+			msg: null
+		},
 		data: {
 			pageTitle: 'Login - Glycan Therapeutics'
 		}
@@ -798,7 +801,7 @@ app.controller('limitedCtrl', function ($location, $scope, $sce, $http, $uibModa
 });
 
 app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
-	$http.get('http://api.ipstack.com/check?access_key=ea58e47e5ff55d39cdc827f7bc1aae89&format=1')
+	$http.get('https://api.ipstack.com/check?access_key=ea58e47e5ff55d39cdc827f7bc1aae89&format=1')
 		.then(function (response) {
 			$scope.ip = response.data.ip;
 		});
@@ -840,7 +843,8 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 			},
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(response){
-			$scope.loginError=response.data;
+			$scope.loginError="Registration Successful!";
+			$state.go("login", {msg:"Registration Successful!"});
 		});
 	};
 
@@ -873,7 +877,7 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 					url: "tokengenerator.php/login",
 					params: {
 						'email': $scope.email,
-						'ip': $scope.ip,
+						'ip': $scope.ip
 					},
 					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 				}).then(function (response) {
@@ -947,6 +951,7 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 	];
 
 	$scope.sizeName = [
+		'3-Mer',
 		'4-Mer',
 		'5-Mer',
 		'6-Mer',
@@ -962,12 +967,8 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 		'Fluorescein'
 	];
 
-	$scope.isSeriesCollapsed = true;
-	$scope.isSizeCollapsed = true;
-	$scope.isTagCollapsed = true;
-
 	$scope.displayPrice = function (price, price2, price3, multiplier) {
-		display = 0;
+		var display = 0;
 		switch (multiplier) {
 			case '1': display = price;
 				break;

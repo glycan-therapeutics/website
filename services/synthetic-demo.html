@@ -82,21 +82,19 @@
 				<h3 style="margin:15px">{{filtered.length}} Similar Compounds</h3>
 				<div class="align-center" ng-repeat="x in compounds | filter:{Series: highestSeries, Family: tag} as filtered">
 					<div class="series series-{{x.Series}} text-left" ng-switch on="x.Sizes">
-						<select class="black-text float-right pricing-box" ng-switch-when="1" ng-model="$parent.pricing" ng-init="$parent.pricing=pnpOptions[0]"
-						 ng-options="option as option.label for option in pnpOptions"></select>
-						<select class="black-text float-right pricing-box" ng-switch-when="2" ng-model="$parent.pricing" ng-init="$parent.pricing=biotinOptions[0]"
-						 ng-options="option as option.label for option in biotinOptions"></select>
-						<select class="black-text float-right pricing-box" ng-switch-when="3" ng-model="$parent.pricing" ng-init="$parent.pricing=fluorOptions[0]"
-						 ng-options="option as option.label for option in fluorOptions"></select>
-						<select class="black-text float-right pricing-box" ng-switch-default ng-model="$parent.pricing" ng-init="$parent.pricing=options[0]"
-						 ng-options="option as option.label for option in options"></select>
-						No. {{x.id}} | {{x.Name}}
-						<a class="white-text" ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">
-							<span class="glyphicon glyphicon-info-sign"></span>
-						</a>
-						<a ng-if="x.Family=='Azido'" class="white-text" ng-href="../support/{{x.Family}}-sheets/Safety_{{x.Family}}-{{x.id}}.pdf"
-						 target="_self">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
+						<label ng-switch on="x.Sizes" class="float-right">
+							<select class="minimal productDropdown" ng-switch-when="1" ng-model="$parent.pricing" ng-init="$parent.pricing=pnpOptions[0]"
+						 ng-options="option as option.label for option in pnpOptions"> </select>
+						 	<select class="minimal productDropdown" ng-switch-when="2" ng-model="$parent.pricing" ng-init="$parent.pricing=biotinOptions[0]"
+						 ng-options="option as option.label for option in biotinOptions"> </select>
+						 	<select class="minimal productDropdown" ng-switch-when="3" ng-model="$parent.pricing" ng-init="$parent.pricing=fluorOptions[0]"
+						 ng-options="option as option.label for option in fluorOptions"> </select>
+							<select class="minimal productDropdown" ng-switch-default ng-model="$parent.pricing" ng-init="$parent.pricing=options[0]"
+						 ng-options="option as option.label for option in options"> </select>
+						</label>
+						{{x.id}} | {{x.Name}}
+						<a ng-href="../support/{{x.Family}}-sheets/ProductDS_{{x.id}}.pdf" target="_self"> 
+							<i class="white-text fas fa-info-circle"></i>
 						</a>
 						<br>
 						<span> Price: $
