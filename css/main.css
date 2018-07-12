@@ -2000,5 +2000,8 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 	.fa-star{
 		cursor: pointer;
 		outline: none !important;
+	}
 
+	.noOutline{
+		outline: none !important;
 	}

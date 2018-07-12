@@ -19,7 +19,6 @@ app.directive('updateTitle', ['$rootScope', '$timeout',
 ]);
 
 app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http, $state, $window, $location) {
-
 	var $ctrl = this;
 	$ctrl.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
@@ -137,12 +136,37 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 });
 
 app.controller('verifyAlertCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
+	$scope.resend = "resend verification code";
+	var doItOnce = true;
+	$scope.openModal = function () {
+		$uibModal.open({
+			templateUrl: '/login/resendVerify.html',
+			controller: 'resetCtrl'
+		})
+	};
+
 	if ($scope.verification == 0) {
 		$scope.alertMsg = "Please verify your account.";
 		$scope.alert = 1;
 	}
 	$scope.dismiss = function () {
 		$scope.alert = false;
+	}
+	$scope.resendVerification = function () {
+		if (doItOnce) {
+			var request = $http({
+				method: "POST",
+				url: "glycanapi.php/users/resendVerification",
+				data: {
+					'email': $scope.currentEmail,
+				},
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+			}).then(function (response) {
+				$scope.resendResponse = response.data;
+			})
+			$scope.resend = "verification code resent!";
+			doItOnce = false;
+		}
 	}
 });
 
@@ -222,6 +246,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			$scope.sizeFilter = $stateParams.size;
 			$scope.tagFilter = $stateParams.tag;
 			$scope.dateFilter = $stateParams.date;
+			$scope.favoriteFilter = $stateParams.favorited;
 		},
 		data: {
 			pageTitle: 'Compounds - Glycan Therapeutics'
@@ -397,15 +422,20 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			pageTitle: 'Online Synthesis - Glycan Therapeutics'
 		}
 	};
-
 	var loginState = {
 		name: 'login',
 		url: '/login/',
 		templateUrl: '/login/login.html',
+		controller: function ($stateParams, $scope) {
+			$scope.loginError = $stateParams.msg;
+		},
+		params: {
+			msg: null
+		},
 		data: {
 			pageTitle: 'Login - Glycan Therapeutics'
 		}
-	};
+	}
 
 	var registerState = {
 		name: 'register',
@@ -922,12 +952,6 @@ app.controller('limitedCtrl', function ($location, $scope, $sce, $http, $uibModa
 	}
 });
 app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
-	/*$http.get('http://api.ipstack.com/check?access_key=ea58e47e5ff55d39cdc827f7bc1aae89&format=1')
-		.then(function (response) {
-			$scope.ip = response.data.ip;
-		});
-		*/
-	$scope.ip = "71.69.166.95";
 	$scope.securityQ1 = [
 		"Select a security question",
 		"What is your mother's maiden name?",
@@ -951,8 +975,13 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 	var subscribe = $scope.newsletter;
 	if (subscribe != true)
 		subscribe = false;
-
 	$scope.register = function () {
+		/*$http.get('http://api.ipstack.com/check?access_key=ea58e47e5ff55d39cdc827f7bc1aae89&format=1')
+		.then(function (response) {
+			$scope.ip = response.data.ip;
+		});
+		*/
+		$scope.ip = "71.69.166.95";
 		if (/^[^<>%$]*$/.test($scope.firstName) && /^[^<>%$]*$/.test($scope.lastName) && /[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test($scope.email) && /(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test($scope.password) && /^[^<>%$]*$/.test($scope.A1) && /^[^<>%$]*$/.test($scope.A2)) {
 			var request = $http({
 				method: "POST",
@@ -970,8 +999,8 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 				},
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function (response) {
-				$scope.loginError = response.data;
-				console.log($scope.loginError);
+				$scope.loginError = "Registration Successful!";
+				$state.go("login", { msg: "Registration Successful!" });
 			});
 		}
 		else {
@@ -980,6 +1009,12 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 	};
 
 	$scope.login = function () {
+		/*$http.get('http://api.ipstack.com/check?access_key=ea58e47e5ff55d39cdc827f7bc1aae89&format=1')
+		.then(function (response) {
+			$scope.ip = response.data.ip;
+		});
+		*/
+		$scope.ip = "71.69.166.95";
 		if (/[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test($scope.email) && /(^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,}))/.test($scope.password)) {
 			var request = $http({
 				method: "POST",
@@ -1003,7 +1038,8 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 					$scope.attempt = response.data;
 					console.log($scope.attempt);
 					if ($scope.attempt[0].login_successful == 1/* && $scope.attempt[0].verified == 1*/) {
-						$scope.loginError = "login successful";
+						$scope.loginError = "Login Successful!";
+						$scope.loginError = "Registration Successful!";
 						var request = $http({
 							method: "GET",
 							url: "tokengenerator.php/users/login",
@@ -1035,29 +1071,18 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 			$scope.loginError = "Incorrect password or email";
 		};
 	}
+	$scope.openModal = function () {
+		$uibModal.open({
+			templateUrl: '/login/passwordRecovery.html',
+			controller: 'resetCtrl'
+		})
+	};
 
 });
-app.controller('resetCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
-	$scope.resendVerification = function () {
-		if ($scope.emailreset) {
-			var request = $http({
-				method: "POST",
-				url: "glycanapi.php/users/resendVerification",
-				data: {
-					'email': $scope.emailreset,
-				},
-				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-			}).then(function (response) {
-				$scope.resendResponse = response.data;
-			})
-			$scope.emailreset = null;
-			$scope.emailreset.$setPristine();
-		}
-
-		else {
-			$scope.resendResponse = "please enter an email";
-		}
-	}
+app.controller('resetCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window, $uibModalInstance) {
+	$scope.dismiss = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 	$scope.resetPassword = function () {
 		if ($scope.emailreset) {
 			var request = $http({
@@ -1071,7 +1096,6 @@ app.controller('resetCtrl', function ($location, $scope, $sce, $http, $uibModal,
 				$scope.resendResponse = response.data;
 			})
 			$scope.emailreset = null;
-			$scope.emailreset.$setPristine();
 		}
 		else {
 			$scope.resendResponse = "please enter an email";
@@ -1189,36 +1213,41 @@ app.controller('verifyCtrl', function ($location, $scope, $sce, $http, $uibModal
 	});
 	*/
 	$scope.ip = "71.69.166.95";
-	if (!$scope.verifyEmail || !$scope.verifyHash) {
+	if (!$scope.verifyEmail || !$scope.verifyHash || !$scope.token) {
 		$window.location.href = "/";
 	}
-	var request = $http({
-		method: "POST",
-		url: "glycanapi.php/users/verify",
-		data: {
-			'verifyEmail': $scope.verifyEmail,
-			'verifyHash': $scope.verifyHash,
-		},
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-	}).then(function (response) {
-		$scope.verify = response.data;
-		if ($scope.token) {
-			var uid = $scope.token.data.id;
-			var request = $http({
-				method: "GET",
-				url: "tokengenerator.php/users/login",
-				params: {
-					'email': $scope.verifyEmail,
-					'ip': $scope.ip,
-				},
-				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-			}).then(function (response) {
-				$scope.token = response.data;
-				localStorage.setItem("Token", $scope.token);
-			})
-		}
-	})
-
+	if ($scope.verification == 1) {
+		$scope.verify = "Account already verified";
+		$window.location.href = "/";
+	}
+	else {
+		var request = $http({
+			method: "POST",
+			url: "glycanapi.php/users/verify",
+			data: {
+				'verifyEmail': $scope.verifyEmail,
+				'verifyHash': $scope.verifyHash,
+			},
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+		}).then(function (response) {
+			$scope.verify = response.data;
+			if ($scope.token) {
+				var uid = $scope.token.data.id;
+				var request = $http({
+					method: "GET",
+					url: "tokengenerator.php/users/login",
+					params: {
+						'email': $scope.verifyEmail,
+						'ip': $scope.ip,
+					},
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function (response) {
+					$scope.token = response.data;
+					localStorage.setItem("Token", $scope.token);
+				})
+			}
+		})
+	}
 
 });
 
@@ -1312,22 +1341,66 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 			for (var x in $scope.compounds) {
 				$scope.compounds[x]['isCollapsed'] = true;
 			}
+			if ($scope.token) {
+				var uid = $scope.token.data.id;
+				var request = $http({
+					method: "GET",
+					url: "glycanapi.php/favorites",
+					params: {
+						'uid': uid,
+					},
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function (response) {
+					$scope.favorites = response.data;
+					for (var i in $scope.compounds) {
+						for (var x in $scope.favorites) {
+							if ($scope.favorites[x].cid == $scope.compounds[i].id) {
+								$scope.compounds[i]['favorited'] = true;
+							}
+
+						}
+					}
+				});
+			}
 		});
+	$scope.favoriteCompound = function (cid, favorited) {
 		if ($scope.token) {
-			var uid = $scope.token.data.id;
-			console.log(uid);
-		var request = $http({
-			method: "GET",
-			url: "glycanapi.php/favorites",
-			params: {
-				'uid': uid,
-			},
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-		}).then(function (response) {
-			$scope.favorites = response.data;
-			console.log($scope.favorites);
-			console.log($scope.favorites[0]);
-		});
+		var uid = $scope.token.data.id;
+			if (!favorited) {
+				var request = $http({
+					method: "POST",
+					url: "glycanapi.php/favorites/add",
+					data: {
+						'uid': uid,
+						'cid': cid,
+					},
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function (response) {
+					for (var x in $scope.compounds) {
+						if ($scope.compounds[x].id == cid) {
+							$scope.compounds[x]['favorited'] = true;
+						}
+					}
+				})
+			}
+			else {
+				var request = $http({
+					method: "POST",
+					url: "glycanapi.php/favorites/remove",
+					data: {
+						'uid': uid,
+						'cid': cid,
+					},
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(function (response) {
+					for (var x in $scope.compounds) {
+						if ($scope.compounds[x].id == cid) {
+							$scope.compounds[x]['favorited'] = false;
+						}
+					}
+				})
+			}
+		}
 	}
 	/*******PRICING SECTION********/
 	$scope.isNewCollapsed = true;
@@ -1411,87 +1484,75 @@ app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibMod
 	/*******END OF PRICING SECTION********/
 
 	/*******URL READING SECTION********/
-
-		/*	$scope.favorite() = function () {
-				var request = $http({
-					method: "POST",
-					url: "glycanapi.php/blog/submit",
-					data: {
-						'uid': $scope.uid,
-						'cid': $scope.id,
-					},
-					headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-				}).then(function (response) {
-					$scope.blogError = response.data;
-					$window.location.href = '/blog/page/1';
-				})
-
-			}
-			*/
-			$scope.filterBy = function (x) {
-				$scope.nameFilter = x;
-			}
-
-			$scope.filterUrl = function (x, filter) {
-				var search = $location.search();
-
-				if (x === search.series) {
-					$scope.seriesFilter = undefined;
-					$location.search({ size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
-				}
-				else if (x === search.tag) {
-					$scope.tagFilter = undefined;
-					$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, date: $scope.dateFilter });
-				}
-				else if (x === search.size) {
-					$scope.sizeFilter = undefined;
-					$location.search({ series: $scope.seriesFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
-				}
-				else if (x === search.date) {
-					$scope.dateFilter = undefined;
-					$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter });
-				}
-				else {
-					switch (filter) {
-						case 'date':
-							$scope.dateFilter = x;
-							break;
-						case 'series':
-							$scope.seriesFilter = x;
-							break;
-						case 'tag':
-							$scope.tagFilter = x;
-							break;
-						case 'size':
-							$scope.sizeFilter = x;
-							break;
-						case 'favorite':
-							$scope.favoriteFilter = x;
-							break;
-					}
-					$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter });
-				}
-			}
-			/*******END OF URL READING SECTION********/
-
-		});
-
-	app.filter('highlight', function ($sce) {
-		return function (text, phrase) {
-			if (phrase) {
-				var split = phrase.split("-");
-				for (var x in split) {
-					var regex = new RegExp('(' + phrase + ')', 'gi');
-					something = text.search(regex);
-					text = text.replace(regex, '<span class="highlighted">$1</span>');
-				}
-			}
-			return $sce.trustAsHtml(text)
-		}
-	});
-
-	function parseJwt(token) {
-		var base64Url = token.split('.')[1];
-		var base64 = base64Url.replace('-', '+').replace('_', '/');
-		return JSON.parse(window.atob(base64));
+	$scope.filterBy = function (x) {
+		$scope.nameFilter = x;
 	}
+
+	$scope.filterUrl = function (x, filter) {
+		var search = $location.search();
+
+		if (x === search.series) {
+			$scope.seriesFilter = undefined;
+			$location.search({ size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter, favorited: $scope.favoriteFilter });
+		}
+		else if (x === search.tag) {
+			$scope.tagFilter = undefined;
+			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, date: $scope.dateFilter, favorited: $scope.favoriteFilter });
+		}
+		else if (x === search.size) {
+			$scope.sizeFilter = undefined;
+			$location.search({ series: $scope.seriesFilter, tag: $scope.tagFilter, date: $scope.dateFilter, favorited: $scope.favoriteFilter });
+		}
+		else if (x === search.date) {
+			$scope.dateFilter = undefined;
+			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter, favorited: $scope.favoriteFilter });
+		}
+		else if (x === search.favorited) {
+			$scope.favoriteFilter = undefined;
+			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter, favorited: $scope.favoriteFilter });
+		}
+
+		else {
+			switch (filter) {
+				case 'date':
+					$scope.dateFilter = x;
+					break;
+				case 'series':
+					$scope.seriesFilter = x;
+					break;
+				case 'tag':
+					$scope.tagFilter = x;
+					break;
+				case 'size':
+					$scope.sizeFilter = x;
+					break;
+				case 'favorited':
+					$scope.favoriteFilter = x;
+					break;
+			}
+			$location.search({ series: $scope.seriesFilter, size: $scope.sizeFilter, tag: $scope.tagFilter, date: $scope.dateFilter, favorited: $scope.favoriteFilter });
+		}
+	}
+	/*******END OF URL READING SECTION********/
+
+});
+
+app.filter('highlight', function ($sce) {
+	return function (text, phrase) {
+		if (phrase) {
+			var split = phrase.split("-");
+			for (var x in split) {
+				var regex = new RegExp('(' + phrase + ')', 'gi');
+				something = text.search(regex);
+				text = text.replace(regex, '<span class="highlighted">$1</span>');
+			}
+		}
+		return $sce.trustAsHtml(text)
+	}
+});
+
+function parseJwt(token) {
+	var base64Url = token.split('.')[1];
+	var base64 = base64Url.replace('-', '+').replace('_', '/');
+	return JSON.parse(window.atob(base64));
+}

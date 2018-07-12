@@ -58,7 +58,7 @@ function sendVerification($email){
 	$result->bind_param('ss', $verify, $email);
 	$result->execute();
 	$subject= 'Verify registration';
-	$body="https://localhost:3000/verify?verifyEmail=$email&verifyHash=$verify";
+	$body="Use this link to verify your account https://localhost:3000/verify?verifyEmail=$email&verifyHash=$verify";
 	sendMail($subject,$body,$email);
 }
 
@@ -73,7 +73,7 @@ switch($method) {
 		}
 		else if($table == 'favorites') {
 			$uid=$_GET['uid'];
-			$query=$conn->prepare("SELECT `cid`, `favorited`, `uid` FROM `users:favorites` WHERE uid = ?");
+			$query=$conn->prepare("SELECT `cid` FROM `users:favorites` WHERE uid = ?");
 			$query->bind_param('i',$uid);
 			$query->execute();
 			$result = $query->get_result();
@@ -184,6 +184,35 @@ switch($method) {
 			else{
 				echo("You should not be here");	
 			}
+		}
+		else if($table == 'favorites') {
+			if($key == 'add'){
+			echo("IM HERE");
+			$uid = $input->uid;
+			$cid = $input->cid;
+			$date = date("Y-m-d H:i:s");
+			$query = "INSERT INTO `users:favorites`(uid,cid,date ) VALUES (?,?,?)";	
+			$result=$conn->prepare($query);
+			$result->bind_param('iss', $uid, $cid, $date);
+			if($result->execute())
+				echo("favorite successful");
+			else{
+				echo("failed to favorite");
+			}
+		}
+		if($key=='remove'){
+			echo("ddE");
+			$uid = $input->uid;
+			$cid = $input->cid;
+			$query = "DELETE FROM `users:favorites` WHERE( uid=? AND cid=?)";	
+			$result=$conn->prepare($query);
+			$result->bind_param('is', $uid, $cid);
+			if($result->execute())
+				echo("favorite successful");
+			else{
+				echo("failed to favorite");
+			}
+		}
 		}
 
 		else if($table == 'users') {

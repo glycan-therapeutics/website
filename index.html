@@ -185,10 +185,10 @@
 		</header>
 		<section>
 			<div ng-controller="verifyAlertCtrl">
-			<div class="container-fluid error " ng-if="alert">
+			<div class="container-fluid error " ng-if="alert" ng-cloak>
 				<button type="button" class="close white-text" ng-click="dismiss()">×</button>
 				<h3 class="align-center">{{alertMsg}}<br>
-					<a class="resend" href=resendVerify>resend verification code</a>
+					<a class="resend noOutline" href='' ng-click="resendVerification()">{{resend}}</a>
 				</h3>
 			</div>
 		</div>

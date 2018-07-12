@@ -25,8 +25,8 @@
 				<ul uib-collapse="isTagCollapsed" class="collapse nav-in-nav"> 
 					<li ng-repeat="tag in tagName" class="family-item" ng-class="tagFilter===tag?'active-size':''" ng-click="filterUrl(tag, 'tag')"><a ng-class="tagFilter===tag?'black-text':''">{{tag}}</a></li>
 				</ul>
-				<li ng-class="favoriteFilter!==undefined?'collapse-header':''" ng-click="favoriteFilter">
-					<a>By Favorite</a>
+				<li ng-class="favoriteFilter!==undefined?'collapse-header':''" ng-click="filterUrl(true,'favorited')">
+					<a>By Favorites</a>
 				</li>
 
 
@@ -37,7 +37,7 @@
 				<a class="align-right desktop-display" href="/support/misc/Compounds_Sorting.pdf"
 				 download target="_self">Download our entire product list here.</a>
 			</h3>
-			<div ng-repeat="x in compounds | filter:{Series: seriesFilter, Name: sizeFilter, Family: tagFilter, Updated: dateFilter} | filter:nameFilter as filtered"
+			<div ng-repeat="x in compounds | filter:{Series: seriesFilter, Name: sizeFilter, Family: tagFilter, Updated: dateFilter, favorited: favoriteFilter} | filter:nameFilter as filtered"
 			 class="row animate">
 				<div class="col-sm-12">
 					<div class="series series-{{x.Series}}" ng-switch on="x.Sizes">
@@ -49,7 +49,7 @@
 						<a class="white-text" ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">
 							<i class="fas fa-info-circle"></i>
 						</a>
-						<i  ng-click="favoritea=!favoritea" ng-class="x.id ==101?'fas fa-star gold':'fas fa-star'"></i>
+						<i  ng-click="favoriteCompound(x.id,x.favorited)" ng-class="(x.favorited ==1)?'fas fa-star gold':'fas fa-star'"></i>
 						<br>
 						<span> 
 							Price: $<span ng-bind="displayPrice(x.Price, x.Price2, x.Price3, pricing.value)"></span>
