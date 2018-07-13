@@ -100,30 +100,7 @@ switch($method) {
 			echo(json_encode($outp));
 			exit();
 		}
-		else if($table == 'blog'){
-			if($key == 'page'){
-			$lowerlimit=$_GET['lowerlimit'];
-			$upperlimit=$_GET['upperlimit'];
-			$query=$conn->prepare("SELECT * FROM `blog` WHERE id > ? AND id < ?");
-			$query->bind_param('ii', $lowerlimit, $upperlimit);
-			$query->execute();
-			$result = $query->get_result();
-			$outp = array();
-			while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
-				array_push($outp, $rs);
-			}
-			$conn->close();
-			echo(json_encode($outp));
-			exit();
-			}
-			else if($key=='recent'){
-				$query = "SELECT * FROM `blog` WHERE id = (Select MAX(`id`) FROM `blog`)";				
-			}
-			else if($key=='total'){
-				$query = "SELECT * FROM `$table` ORDER BY `$table`.id ASC";	
-			}
 
-		}
 		else {
 			$query = "SELECT * FROM `$table` ORDER BY `$table`.id ASC";
 		}
@@ -162,27 +139,6 @@ switch($method) {
 				$result = $conn->prepare($query);
 				$result->bind_param('iss', $uid, $structure, $date);
 				$result->execute();
-			}
-		}
-		else if($table == 'blog'){
-			$title = $input->title;
-			$content = $input->content;
-			$source = $input->source;
-			$uid = $input->uid;
-			$permission = $input->permission;
-			$date = date("Y-m-d");
-			if(trim($permission) === "admin"){
-				$query = "INSERT INTO blog(uid, date , title, content,source) VALUES (?,?,?,?,?)";	
-				$result=$conn->prepare($query);
-				$result->bind_param('issss', $uid, $date, $title, $content ,$source);
-				if($result->execute())
-					echo("post successful");
-				else{
-					echo("failed to post");
-				}
-			}
-			else{
-				echo("You should not be here");	
 			}
 		}
 		else if($table == 'favorites') {

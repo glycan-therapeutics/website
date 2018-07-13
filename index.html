@@ -145,13 +145,8 @@
 								<a class="dropdown-item" ng-href="/services/microarray-analysis" ui-sref="services.analysis">Microarray Analysis</a>
 							</div>
 						</li>
-						<li class="nav-item dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown-toggle" ng-href="/research/" ui-sref="research" ui-sref-active="active">Research</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" ng-href="/research/" ui-sref="research">What do we do?</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" ng-href="/research/blog" ui-sref="blog">What is going on in Glycobiology?</a>
-							</div>
+						<li class="nav-item">
+							<a ng-href="/research/" ui-sref="research" ui-sref-active="active">Research</a>
 						</li>
 						<li class="nav-item">
 							<a ng-href="/support/" ui-sref="support" ui-sref-active="active">Support</a>
@@ -185,13 +180,14 @@
 		</header>
 		<section>
 			<div ng-controller="verifyAlertCtrl">
-			<div class="container-fluid error " ng-if="alert" ng-cloak>
-				<button type="button" class="close white-text" ng-click="dismiss()">×</button>
-				<h3 class="align-center">{{alertMsg}}<br>
-					<a class="resend noOutline" href='' ng-click="resendVerification()">{{resend}}</a>
-				</h3>
+				<div class="container-fluid error " ng-if="alert" ng-cloak>
+					<button type="button" class="close white-text" ng-click="dismiss()">×</button>
+					<h3 class="align-center">{{alertMsg}}
+						<br>
+						<a class="resend noOutline" href='' ng-click="resendVerification()">{{resend}}</a>
+					</h3>
+				</div>
 			</div>
-		</div>
 			<ui-view>
 			</ui-view>
 		</section>
