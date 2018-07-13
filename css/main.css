@@ -22,8 +22,8 @@ h3 {
 	font-size: 14px;
 	float: right!important;
 	position: relative;
-    top: 20px;
-    right: 5px;
+    top: 5px;
+    right: 10px;
 }
 
 #content {
@@ -1745,7 +1745,6 @@ md-progress-linear .md-container.md-mode-determinate .md-bar1 {
 	  color: red;
 	  margin: 0px;
 	  padding: 0px;
-	  position: absolute;
 	}
 
 	.formspace{

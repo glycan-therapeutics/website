@@ -39,11 +39,11 @@
 		<meta name="msapplication-TileColor" content="#da532c">
 		<meta name="theme-color" content="#ffffff">
 	</head>
-<body ng-app="Compounds" ng-controller="init">
+<body ng-app="Compounds" ng-controller="init as $init">
 	<title update-title></title>
 	<nav class="sidebar collapse" uib-collapse="isCollapsed" horizontal>
-		<h3 class="sidebar-header">Navigation
-			<button type='button' class='close sidebar-close' ng-click='isCollapsed = !isCollapsed'>x</button>
+		<h3 class="sidebar-header">
+			Navigation<button type='button' class='close sidebar-close' ng-click='isCollapsed = !isCollapsed'>x</button>
 		</h3>
 		<ul class="sidebar-content">
 			<li ng-href="/" ui-sref="index" ui-sref-active="active" ng-click="isCollapsed=!isCollapsed">
@@ -98,6 +98,15 @@
 			<br>
 			<li ng-href="/compound-builder" ui-sref="demo" ui-sref-active="active" ng-click="isCollapsed=!isCollapsed">
 				<a>Online Synthesis</a>
+			</li>
+			<li ui-sref="login" ui-sref-active="active" ng-if="token===undefined" ng-click="$parent.isCollapsed=!isCollapsed">
+				<a>Login</a>
+			</li>
+			<li ui-sref="register" ui-sref-active="active" ng-if="token===undefined" ng-click="$parent.isCollapsed=!isCollapsed">
+				<a>Register</a>
+			</li>
+			<li ng-click="logOut()" ng-if="Username">
+				<a>Logout</a>
 			</li>
 		</ul>
 	</nav>

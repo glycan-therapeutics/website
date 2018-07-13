@@ -108,6 +108,7 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 	$scope.logOut = function() {
 		$scope.token = localStorage.removeItem('Token');
 		$scope.Username = null;
+		$scope.isCollapsed = !$scope.isCollapsed;
 		$state.reload('');
 	}
 });
@@ -884,7 +885,6 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 			}).then(function (response) {
 				$scope.attempt = response.data;
-				console.log($scope.attempt);
 				if ($scope.attempt[0].login_successful == 1){
 				$scope.loginError="login successful";
 				var request = $http({
