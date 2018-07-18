@@ -105,10 +105,12 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 		$('#myModal').modal();
 	}
 
-	$scope.logOut = function() {
+	$scope.logOut = function(view) {
 		$scope.token = localStorage.removeItem('Token');
 		$scope.Username = null;
-		$scope.isCollapsed = !$scope.isCollapsed;
+		if(view === 'mobile') {
+			$scope.isCollapsed = !$scope.isCollapsed;
+		}
 		$state.reload('');
 	}
 });
@@ -842,7 +844,11 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 		];
 
 	$scope.register = function () {
-		console.log($scope.newsletter);
+		if($scope.newsletter === undefined)
+			subscribe = false;
+		else
+			subscribe = $scope.newsletter;
+
 		var request = $http({
 			method: "POST",
 			url: "glycanapi.php/users/register",
@@ -855,12 +861,12 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 				'Q2': $scope.Q2,
 				'A1': $scope.A1,
 				'A2': $scope.A2,
-				'subscribe': $scope.newsletter
+				'subscribe': subscribe
 			},
 			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 		}).then(function(response){
-			$scope.loginError="Registration Successful!";
-			$state.go("login", {msg:"Registration Successful!"});
+			$scope.loginError = response.data;
+			$state.go("login", {msg:$scope.loginError});
 		});
 	};
 

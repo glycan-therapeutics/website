@@ -1,5 +1,5 @@
 <?php
-include '/mc-connector.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mc-connector.php';
 
 if(!isset($connection)) {
 	$config = parse_ini_file('../dbconfig/config.ini');
@@ -109,21 +109,21 @@ switch($method) {
 				$A2 = $input->A2;
 				$date = date("Y-m-d H:i:s");
 				$hash = password_hash($password, PASSWORD_BCRYPT, $options);		
-					$query ="INSERT INTO users(FirstName, LastName, email, password, created) VALUES (?,?,?,?,?)";	
+				$query ="INSERT INTO users(FirstName, LastName, email, password, created) VALUES (?,?,?,?,?)";	
+				$result=$conn->prepare($query);
+				$result->bind_param('sssss', $first, $last, $email, $hash, $date);	
+				if ($result->execute()) {
+					echo "Email successfully registered";
+					$query ="INSERT INTO `users:recovery`(UID, Q1, Q2, A1, A2) VALUES ((SELECT id FROM users WHERE email = ?),?,?,?,?)";	
 					$result=$conn->prepare($query);
-					$result->bind_param('sssss', $first, $last, $email, $hash, $date);	
-					if ($result->execute()) {
-						echo "Email successfully registered";
-						$query ="INSERT INTO `users:recovery`(UID, Q1, Q2, A1, A2) VALUES ((SELECT id FROM users WHERE email = ?),?,?,?,?)";	
-						$result=$conn->prepare($query);
-						$result->bind_param('sssss', $email, $Q1, $Q2, $A1, $A2);
-						if($result->execute() && $subscribe) {
-							$mc->subscribe($email, $first, $last, '068752b958');
-						}	
-					}
-					else {
-						echo "Email already exists";
-					}
+					$result->bind_param('sssss', $email, $Q1, $Q2, $A1, $A2);
+					if($result->execute() && $subscribe) {
+						$mc->subscribe($email, $first, $last, '068752b958');
+					}	
+				}
+				else {
+					printf($result->error);
+				}
 			}		
 
 			else if($key == "login-attempt"){
