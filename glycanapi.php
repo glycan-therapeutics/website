@@ -1,5 +1,6 @@
 <?php
-include '/mc-connector.php';
+include $_SERVER['DOCUMENT_ROOT'].'/mc-connector.php';
+
 if(!isset($connection)) {
 	$config = parse_ini_file('../dbconfig/config.ini');
 	$server = $config['server'];

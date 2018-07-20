@@ -4,7 +4,7 @@
 			<ul class="nav nav-pills flex-column nav-collapsible">
 				<li class="active">Filter Products: </li>
 				<li><input type="text" placeholder=" Search..." ng-model="nameFilter" style="width:100%"></li>
-				<li ng-class="dateFilter!==undefined?'collapse-header':''" ng-click="filterUrl('2018-04-13', 'date')">
+				<li ng-class="dateFilter!==undefined?'collapse-header':''" ng-click="filterUrl('2018-06-21', 'date')">
 					<a>By New</a>
 				</li>
 				<li ng-click="isSeriesCollapsed = !isSeriesCollapsed" ng-class="seriesFilter!==undefined?'collapse-header':''">
@@ -40,14 +40,22 @@
 			<div ng-repeat="x in compounds | filter:{Series: seriesFilter, Name: sizeFilter, Family: tagFilter, Updated: dateFilter, favorited: favoriteFilter} | filter:nameFilter as filtered"
 			 class="row animate">
 				<div class="col-sm-12">
-					<div class="series series-{{x.Series}}" ng-switch on="x.Sizes">
-						<span class="black-text float-right pricing-box productDropdown ">
-							<select class="minimal btn dropdown-toggle productDropdown" ng-switch-default ng-model="$parent.pricing" ng-init="$parent.pricing=options[0]"
-							 ng-options="option as option.label for option in options"> </select>
+					<div class="series series-{{x.Series}}">
+						<label ng-switch on="x.Sizes" class="float-right">
+							<select class="minimal productDropdown" ng-switch-when="1" ng-model="$parent.pricing" ng-init="$parent.pricing=pnpOptions[0]"
+						 ng-options="option as option.label for option in pnpOptions"> </select>
+						 	<select class="minimal productDropdown" ng-switch-when="2" ng-model="$parent.pricing" ng-init="$parent.pricing=biotinOptions[0]"
+						 ng-options="option as option.label for option in biotinOptions"> </select>
+						 	<select class="minimal productDropdown" ng-switch-when="3" ng-model="$parent.pricing" ng-init="$parent.pricing=fluorOptions[0]"
+						 ng-options="option as option.label for option in fluorOptions"> </select>
+							<select class="minimal productDropdown" ng-switch-default ng-model="$parent.pricing" ng-init="$parent.pricing=options[0]"
+						 ng-options="option as option.label for option in options"> </select>
+						</label>
+						<span>
+							{{x.id}} | {{x.Name}} 
 						</span>
-						No. {{x.id}} | {{x.Name}} 
-						<a class="white-text" ng-href="../support/{{x.Family}}-sheets/Product_{{x.Family}}-{{x.id}}.pdf" target="_self">
-							<i class="fas fa-info-circle"></i>
+						<a ng-href="../support/{{x.Family}}-sheets/ProductDS_{{x.id}}.pdf" target="_self"> 
+							<i class="white-text fas fa-info-circle"></i>
 						</a>
 						<i  ng-click="favoriteCompound(x.id,x.favorited)" ng-class="(x.favorited ==1)?'fas fa-star gold':'fas fa-star'"></i>
 						<br>

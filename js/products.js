@@ -28,10 +28,6 @@ app.controller('init', function ($rootScope, $scope, $uibModal, $document, $http
 		.then(function (response) {
 			$scope.news = response.data;
 		});
-	$http.get("/glycanapi.php/blog/total")
-		.then(function (response) {
-			$scope.blog = response.data;
-		});
 	$scope.slides = [{
 		title: "18-Mer Library",
 		text: "Pushing the boundaries of conventional heparan sulfates.",
@@ -300,40 +296,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 			pageTitle: 'Research - Glycan Therapeutics'
 		}
 	};
-	var blogIndexState = {
-		name: "blog",
-		url: '/blog/page/:currentPage',
-		templateUrl: '/research/blog.html',
-		controller: function ($stateParams, $scope) {
-			$scope.currentPage = $stateParams.currentPage;
-		},
-		data: {
-			pageTitle: 'What is new in Glycobiology?'
-		}
-	};
-
-	var blogDetailedState = {
-		name: 'detailed',
-		url: '/blog/post/:id',
-		templateUrl: '/research/detailed.html',
-		controller: function ($stateParams, $scope) {
-			$scope.blogFilter = $stateParams.id;
-		},
-		data: {
-			pageTitle: 'Blog Detailed - Glycan Therapeutics'
-		}
-
-	};
-
-	var blogPostState = {
-		name: 'blogPost',
-		url: '/post',
-		templateUrl: 'research/blogPost.html',
-		data: {
-			pageTitle: 'blog - Glycan Therapeutics'
-		}
-	}
-
+	
 	var verifyState = {
 		name: 'verifyAccount',
 		url: '/verify?verifyEmail=email&verifyHash=hash',
@@ -344,7 +307,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 		},
 
 		data: {
-			pageTitle: 'blog - Glycan Therapeutics'
+			pageTitle: 'verify - Glycan Therapeutics'
 		}
 	}
 
@@ -473,9 +436,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 	$stateProvider.state(loginState);
 	$stateProvider.state(registerState);
 	$stateProvider.state(profileState);
-	$stateProvider.state(blogIndexState);
-	$stateProvider.state(blogDetailedState);
-	$stateProvider.state(blogPostState);
 	$stateProvider.state(verifyState);
 	$stateProvider.state(resendVerifyState);
 	$stateProvider.state(passwordRecoveryState);
@@ -1039,7 +999,6 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 					console.log($scope.attempt);
 					if ($scope.attempt[0].login_successful == 1/* && $scope.attempt[0].verified == 1*/) {
 						$scope.loginError = "Login Successful!";
-						$scope.loginError = "Registration Successful!";
 						var request = $http({
 							method: "GET",
 							url: "tokengenerator.php/users/login",
@@ -1053,6 +1012,7 @@ app.controller('loginCtrl', function ($location, $scope, $sce, $http, $uibModal,
 							console.log($scope.token);
 							localStorage.setItem("Token", $scope.token);
 							$window.location.href = '../';
+							
 						})
 					}
 					else {
@@ -1250,89 +1210,6 @@ app.controller('verifyCtrl', function ($location, $scope, $sce, $http, $uibModal
 	}
 
 });
-
-
-app.controller('blogCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
-	if (!$scope.currentPage) {
-		$scope.currentPage = 1;
-	}
-	var request = $http({
-		method: "GET",
-		url: "glycanapi.php/blog/total",
-		headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-	}).then(function (response) {
-		$scope.blogmax = response.data;
-		$scope.totalItems = $scope.blogmax.length;
-		pageChanged();
-	});
-
-	pageChanged = function () {
-		var request = $http({
-			method: "GET",
-			url: "glycanapi.php/blog/page",
-			params: {
-				'lowerlimit': $scope.totalItems - ($scope.currentPage * 10),
-				'upperlimit': $scope.totalItems - ($scope.currentPage - 1) * 10 + 1,
-			},
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-		}).then(function (response) {
-			$scope.page = response.data;
-		});
-		$scope.pageMin = ($scope.currentPage - 1) * 10 + 1;
-		$scope.pageUpper = $scope.currentPage * 10;
-		if ($scope.pageUpper > $scope.totalItems)
-			$scope.pageUpper = $scope.totalItems;
-	};
-
-	$scope.$watch("currentPage", function () {
-		pageChanged();
-	})
-});
-
-app.controller('blogPostCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state, $window) {
-	var permission = $scope.permission;
-	if (permission != undefined) {
-		if (!(permission.includes("admin"))) {
-			$window.location.href = '/blog/page/1';
-		}
-	}
-	else {
-		$window.location.href = '/blog/page/1';
-	}
-
-	$scope.submit = function () {
-		if ($scope.title != null && $scope.content != null) {
-			var uid = $scope.token.data.id;
-			var source = $scope.source;
-			if (source == undefined)
-				source = '';
-			var request = $http({
-				method: "POST",
-				url: "glycanapi.php/blog/submit",
-				data: {
-					'title': $scope.title,
-					'content': $scope.content,
-					'source': source,
-					'uid': uid,
-					'permission': $scope.permission,
-				},
-				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-			}).then(function (response) {
-				$scope.blogError = response.data;
-				$window.location.href = '/blog/page/1';
-
-			})
-		}
-		else {
-			$scope.blogError = "failed to post";
-		}
-	}
-
-
-
-});
-
-
 
 app.controller('compoundCtrl', function ($location, $scope, $sce, $http, $uibModal, $log, $document, $state) {
 	$http.get("/glycanapi.php/compounds")
